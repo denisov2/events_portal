@@ -1,0 +1,812 @@
+/*======
+*
+* 1. On-Off for Theme Options
+*
+======*/
+	.on-off-switch {
+	  -webkit-box-shadow: none;
+	  -moz-box-shadow: none;
+	  box-shadow: none;
+	  border: 0;
+	  background-color: transparent;
+	  height: 35px;
+	  -webkit-border-radius: 20px;
+	  -moz-border-radius: 20px;
+	  border-radius: 20px;
+	  width: 80px;
+	  overflow: hidden;
+	}
+
+	.format-setting.type-radio .on-off-switch input,
+	.format-setting.type-radio .on-off-switch label {
+	  float: right;
+	}
+
+	.on-off-switch label {
+	  height: 35px;
+	  line-height: 35px;
+	  font-weight: 600;
+	  color: #fff;
+	  font-size: 0;
+	}
+
+	.on-off-switch label:after {
+	  position: absolute;
+	  font-size: 11px;
+	  content: 'ON';
+	  color: #fff;
+	  margin-left: -2px;
+	}
+
+	.on-off-switch label:first-of-type:after {
+	  content: 'OFF';
+	  right: 18px;
+	}
+
+	.on-off-switch .slide-button {
+	  width: 25px;
+	  height: 25px;
+	  margin-top: 6px;
+	  margin-left: 10px;
+	  left: 50%;
+	  border: 0;
+	  -webkit-box-shadow: none;
+	  -moz-box-shadow: none;
+	  box-shadow: none;
+	  background: #fff;
+	  -webkit-border-radius: 20px;
+	  -moz-border-radius: 20px;
+	  border-radius: 20px;
+	  z-index: 2;
+	}
+
+	.on-off-switch input:last-of-type:checked ~ .slide-button {
+	  background: #fff;
+	  -webkit-box-shadow: none;
+	  -moz-box-shadow: none;
+	  box-shadow: none;
+	  margin-left: 5px;
+	  left: 0;
+	}
+
+	.on-off-switch label:before {
+	  position: absolute;
+	  content: '';
+	  width: 80px;
+	  height: 100%;
+	  background-color: #ddd;
+	  left: -40px;
+	  z-index: -1;
+	  pointer-events: none;
+	}
+
+	.on-off-switch input:checked + label {
+	  color: #fff;
+	  opacity: 0;
+	}
+
+	.on-off-switch input:last-of-type + label:before {
+	  background-color: #37c936;
+	  left: 0;
+	}
+
+/*======
+*
+* 2. Buttons for Theme Options
+*
+======*/
+	.option-tree-ui-button.button {
+	  border: 0;
+	  text-shadow: none;
+	  height: auto !important;
+	  min-width: auto;
+	  box-shadow: none;
+	  padding: 6px 20px !important;
+	  margin: 8px;
+	}
+
+/*======
+*
+* 3. Footer for Theme Options
+*
+======*/
+	.option-tree-ui-buttons {
+	    border-radius: 5px;
+	    border: 0px;
+	    box-shadow: none;
+	}
+
+/*======
+*
+* 4. Header for Theme Options
+*
+======*/
+	#option-tree-header {
+	  background: #fff;
+	  border-bottom: 1px solid #eee;
+	}
+
+	#option-tree-header li a {
+	  padding: 10px 10px;
+	  display: block;
+	}
+
+	#option-tree-header #option-tree-version span,
+	#option-tree-header #theme-version span {
+	  height: auto;
+	}
+
+	#option-tree-header li .theme-name {
+	  font-size: 16px;
+	  text-transform: uppercase;
+	  font-weight: 800;
+	  padding: 6px 0px 4px 2px;
+	  display: inline-block;
+	}
+
+	#option-tree-header li .theme-name span {
+	  font-size: 10px;
+	  font-weight: 500;
+	  display: inline-block;
+	  margin-left: 5px;
+	}
+
+	#option-tree-header li#option-tree-logo {
+	  padding: 10px 10px;
+	}
+
+	#option-tree-header #option-tree-logo a {
+	  border-right: 0;
+	}
+
+	#option-tree-header #option-tree-version span,
+	#option-tree-header #theme-version span {
+	  border-left-color: #eee;
+	}
+
+	#option-tree-header li#option-tree-logo:hover {
+	  background: transparent;
+	}
+
+/*======
+*
+* 5. Menu for Theme Options
+*
+======*/
+	#option-tree-sub-header {
+	  background: #fff;
+	  border-color: #EEE;
+	  box-shadow: none;
+	  border: 0;
+	}
+
+	.wrap.settings-wrap .ui-tabs-nav {
+	  margin: 0 0 0 -1px;
+	  width: 251px;
+	  padding: 0;
+	}
+
+	.wrap.settings-wrap .ui-tabs-nav li {
+	  border: 0px;
+	  -webkit-transition: 0.2s;
+	  -moz-transition: 0.2s;
+	  -o-transition: 0.2s;
+	  -ms-transition: 0.2s;
+	  transition: 0.2s;
+	}
+
+	.wrap.settings-wrap .ui-tabs-nav li a:hover,
+	.wrap.settings-wrap .ui-tabs-nav li.ui-state-active a {
+	  box-shadow: none;
+	}
+
+	.wrap.settings-wrap .ui-tabs-nav li a {
+	  padding: 15px 30px;
+	  text-decoration: none;
+	  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+	  color: rgba(255, 255, 255, 0.85);
+	  box-shadow: none;
+	}
+
+	.wrap.settings-wrap .ui-tabs-nav li:last-child a {
+	  border-bottom: 0px;
+	}
+
+	.wrap.settings-wrap .ui-tabs-nav li a span {
+	  margin-right: 8px;
+	  font-size: 14px;
+	  height: auto;
+	  line-height: inherit;
+	}
+
+	.wrap.settings-wrap .ui-tabs-nav li:hover,
+	.wrap.settings-wrap .ui-tabs-nav li:focus,
+	.wrap.settings-wrap .ui-tabs-nav li.ui-state-active {
+	  background: rgba(0, 0, 0, 0.27);
+	  color: #FFFFFF;
+	  border: 0px;
+	  -webkit-transition: 0.2s;
+	  -moz-transition: 0.2s;
+	  -o-transition: 0.2s;
+	  -ms-transition: 0.2s;
+	  transition: 0.2s;
+	}
+
+	.wrap.settings-wrap .ui-tabs-nav li a:hover,
+	.wrap.settings-wrap .ui-tabs-nav li.ui-state-active a {
+	  color: #FFF;
+	}
+
+	.wrap.settings-wrap .ui-tabs-nav li a:after,
+	.wrap.settings-wrap .ui-tabs-nav li a:visited:after {
+	  display: inline-block;
+	  float: right;
+	  content: "\f345";
+	  font-family: dashicons;
+	  margin-top: 1px;
+	  font-weight: 600;
+	  -webkit-transition: 0.2s;
+	  -moz-transition: 0.2s;
+	  -o-transition: 0.2s;
+	  -ms-transition: 0.2s;
+	  transition: 0.2s;
+	  visibility: hidden;
+	  opacity: 0;
+	}
+
+	.wrap.settings-wrap .ui-tabs-nav li.ui-tabs-active a:after,
+	.wrap.settings-wrap .ui-tabs-nav li.ui-tabs-active a:visited:after {
+	  -webkit-transition: 0.2s;
+	  -moz-transition: 0.2s;
+	  -o-transition: 0.2s;
+	  -ms-transition: 0.2s;
+	  transition: 0.2s;
+	  visibility: visible;
+	  opacity: 1;
+	}
+
+/*======
+*
+* 6. Content for Theme Options
+*
+======*/
+	#option-tree-settings-api > .ui-tabs {
+	  -webkit-box-shadow: inset 250px 0 0 #273447, inset 250px 0 0 transparent, 0 1px 3px transparent;
+	  -moz-box-shadow: inset 250px 0 0 #273447, inset 250px 0 0 transparent, 0 1px 3px transparent;
+	  box-shadow: inset 250px 0 0 #273447, inset 250px 0 0 transparent, 0 0px 0 transparent;
+	  background: transparent;
+	  border: 0;
+	}
+
+	#option-tree-settings-api .description h3,
+	#option-tree-settings-api .format-setting-label .label, 
+	#poststuff .format-setting-label .label {
+	  margin: 15px 0 0;
+	  padding: 0 0 2px 0;
+	  font-weight: 700;
+	  color: #333;
+	}
+
+	.format-setting .description {
+	  float: none;
+	  padding: 0 0 15px;
+	  width: 100%;
+	  font-size: 12px;
+	}
+
+	.format-setting-label {
+	  border-bottom: 0;
+	  padding: 0;
+	  margin: 0;
+	}
+
+	.format-settings {
+	  border-bottom: 1px dashed #d7d7d7;
+	  padding: 0px 0px 5px;
+	  margin: 0 0 15px;
+	}
+
+	.wrap.settings-wrap .ui-tabs-panel .format-settings:last-child {
+	  padding-bottom: 0px;
+	  border-bottom: 0px;
+	  margin-bottom: 0px;
+	}
+
+	#wpbody-content .metabox-holder {
+	  padding-top: 0;
+	}
+
+	#option-tree-settings-api .postbox {
+	  background: #fff;
+	  border: none;
+	  margin: 45px;
+	  padding: 45px;
+	  border-radius: 5px;
+	}
+
+	#option-tree-settings-api img {
+	  max-width: 100%;
+	  height: auto;
+	}
+
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li.ui-state-active,
+	#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-active {
+	  border-radius: 0;
+	  border: 0px;
+	  margin: 0;
+	}
+
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li:hover,
+	#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li:hover {
+	    border: 0px;
+	    padding: 0px;
+	    margin: 0;
+	}
+
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li.ui-state-default,
+	#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-default {
+	  border: 0px;
+	  border-radius: 0;
+	  float: none;
+	  display: inline-block;
+	  margin: 0px 20px;
+	  background: transparent;
+	}
+
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav,
+	#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav {
+	  font-size: 14px !important;
+	  height: auto;
+	  margin: 0 0 15px;
+	  padding: 0;
+	  border-bottom: 2px solid #eee;
+	}
+
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li a,
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li a:visited,
+	#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li a,
+	#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li a:visited {
+	  color: #aeaeae;
+	  margin: 0px 0px !important;
+	  position: relative;
+	}
+
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li a:after,
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li a:visited:after {
+	  display: none;
+	}
+
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li a,
+	#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li a,
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li.ui-state-active a,
+	#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-active a {
+	  padding: 10px 5px !important;
+	  display: inline-block;
+	}
+
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li:first-child,
+	#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li:first-child,
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li.ui-state-active:first-child,
+	#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-active:first-child,
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li:first-child a,
+	#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li:first-child a,
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li.ui-state-active:first-child a,
+	#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-active:first-child a {
+	  margin-left: 0px !important;
+	}
+
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li:last-child,
+	#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li:last-child,
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li.ui-state-active:last-child,
+	#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-active:last-child,
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li:last-child a,
+	#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li:last-child a,
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li.ui-state-active:last-child a,
+	#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-active:last-child a {
+	  margin-right: 0px !important;
+	}
+
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li.ui-state-default:after,
+	#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-default:after {
+	  width: 1px;
+	  height: 20px;
+	  content: '';
+	  display: inline-block;
+	  background: #eee;
+	  position: relative;
+	  top: 5px;
+	  left: 20px;
+	}
+
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li.ui-state-default:last-child:after,
+	#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-default:last-child:after {
+	  display: none;
+	}
+
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li.ui-tabs-active a:after,
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li.ui-tabs-active a:visited:after,
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li a:hover:after,
+	.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li a:focus:after,
+	#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li a:hover:after,
+	#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li a:focus:after {
+		content: '';
+		display: block;
+		height: 2px;
+		width: calc(100% - 10px);
+		background: #333;
+		position: absolute;
+		bottom: -3px;
+	}
+
+	.option-tree-ui-button .icon {
+	  font-size: 13px;
+	  line-height: 23px;
+	  width: 19px;
+	}
+
+	.ot-metabox-wrapper textarea,
+	input.option-tree-ui-input,
+	#option-tree-settings-api input[type=text],
+	#option-tree-settings-api input[type=search],
+	#option-tree-settings-api input[type=tel],
+	#option-tree-settings-api input[type=time],
+	#option-tree-settings-api input[type=url],
+	#option-tree-settings-api input[type=week],
+	#option-tree-settings-api input[type=password],
+	#option-tree-settings-api input[type=date],
+	#option-tree-settings-api input[type=datetime],
+	#option-tree-settings-api input[type=datetime-local],
+	#option-tree-settings-api input[type=email],
+	#option-tree-settings-api input[type=month],
+	#option-tree-settings-api input[type=number],
+	#option-tree-settings-api select,
+	#option-tree-settings-api textarea,
+	.option-tree-ui-upload-input {
+		padding: 9px 12px 8px !important;
+	}
+
+	.select-wrapper {
+		height: 36px;
+	}
+
+	select.option-tree-ui-select {
+		height: 34px;
+	}
+
+	.select-wrapper span {
+		height: 34px;
+		line-height: 34px;
+		padding-left: 12px;
+	}
+
+	.option-tree-ui-colorpicker-input-wrap .wp-color-result {
+		height: 34px;
+	}
+
+	.option-tree-ui-colorpicker-input-wrap .wp-color-result:after {
+		line-height: 34px;
+		padding-left: 12px;
+		padding-right: 12px;
+	}
+
+	button.reset-settings {
+	  top: -61px;
+	  left: 12px;
+	}
+
+	.option-tree-setting .open {
+		line-height: 41px;
+		height: 41px;
+	}
+
+	.option-tree-setting .open:hover:before {
+		top: 23px;
+	}
+
+	input.option-tree-ui-upload-input,
+	input.option-tree-ui-input,
+	.textarea, .ot-metabox-wrapper textarea,
+	.type-radio-image .option-tree-ui-radio-images img,
+	#option-tree-settings-api pre.ace-chrome,
+	#poststuff .type-css pre.ace-chrome,
+	#poststuff .type-javascript pre.ace-chrome,
+	.ot-numeric-slider.ui-slider,
+	.type-numeric-slider .format-setting-inner,
+	.option-tree-ui-media-wrap img,
+	.wp-color-result:after,
+	.wp-color-result,
+	.select-wrapper,
+	#option-tree-settings-api input[type=text],
+	#option-tree-settings-api input[type=search],
+	#option-tree-settings-api input[type=radio],
+	#option-tree-settings-api input[type=tel],
+	#option-tree-settings-api input[type=time],
+	#option-tree-settings-api input[type=url],
+	#option-tree-settings-api input[type=week],
+	#option-tree-settings-api input[type=password],
+	#option-tree-settings-api input[type=checkbox],
+	#option-tree-settings-api input[type=color],
+	#option-tree-settings-api input[type=date],
+	#option-tree-settings-api input[type=datetime],
+	#option-tree-settings-api input[type=datetime-local],
+	#option-tree-settings-api input[type=email],
+	#option-tree-settings-api input[type=month],
+	#option-tree-settings-api input[type=number],
+	#option-tree-settings-api select,
+	#option-tree-settings-api textarea,
+	.option-tree-setting-body,
+	.option-tree-setting {
+	    border-color: #e4e4e4;
+	    box-shadow: none;
+	}
+
+	.type-radio-image .option-tree-ui-radio-images img.option-tree-ui-radio-image-selected,
+	.type-radio-image .option-tree-ui-radio-images img:hover,
+	input:hover.option-tree-ui-upload-input,
+	input:hover.option-tree-ui-input,
+	.option-tree-setting:hover {
+		border-color: #e2e2e2;
+	    border-color: #b8b8b8;
+	    box-shadow: none;
+	}
+
+	input.option-tree-ui-upload-input,
+	input.option-tree-ui-input {
+		border-color: #e4e4e4 !important;
+	}
+
+	.option-tree-ui-button.right-item {
+		padding: 7px 20px !important;
+		margin: 9px 9px 9px 1px;
+	}
+
+	.ot-numeric-slider.ui-slider .ui-slider-handle {
+		background: #273447;
+		box-shadow: none;
+		border-color: #273447;
+	}
+
+	.option-tree-ui-image-wrap {
+		max-width: 90%;
+	}
+
+	.format-setting {
+		margin-bottom: 15px;
+	}
+
+	#page-ot_theme_options .button-secondary:active,
+	#page-ot_theme_options .button.active,
+	#page-ot_theme_options .button.active:hover,
+	#page-ot_theme_options .button:active {
+	  box-shadow: none;
+	  border-width: 1px;
+	}
+
+	.wp-core-ui #option-tree-settings-api .button-primary.focus,
+	.wp-core-ui #option-tree-settings-api .button-primary:focus,
+	#page-ot_theme_options .wp-person a:focus .gravatar,
+	#page-ot_theme_options a:focus,
+	#page-ot_theme_options a:focus .media-icon img {
+	  box-shadow: none;
+	}
+
+	.wp-core-ui #page-ot_theme_options .button-secondary:active,
+	.wp-core-ui #page-ot_theme_options .button-primary:active,
+	.wp-core-ui #page-ot_theme_options .button.active,
+	.wp-core-ui #page-ot_theme_options .button.active:hover,
+	.wp-core-ui #page-ot_theme_options .button:active,
+	.wp-core-ui #page-ot_theme_options .button.active,
+	.wp-core-ui #page-ot_theme_options .button.active:hover,
+	.wp-core-ui #page-ot_theme_options .button:active {
+	  -webkit-transform: none;
+	  -ms-transform: none;
+	  transform: none;
+	}
+
+	.wp-core-ui #option-tree-settings-api .button-primary {
+	  background: #37c936;
+	  box-shadow: none;
+	}
+
+	.wp-core-ui #page-ot_theme_options .button-primary.focus,
+	.wp-core-ui #page-ot_theme_options .button-primary.hover,
+	.wp-core-ui #page-ot_theme_options .button-primary:focus,
+	.wp-core-ui #page-ot_theme_options .button-primary:hover,
+	.wp-core-ui #page-ot_theme_options .button-primary.active,
+	.wp-core-ui #page-ot_theme_options .button-primary.active:focus,
+	.wp-core-ui #page-ot_theme_options .button-primary.active:hover,
+	.wp-core-ui #page-ot_theme_options .button-primary:active {
+	  background: #32b431;
+	  box-shadow: none;
+	}
+
+	.option-tree-ui-button.button-secondary {
+	  background: #e80000;
+	  box-shadow: none;
+	}
+
+	.option-tree-ui-button.button-secondary.hover,
+	.option-tree-ui-button.button-secondary:hover,
+	.option-tree-ui-button.button-secondary.focus,
+	.option-tree-ui-button.button-secondary:focus,
+	.option-tree-ui-button.button-secondary.focus,
+	.option-tree-ui-button.button-secondary:focus {
+	  background: #cd0000;
+	  box-shadow: none;
+	}
+
+	.wp-core-ui #page-ot_theme_options .button,
+	.wp-core-ui #option-tree-settings-api .button {
+		padding: 4.5px 15px !important;
+	}
+
+	.option-tree-setting .open {
+		background: #fafafa;
+		padding: 10px 100px 10px 25px;
+	}
+
+	input.option-tree-ui-input, #option-tree-settings-api input[type=text].ot-numeric-slider-helper-input,
+	.ot-numeric-slider-wrap .ot-numeric-slider-helper-input {
+		padding: 5px 7px !important;
+	}
+
+/*======
+*
+* 7. Menu for Meta Box
+*
+======*/
+	.ot-metabox-tabs.ui-tabs {
+	    -webkit-box-shadow: inset 250px 0 0 #273447, inset 250px 0 0 transparent, 0 1px 3px transparent;
+	    -moz-box-shadow: inset 250px 0 0 #273447, inset 250px 0 0 transparent, 0 1px 3px transparent;
+	    box-shadow: inset 250px 0 0 #273447, inset 250px 0 0 transparent, 0 0px 0 transparent;
+	    background: transparent;
+	    border: 0;
+	}
+
+	.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav {
+		margin: 0 -1px 0 0;
+	padding: 0;
+		width: 251px;
+	}
+
+	.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li,
+	.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-focus {
+		width: calc(100% - 1px);
+		border-radius: 0px;
+		border: 0px;
+		padding: 0px;
+	}
+
+	.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li a,
+	.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li a:visited {
+		padding: 15px 30px;
+		text-decoration: none;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+		color: rgba(255, 255, 255, 0.85);
+		box-shadow: none;
+	}
+
+	.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li:last-child a,
+	.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li:last-child a:visited {
+		border-bottom: 0px;
+	}
+
+	.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-active a,
+	.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-active a:visited,
+	.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li a:focus,
+	.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li a:hover,
+	.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-active {
+		background: rgba(0, 0, 0, 0.27);
+		color: #FFFFFF;
+		-webkit-transition: 0.2s;
+		-moz-transition: 0.2s;
+		-o-transition: 0.2s;
+		-ms-transition: 0.2s;
+		transition: 0.2s;
+	}
+
+	.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li a:after,
+	.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li a:visited:after {
+	  display: inline-block;
+	  float: right;
+	  content: "\f345";
+	  font-family: dashicons;
+	  margin-top: 1px;
+	  font-weight: 600;
+	  -webkit-transition: 0.2s;
+	  -moz-transition: 0.2s;
+	  -o-transition: 0.2s;
+	  -ms-transition: 0.2s;
+	  transition: 0.2s;
+	  visibility: hidden;
+	  opacity: 0;
+	}
+
+	.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-active a:after,
+	.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-active a:visited:after,
+	.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-tabs-active a:after,
+	.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-tabs-active a:visited:after {
+	  -webkit-transition: 0.2s;
+	  -moz-transition: 0.2s;
+	  -o-transition: 0.2s;
+	  -ms-transition: 0.2s;
+	  transition: 0.2s;
+	  visibility: visible;
+	  opacity: 1;
+	}
+
+	.ot-metabox-tabs.ui-tabs .ot-metabox-panels {
+		padding: 0px;
+		border: 1px solid #eee;
+		margin: 0px;
+		padding: 15px 45px;
+	}
+
+	.type-radio-image .option-tree-ui-radio-images img {
+		max-width: 100%;
+		height: auto;
+	}
+
+	.format-setting .format-setting-inner {
+		width: 90%;
+	}
+
+	.tab-content .format-settings:last-child {
+	  padding-bottom: 0px;
+	  border-bottom: 0px;
+	  margin-bottom: 0px;
+	}
+
+/*======
+*
+* 7. Search Input for Meta Box
+*
+======*/
+	.wpb_el_type_checkbox.vc_wrapper-param-type-checkbox .edit_form_line>label {
+		display: block;
+		margin-bottom: 5px;
+	}
+
+	.format-setting.type-taxonomy-checkbox.type-checkbox .format-setting-inner {
+		max-height: 173px;
+		border: 1px solid #e4e4e4;
+		padding: 10px 10px 0px;
+		overflow-y: auto;
+		max-width: calc(63% - 20px);
+	}
+
+	.format-setting-inner input.ot-taxonomy-search {
+		width: calc(100% - 50px) !important;
+		margin: 0px 10px 15px 0px !important;
+	}
+
+	body .format-setting-inner a.ot-taxonomy-search-clear {
+		margin: 0px 0px 15px !important;
+		display: block;
+		padding: 2px !important;
+		text-align: center;
+	}
+
+	.format-setting.type-custom-post-type-checkbox.type-checkbox .format-setting-inner {
+		max-height: 173px;
+		border: 1px solid #e4e4e4;
+		padding: 25px;
+		overflow-y: auto;
+		max-width: calc(63% - 20px);
+	}
+
+	.format-setting-inner input.ot-custom-post-type-search {
+		width: calc(100% - 50px) !important;
+		margin: 0px 10px 15px 0px !important;
+	}
+
+	body .format-setting-inner a.ot-custom-post-type-search-clear {
+		margin: 0px 0px 15px !important;
+		display: block;
+		padding: 9px 10px 3px !important;
+		text-align: center;
+	}
+
+	.option-tree-setting-body {
+		padding: 15px 45px;
+	}
