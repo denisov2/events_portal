@@ -12,3 +12,318 @@
 	Text Domain: eventchamp-child
 	Version: 1.0
 */
+
+
+.event-list-style-4 {
+	position: relative;
+}
+
+.event-list-style-4 .image {
+
+	width: 75px;
+	height: 75px;
+	border-radius: 4px;
+	float: left;
+
+}
+
+
+
+.event-list-style-4 .image img {
+	width: 100%;
+	display: block;
+}
+
+.event-list-style-4 .title {
+	color: #222222;
+	font-size: 19px;
+	line-height: 1.4;
+	font-weight: 700;
+	margin-bottom: 12px;
+}
+
+.event-list-style-4 .title a,
+.event-list-style-4 .title a:visited {
+	color: #222222;
+}
+
+.event-list-style-4 .title a:hover,
+.event-list-style-4 .title a:focus {
+	color: #ffbb00;
+}
+
+.event-list-style-4 .details:after,
+.event-list-style-4 .details:before {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+.event-list-style-4 .details {
+	margin-bottom: 3px;
+	width: 100%;
+}
+
+
+.event-list-style-4 .content {
+	background: #FFFFFF;
+	padding: 25px 30px 13px;
+	border: 1px solid violet;
+	border-radius: 3px;
+}
+
+.event-list-style-4 .content:hover {
+	background: wheat;
+	padding: 25px 30px 13px;
+	border: 1px solid violet;
+
+
+}
+
+.event-list-style-4 .excerpt {
+	margin-bottom: 14px;
+	font-size: 12px;
+}
+
+.event-list-style-4 .left-label{
+
+	float: left;
+	width: 200px;
+	background-color: lightgreen;
+	background-position-x: 50px;
+
+}
+
+.event-list-style-4 .details .category {
+	font-size: 12px;
+	text-transform: uppercase;
+	float: left;
+	margin-right: 20px;
+	margin-bottom: 10px;
+}
+
+.event-list-style-4 .details .category .post-categories {
+	list-style: none;
+	margin: 0px;
+	color: #FFFFFF;
+	background: #ffbb00;
+	padding: 4px 20px 2px;
+	border-radius: 25px;
+	font-weight: 500;
+}
+
+.event-list-style-4 .details .category .post-categories li {
+	display: inline-block;
+	display: none;
+}
+
+.event-list-style-4 .details .category .post-categories li:first-child {
+	display: block;
+}
+
+.event-list-style-4 .details .category .post-categories li:after {
+	content: ',';
+	margin-right: 3px;
+	display: none;
+}
+
+.event-list-style-4 .details .category .post-categories li:last-child:after {
+	display: none;
+}
+
+.event-list-style-4 .details .category .post-categories a,
+.event-list-style-4 .details .category .post-categories a:visited {
+	color: #FFFFFF;
+}
+
+.event-list-style-4 .details .price,
+.event-list-style-4 .details .status,
+.event-list-style-4 .details .date,
+.event-list-style-4 .details .location {
+	font-size: 12px;
+	color: #888888;
+	margin-right: 14px;
+	display: inline-block;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.event-list-style-4 .details .status .status {
+	margin-bottom: 0px;
+}
+
+.event-list-style-4 .details .date {
+	padding: 3px 0px 0;
+}
+
+.event-list-style-4 .details .price > div,
+.event-list-style-4 .details .status > div,
+.event-list-style-4 .details .date > div,
+.event-list-style-4 .details .location > div {
+	display: inline-block;
+}
+
+.event-list-style-4 .details .date:last-child {
+	margin-right: 0px;
+}
+
+.event-list-style-4 .details .price i,
+.event-list-style-4 .details .status i,
+.event-list-style-4 .details .date i,
+.event-list-style-4 .details .location i {
+	font-size: 16px;
+	color: #ffbb00;
+	margin-right: 8px;
+	display: inline-block;
+	position: relative;
+	top: 1px;
+}
+
+.event-list-style-4 .details .price span,
+.event-list-style-4 .details .status span,
+.event-list-style-4 .details .date span,
+.event-list-style-4 .details .location span {
+	display: inline-block;
+}
+
+.event-wrapper {
+	border: 1px solid #f3f3f3;
+	box-shadow: none;
+	border-radius: 5px;
+	background: #FFFFFF;
+	padding: 10px;
+
+}
+
+.post-content-list .post-wrapper .event-info .post-featured-header img {
+	width: 320px;
+}
+
+.event-info .left-label{
+
+	float: left;
+	background-color: lightgreen;
+	background-position-x: 50px;
+	width: 100%
+}
+
+
+
+.post-content-list .post-wrapper .event-info .post-featured-header:before {
+	background:none;
+	display: block;
+	content: '';
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+}
+
+
+.event-info div.button-content a,
+.event-info div.button-content a:visited {
+	display: block;
+	background: #ffbb00;
+	border: 1px solid #ffbb00;
+	color: #FFFFFF;
+	text-transform: uppercase;
+	font-weight: 600;
+	width: 100%;
+	padding: 17px 17px 13px;
+	border-radius: 5px;
+}
+
+.event-info div.button-content a i {
+	font-size: 17px;
+	margin-right: 7px;
+}
+
+.event-info div.button-content a span {
+	vertical-align: top;
+}
+
+.event-info div.button-content a span.content {
+	font-weight: 400;
+	text-transform: none;
+}
+
+.event-info div.button-content a:hover,
+.event-info div.button-content a:focus {
+	background: #FFFFFF;
+	color: #ffbb00;
+}
+
+
+
+.event-info .category {
+	font-size: 12px;
+	text-transform: uppercase;
+	float: left;
+	margin-right: 20px;
+	margin-bottom: 10px;
+}
+
+.event-info .category .post-categories {
+	list-style: none;
+	margin: 0px;
+	color: #FFFFFF;
+	background: #ffbb00;
+	padding: 4px 20px 2px;
+	border-radius: 25px;
+	font-weight: 500;
+}
+
+.event-info .category .post-categories a{
+	color: #FFFFFF;
+}
+
+.event-info .category .post-categories a:visited {
+	color: #FFFFFF;
+}
+
+.rating-circle {
+
+	width: 70px;
+	height: 70px;
+	border: 8px solid #01a901;
+	line-height: 55px;
+	text-align: center;
+	font-size: 24px;
+	color: #000;
+	border-radius: 35px;
+	float: right;
+
+}
+.rating-label {
+	margin: 10px 0;
+}
+
+.rating-box {
+
+	background-color: #e3e3e3;
+	width: 300px;
+	height: 30px;
+	border: none;
+	border-left: 120px solid rgb(2, 16, 171);
+	text-align: right;
+	font-size: 16px;
+	line-height: 30px;
+	padding-right: 5px;
+}
+
+.rating-box-2 {
+	border-left: 150px solid rgb(2, 171, 61);
+}
+
+.rating-box-3 {
+	border-left: 180px solid rgb(135, 0, 171);
+}
+
+.rating-item {
+	width: 300px;
+	float: left;
+	margin-left: 10px;
+}
+
+
