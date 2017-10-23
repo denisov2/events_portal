@@ -1605,15 +1605,15 @@
 			if( !empty( $event_start_date ) or !empty( $event_end_date ) ) {
 				$output .= '<div class="status">';
 					if( $event_start_date_last > $date_now ) {
-						$output .= esc_html__( 'Upcoming', 'eventchamp' );
+						$output .= '<div class="statusStarting">' . esc_html__( 'Starting soon', 'eventchamp' ) . '</div>';
 					} elseif( $date_now >= $event_start_date_last and $date_now <= $event_end_date_last ) {
-						$output .= esc_html__( 'Showing', 'eventchamp' );
+						$output .= '<div class="statusShowing">' . esc_html__( 'Showing', 'eventchamp' ) . '</div>';
 					} elseif( $event_start_date_last >= $date_now and $event_start_date_last <= $event_end_date_last ) {
 						$output .= esc_html__( 'Incoming', 'eventchamp' );
 					} elseif( $event_start_date_last <= $date_now and $event_end_date_last >= $date_now ) {
 						$output .= esc_html__( 'Incoming', 'eventchamp' );
 					} else {
-						$output .= esc_html__( 'Expired', 'eventchamp' );
+						$output .='<div class="statusEnded">' . esc_html__( 'Ended', 'eventchamp' ) . '</div>';
 					}		
 				$output .= '</div>';	
 			}

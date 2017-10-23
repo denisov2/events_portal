@@ -62,12 +62,12 @@ $event_media_tab_images = get_post_meta(get_the_ID(), 'event_media_tab_images', 
 $event_adv = get_post_meta(get_the_ID(), 'event_adv', true);
 
 $ratings_titles = [
-    1 => 'Rating 1',
-    2 => 'Rating 2',
-    3 => 'Rating 3',
-    4 => 'Rating 4',
-    5 => 'Rating 5',
-    6 => 'Rating 6',
+    1 => 'Idea and amount of the market.',
+    2 => 'Team.',
+    3 => 'Quality of website, marketing kit etc.',
+    4 => 'Development level (at a moment of adding).',
+    5 => 'Competition (10 - no competitor. 0 - have more than 5 competitor from the companies that have already reached IPO).',
+    6 => 'Investment security (Escrow, whitepaper, chances of realization your idea).',
 ];
 
 $rating_data = [];
@@ -87,7 +87,7 @@ if (!empty ($rating_data)) {
     $sum = 0;
     foreach ($rating_data as $rating) $sum += $rating;
 
-    $average_rating = round($sum / count($rating_data), 1);
+    $average_rating = round($sum / count($rating_data ), 1);
 
 } else {
     $ratings_titles = ['No data' => 0];
@@ -143,17 +143,44 @@ if (!empty ($rating_data)) {
 
 
                         <div class="event-info">
-                            <div class="event-info-dates col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                            <div class="event-info-dates col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
                                 <?php if (has_post_thumbnail()) {
                                     echo '<div class="post-featured-header">';
                                     echo get_the_post_thumbnail(get_the_ID(), array(320, 320));
                                     echo '</div>';
                                 } ?>
+							<div class='all_labels'>
+                                <div class='left-label'>
+								
+								<?php
+			$event_start_date_last = date_format( date_create( $event_start_date ), "Y-m-d" );
+										$event_end_date_last = date_format( date_create( $event_end_date ), "Y-m-d" );
+										$date_now = date("Y-m-d");						
+								
+$datetime1 = new DateTime($event_start_date);
+$datetime2 = new DateTime($event_end_date);
+$interval = $datetime1->diff($datetime2);
 
-                                <div class='left-label'>8 days left</div>
-                                <?php echo $event_start_date . " " . $event_end_date;
-                                ?>
-                                <div class="button-content">
+$datetime3 = new DateTime($date_now);
+$interval = $datetime3->diff($datetime2);
+
+
+?>
+
+
+
+ <?php if( $date_now >= $event_start_date_last and $date_now <= $event_end_date_last ) {
+ $interval = $datetime3->diff($datetime2);
+echo $interval->format('%R%a days');
+ 
+ } 
+ else{
+ echo eventchamp_event_status($post_id = get_the_ID()); }?>
+								</div>
+                                <?php echo '<div class="left-labels">' . $event_start_date . '</div>';
+								echo '<div class="left-labelss">' . $event_end_date . '</div>'; ?>
+                               </div>
+							   <div class="button-content">
                                     <a href="#subscribe-tab" class="ticketLink" title="Remaining Ticket">
                                         <i class="fa fa-newspaper-o" aria-hidden="true"></i>
                                         <span class="content">SUBSCRIBE</span>
@@ -162,10 +189,12 @@ if (!empty ($rating_data)) {
                             </div>
 
 
-                            <div class="event-info-general  col-lg-10 col-md-10 col-sm-12 col-xs-12 ">
-                                <h1><?= get_the_title() ?></h1>
-
-                                <div class="rating-circle"><?= $average_rating ?></div>
+                            <div class="event-info-general  col-lg-9 col-md-9 col-sm-12 col-xs-12 ">
+                                  <div class="event-info-general  col-lg-10 col-md-10 col-sm-10 col-xs-10 "> <h1><?= get_the_title() ?></h1>
+                            </div>
+                                <div class="event-average-rating col-lg-2 col-md-2 col-sm-2 col-xs-2  ">
+                                                                <div class="rating-circle"><?= $average_rating ?></div>
+                            </div>
                                 <?php
                                 $event_cats = wp_get_post_terms(get_the_ID(), 'eventcat');
                                 if (!empty($event_cats)) {
@@ -177,17 +206,33 @@ if (!empty ($rating_data)) {
                                 }
                                 ?>
                                 <div class="clear"></div>
-                                <div class="event-description"><p><?= the_excerpt() ?> </p></div>
+                                <div class="event-description"><p><?= the_excerpt() ?> </p></div>  
+								<div class="event-locations">  <div class="event-details-widget event-locations-left col-lg-6 col-md-6 col-sm-12 col-xs-12">  
+								<ul><?php if (!empty($event_location)) {
+                            $location = get_term($event_location, 'location');
+                            if (!empty($location)) {
+                                ?>
+                               <li >
+                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                    <span><?php echo esc_html__('Location', 'eventchamp'); ?></span>
+
+                                    <div>
+                                        <?php
+                                        echo '<a href="' . esc_url(get_term_link($location->term_id)) . '" title="' . esc_attr($location->name) . '">' . esc_attr($location->name) . '</a>';
+                                        ?>
+                                    </div>
+                                </li>
+                            <?php } ?>
+                        <?php } ?></ul></div>
                             </div>
-                        </div>
-                        <div class="event-ratings-info
-                        col-md-12  ">
-                            <div class="event-average-rating col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                        </div></div>
+                        <div class="event-ratings-info  col-md-12  ">
+                            <div class="event-average-rating col-lg-2 col-md-2 col-sm-2 col-xs-12  ">
                                 <h5>Average Rating </h5>
 
                                 <div class="rating-circle"><?= $average_rating ?></div>
                             </div>
-                            <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 ">
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12  ">
                                 <?php
                                 $i = 1;
                                 foreach ($ratings_titles as $key => $criteria) {

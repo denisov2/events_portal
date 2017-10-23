@@ -1,5 +1,7 @@
 <?php
 add_action('wp_enqueue_scripts', 'eventchamp_enqueue_styles');
+
+
 function eventchamp_enqueue_styles()
 {
     wp_enqueue_style('eventchamp-style', get_template_directory_uri() . '/style.css');
@@ -175,7 +177,17 @@ function eventchamp_categorized_events_output_new($atts, $content = null)
 
             $wp_query = new WP_Query($args);
             if (!empty($wp_query)) {
-                $output .= '<div class="event-list column-3">';
+				$output .= '<div class="well well-sm">
+        <strong>Display</strong>
+        <div class="btn-group">
+            <a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
+            </span>List</a> <a href="#" id="grid" class="btn btn-default btn-sm"><span
+                class="glyphicon glyphicon-th"></span>Grid</a>
+        </div>
+    </div>';
+                
+				$output .= '<div id="products_event" class="event-list column-3">';  
+			
                 while ($wp_query->have_posts()) {
                     $wp_query->the_post();
                     if ($atts["style"] == "style2") {
@@ -185,8 +197,8 @@ function eventchamp_categorized_events_output_new($atts, $content = null)
                     } else {
                         $output .= eventchamp_event_list_style_1($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
                     }
-                }
-                $output .= '</div>';
+                }          
+				$output .= '</div>';
             }
             wp_reset_postdata();
 
@@ -253,7 +265,9 @@ function eventchamp_event_list_style_4_new( $post_id = "", $image = "", $categor
         $output  = "";
         $output .= '<div class="event-list-styles event-list-style-4">';
 
-        $output .= '<div class="content">';
+        $output .= '<div class="content">'; 
+		
+		$output .= '<div class="content_header">';
 
         if( $image == 'true' ) {
             if ( has_post_thumbnail( $post_id ) ) {
@@ -266,16 +280,60 @@ function eventchamp_event_list_style_4_new( $post_id = "", $image = "", $categor
                 $output .= '<div class="image">';
                 $output .= '<img src="' . esc_url( $image_url[0] ) . '" alt="' . the_title_attribute( array( 'echo' => 0, 'post' => $post_id ) ) . '" />';
                 $output .= '</div>';
+            }	else {
+                 $output .= '<div class="image">';
+                $output .= '<img src="/wp-content/themes/eventchamp-child/No_image_available.svg" alt="' . the_title_attribute( array( 'echo' => 0, 'post' => $post_id ) ) . '" />';
+                $output .= '</div>';
             }
+			
         }
 
 
-        $output .= '<div class="title"><a href="' . get_the_permalink( $post_id ) . '" title="' . the_title_attribute( array( 'echo' => 0, 'post' => $post_id ) ) . '">' . get_the_title( $post_id ) . '</a></div>';
+        $output .= '<div class="title"><a href="' . get_the_permalink( $post_id ) . '" title="' . the_title_attribute( array( 'echo' => 0, 'post' => $post_id ) ) . '">' . get_the_title( $post_id ) . '</a></div>';   
+		
+	
+$ratings_titles = [
+    1 => 'Idea and amount of the market.',
+    2 => 'Team.',
+    3 => 'Quality of website, marketing kit etc.',
+    4 => 'Development level (at a moment of adding).',
+    5 => 'Competition (10 - no competitor. 0 - have more than 5 competitor from the companies that have already reached IPO).',
+    6 => 'Investment security (Escrow, whitepaper, chances of realization your idea).',
+];
+
+$rating_data = [];
+
+foreach ($ratings_titles as $key => $value) {
+
+    $rating_data[$key] = get_post_meta(get_the_ID(), 'event_rating_' . $key, true);
+
+
+}
+
+
+
+if (!empty ($rating_data)) {
+
+
+    $sum = 0;
+    foreach ($rating_data as $rating) $sum += $rating;
+
+    $average_rating = round($sum / count($rating_data), 1);
+
+} else {
+    $ratings_titles = ['No data' => 0];
+    $average_rating = 'Not';
+
+}
+		$output .= '<div class="rating-circle">' . $average_rating . '</div>';  
+	
+		$output .= '</div>';
 
         if( $date == 'true' or $category == 'true' ) {
             $event_cats = wp_get_post_terms( $post_id, 'eventcat' );
             $event_location = get_post_meta( get_the_ID(), 'event_location', true );
-            $event_start_date = get_post_meta( get_the_ID(), 'event_start_date', true );
+            $event_start_date = get_post_meta( get_the_ID(), 'event_start_date', true ); 
+			$event_end_date = get_post_meta( get_the_ID(), 'event_end_date', true );
             if( !empty( $event_cats ) ) {
                 $output .= '<div class="details">';
                 if( $category == 'true' ) {
@@ -288,14 +346,27 @@ function eventchamp_event_list_style_4_new( $post_id = "", $image = "", $categor
                     }
                 }
 
-                if( $date == 'true' ) {
-                    if( !empty( $event_start_date ) ) {
-                        $output .= '<div class="date">';
-                        $output .= '<i class="fa fa-calendar" aria-hidden="true"></i>';
-                        $output .= '<span>' . esc_attr( eventchamp_global_date_converter( $date = $event_start_date ) ) . '</span>';
-                        $output .= '</div>';
-                    }
-                }
+               // if( $date == 'true' ) {
+              //      if( !empty( $event_start_date ) ) {
+             //           $output .= '<div class="date">';
+             //           $output .= '<i class="fa fa-calendar" aria-hidden="true"></i>';
+             //           $output .= '<span>' . esc_attr( eventchamp_global_date_converter( $date = $event_start_date ) ) . '</span>';
+             //           $output .= '</div>';
+             //       }
+            //    }
+
+         if( $location == 'true' ) {
+               if( !empty( $event_location ) ) {
+                  $location = get_term( $event_location, 'location' );
+                  if( !empty( $location ) ) {
+                      $output .= '<div class="location">';
+                      $output .= '<i class="fa fa-map-marker" aria-hidden="true"></i>';
+                     $output .= '<span>' . esc_attr( $location->name ) . '</span>';
+                       $output .= '</div>';
+                 }
+               }
+           }
+
                 $output .= '</div>';
             }
         }
@@ -306,42 +377,47 @@ function eventchamp_event_list_style_4_new( $post_id = "", $image = "", $categor
                 $output .= '<div class="excerpt">' . get_the_excerpt() . '</div>';
             }
         }
+ $output .= "<div class='all_labels'>"; 
+ $output .= "<div class='all_left_labels '>";
+        $output .= "<div class='left-label'>" . eventchamp_event_status( $post_id = get_the_ID() ). "</div>"; 
+		$output .= "<div class='left-labels'>" . $event_start_date . "</div>";
+		$output .= "<div class='left-labelss'>" . $event_end_date . "</div>";		
+$output .= "</div>";
 
-        $output .= "<div class='left-label'>8 days left</div>";
+$output .= "</div>";
+       // if( !empty( $event_location ) or !empty( $event_remaining_tickets ) or $status == 'true' or $location == 'true' or $status == 'true' ) {
+     //       $output .= '<div class="details">';
+      //      if( $location == 'true' ) {
+        //        if( !empty( $event_location ) ) {
+         //           $location = get_term( $event_location, 'location' );
+       //             if( !empty( $location ) ) {
+        //                $output .= '<div class="location">';
+         //               $output .= '<i class="fa fa-map-marker" aria-hidden="true"></i>';
+        //                $output .= '<span>' . esc_attr( $location->name ) . '</span>';
+         //               $output .= '</div>';
+         //           }
+         //       }
+         //  }
 
-        if( !empty( $event_location ) or !empty( $event_remaining_tickets ) or $status == 'true' or $location == 'true' or $status == 'true' ) {
-            $output .= '<div class="details">';
-            if( $location == 'true' ) {
-                if( !empty( $event_location ) ) {
-                    $location = get_term( $event_location, 'location' );
-                    if( !empty( $location ) ) {
-                        $output .= '<div class="location">';
-                        $output .= '<i class="fa fa-map-marker" aria-hidden="true"></i>';
-                        $output .= '<span>' . esc_attr( $location->name ) . '</span>';
-                        $output .= '</div>';
-                    }
-                }
-            }
+          //  if( $status == 'true' ) {
+          //      $output .= '<div class="status">';
+          //      $output .= '<i class="fa fa-hourglass" aria-hidden="true"></i>';
+          //      $output .= eventchamp_event_status( $post_id = get_the_ID() );
+         //       $output .= '</div>';
+         //   }
 
-            if( $status == 'true' ) {
-                $output .= '<div class="status">';
-                $output .= '<i class="fa fa-hourglass" aria-hidden="true"></i>';
-                $output .= eventchamp_event_status( $post_id = get_the_ID() );
-                $output .= '</div>';
-            }
-
-            if( $price == 'true' ) {
-                $event_remaining_tickets = get_post_meta( get_the_ID(), 'event_remaining_tickets', true );
-                if( !empty( $event_remaining_tickets ) ) {
-                    $output .= '<div class="price">';
-                    $output .= '<i class="fa fa-credit-card" aria-hidden="true"></i>';
-                    $product_id = wc_get_product( $event_remaining_tickets );
-                    $output .= '<div class="price">' . $product_id->get_price_html() . '</div>';
-                    $output .= '</div>';
-                }
-            }
-            $output .= '</div>';
-        }
+           // if( $price == 'true' ) {
+            //    $event_remaining_tickets = get_post_meta( get_the_ID(), 'event_remaining_tickets', true );
+            //    if( !empty( $event_remaining_tickets ) ) {
+            //        $output .= '<div class="price">';
+            //        $output .= '<i class="fa fa-credit-card" aria-hidden="true"></i>';
+             //       $product_id = wc_get_product( $event_remaining_tickets );
+            //        $output .= '<div class="price">' . $product_id->get_price_html() . '</div>';
+            //        $output .= '</div>';
+            //    }
+           // }
+          //  $output .= '</div>';
+       // }
         $output .= '</div>';
         $output .= '</div>';
         return $output;
