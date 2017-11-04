@@ -176,6 +176,7 @@ class WPCF7_Submission {
 
 			do_action( 'wpcf7_mail_failed', $contact_form );
 		}
+		var_dump($this); die();
 
 		$this->remove_uploaded_files();
 
