@@ -1,0 +1,4 @@
+
+ <FilesMatch ".(css)$">
+    Header append Cache-Control "no-store, no-cache, must-revalidate"
+</FilesMatch>

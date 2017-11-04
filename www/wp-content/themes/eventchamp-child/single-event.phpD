@@ -62,12 +62,12 @@ $event_media_tab_images = get_post_meta(get_the_ID(), 'event_media_tab_images', 
 $event_adv = get_post_meta(get_the_ID(), 'event_adv', true);
 
 $ratings_titles = [
-    1 => 'Idea and market size',
-    2 => 'Team',
-    3 => 'Quality of website, marketing etc',
-    4 => 'Development level',
-    5 => 'Competition',
-    6 => 'Investment security',
+    1 => 'Idea and amount of the market.',
+    2 => 'Team.',
+    3 => 'Quality of website, marketing kit etc.',
+    4 => 'Development level (at a moment of adding).',
+    5 => 'Competition (10 - no competitor. 0 - have more than 5 competitor from the companies that have already reached IPO).',
+    6 => 'Investment security (Escrow, whitepaper, chances of realization your idea).',
 ];
 
 $rating_data = [];
@@ -80,13 +80,14 @@ foreach ($ratings_titles as $key => $value) {
 }
 
 
+
 if (!empty ($rating_data)) {
 
 
     $sum = 0;
     foreach ($rating_data as $rating) $sum += $rating;
 
-    $average_rating = round($sum / count($rating_data), 1);
+    $average_rating = round($sum / count($rating_data ), 1);
 
 } else {
     $ratings_titles = ['No data' => 0];
@@ -103,8 +104,6 @@ if (!empty ($rating_data)) {
         <div class="post-list post-content-list">
             <article id="event-<?php the_ID(); ?>" <?php post_class(); ?>>
                 <div class="post-wrapper">
-
-
 
                     <?php
 
@@ -142,44 +141,26 @@ if (!empty ($rating_data)) {
 
                     <div class="event-wrapper">
 
- <div class="event-one-header">
+
                         <div class="event-info">
                             <div class="event-info-dates col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
                                 <?php if (has_post_thumbnail()) {
                                     echo '<div class="post-featured-header">';
                                     echo get_the_post_thumbnail(get_the_ID(), array(320, 320));
                                     echo '</div>';
-                                }
-                                $event_start_date_last = date_format(date_create($event_start_date), "Y-m-d");
-                                $event_end_date_last = date_format(date_create($event_end_date), "Y-m-d");
-                                $date_now = date("Y-m-d");
-
-                                $datetime_start = new DateTime($event_start_date);
-                                $datetime_end = new DateTime($event_end_date);
-                                $datetime_now = new DateTime($date_now);
-
-                                $interval_days_left = $datetime_now->diff($datetime_end);
-                                $interval_days_past = $datetime_start->diff($datetime_now);
-                                $interval_days_all = $datetime_start->diff($datetime_end);
-
-                                $border_left_width = intval($interval_days_past->days / $interval_days_all->days * 180, null);
+                                } ?>
+							<div class='all_labels'>
+                                <div class='left-label'>
+								<?php $event_start_dates = $event_start_date - $event_end_date;
+								echo $event_start_dates;
                                 ?>
-                                <div class="all_labels">
-
-                                        <?php
-                                        if ($date_now >= $event_start_date_last && $date_now <= $event_end_date_last) {
-                                        echo '<div class="left-label" style="border-left-width:' . $border_left_width .'px">';
-                                            echo $interval_days_left->format('%r%a days');
-                                        } else {
-                                            echo eventchamp_event_status($post_id = get_the_ID());
-                                            echo '<div class="left-label">';
-                                        }
-                                        ?>
-                                    </div>
-                                    <div class="left-labels"><?= $event_start_date ?> </div>
-                                    <div class="left-labelss"><?= $event_end_date ?></div>
-                                </div>
-                                <div class="button-content">
+								<?php echo eventchamp_event_status($post_id = get_the_ID()); ?>
+								
+								</div>
+                                <?php echo '<div class="left-labels">' . $event_start_date . '</div>';
+								echo '<div class="left-labelss">' . $event_end_date . '</div>'; ?>
+                               </div>
+							   <div class="button-content">
                                     <a href="#subscribe-tab" class="ticketLink" title="Remaining Ticket">
                                         <i class="fa fa-newspaper-o" aria-hidden="true"></i>
                                         <span class="content">SUBSCRIBE</span>
@@ -189,13 +170,11 @@ if (!empty ($rating_data)) {
 
 
                             <div class="event-info-general  col-lg-9 col-md-9 col-sm-12 col-xs-12 ">
-                                <div class="event-info-general  col-lg-10 col-md-10 col-sm-10 col-xs-10 ">
-                                    <h1>
-                                        <?= get_the_title() ?></h1>
-                                </div>
+                                  <div class="event-info-general  col-lg-10 col-md-10 col-sm-10 col-xs-10 "> <h1><?= get_the_title() ?></h1>
+                            </div>
                                 <div class="event-average-rating col-lg-2 col-md-2 col-sm-2 col-xs-2  ">
-                                    <div class="rating-circle"><?= $average_rating ?></div>
-                                </div>
+                                                                <div class="rating-circle"><?= $average_rating ?></div>
+                            </div>
                                 <?php
                                 $event_cats = wp_get_post_terms(get_the_ID(), 'eventcat');
                                 if (!empty($event_cats)) {
@@ -207,43 +186,26 @@ if (!empty ($rating_data)) {
                                 }
                                 ?>
                                 <div class="clear"></div>
-                                <div class="event-description"><p><?= the_excerpt() ?> </p></div>
-                                <div class="event-locations">
-                                    <div
-                                        class="event-details-widget event-locations-left col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                        <ul><?php if (!empty($event_location)) {
-                                                $location = get_term($event_location, 'location');
-                                                if (!empty($location)) {
-                                                    ?>
-                                                    <li>
-                                                        <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                                        <span><?php echo esc_html__('Location', 'eventchamp'); ?></span>
+                                <div class="event-description"><p><?= the_excerpt() ?> </p></div>  
+								<div class="event-locations">  <div class="event-details-widget event-locations-left col-lg-6 col-md-6 col-sm-12 col-xs-12">  
+								<ul><?php if (!empty($event_location)) {
+                            $location = get_term($event_location, 'location');
+                            if (!empty($location)) {
+                                ?>
+                               <li >
+                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                    <span><?php echo esc_html__('Location', 'eventchamp'); ?></span>
 
-                                                        <div>
-                                                            <?php
-                                                            echo '<a href="' . esc_url(get_term_link($location->term_id)) . '" title="' . esc_attr($location->name) . '">' . esc_attr($location->name) . '</a>';
-                                                            ?>
-                                                        </div>
-                                                    </li>
-                                                <?php } ?>
-                                            <?php } ?></ul>
+                                    <div>
+                                        <?php
+                                        echo '<a href="' . esc_url(get_term_link($location->term_id)) . '" title="' . esc_attr($location->name) . '">' . esc_attr($location->name) . '</a>';
+                                        ?>
                                     </div>
-                                </div>
-								 <div class="event-share"><span>SHARE:</span><script type="text/javascript">(function(w,doc) {
-if (!w.__utlWdgt ) {
-    w.__utlWdgt = true;
-    var d = doc, s = d.createElement('script'), g = 'getElementsByTagName';
-    s.type = 'text/javascript'; s.charset='UTF-8'; s.async = true;
-    s.src = ('https:' == w.location.protocol ? 'https' : 'http')  + '://w.uptolike.com/widgets/v1/uptolike.js';
-    var h=d[g]('body')[0];
-    h.appendChild(s);
-}})(window,document);
-</script>
-<div data-mobile-view="true" data-share-size="30" data-like-text-enable="false" data-background-alpha="0.0" data-pid="1712604" data-mode="share" data-background-color="#ffffff" data-hover-effect="rotate-cw" data-share-shape="round-rectangle" data-share-counter-size="12" data-icon-color="#ffffff" data-mobile-sn-ids="fb.vk.tw.ok.wh.vb.tm." data-text-color="#000000" data-buttons-color="#ffffff" data-counter-background-color="#ffffff" data-share-counter-type="disable" data-orientation="horizontal" data-following-enable="false" data-sn-ids="fb.tw.gp.em.tm." data-preview-mobile="false" data-selection-enable="false" data-exclude-show-more="true" data-share-style="11" data-counter-background-alpha="1.0" data-top-button="false" class="uptolike-buttons" ></div></div>
-								 
+                                </li>
+                            <?php } ?>
+                        <?php } ?></ul></div>
                             </div>
-                        </div>
-						
+                        </div></div>
                         <div class="event-ratings-info  col-md-12  ">
                             <div class="event-average-rating col-lg-2 col-md-2 col-sm-2 col-xs-12  ">
                                 <h5>Average Rating </h5>
@@ -266,8 +228,7 @@ if (!w.__utlWdgt ) {
                                         <div class="rating-item">
                                             <div class="rating-label"><?= $criteria ?></div>
                                             <div class="rating-box <?= $class ?> "
-                                                 style="border-left-width: <?= $border_left_width ?>px"><?= $rating ?>
-                                                /10
+                                                 style="border-left-width: <?= $border_left_width ?>px"><?= $rating ?>/10
                                             </div>
                                         </div>
                                         <?php
@@ -287,19 +248,8 @@ if (!w.__utlWdgt ) {
                             echo '</div>';
                         }
                         ?>
-			<div class="button-content-all col-md-12">
-                                  <?php   if (!empty($official_web_site)) {
-                                        echo '<div class="button-content bottom"><a href="' . esc_url($official_web_site) . '" class="officialsite" title="' . esc_html__('VISIT SITE', 'eventchamp') . '" target="_blank"><i class="fa fa-link" aria-hidden="true"></i><span class="content">VISIT SITE</span></a></div>';
-                                    } ?>  
-								
-								<div class="button-content bottom">
-                                    <a href="#subscribe-tab" class="ticketLink" title="Remaining Ticket">
-                                        <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                                        <span class="content">WHITEPAPER</span>
-                                    </a>
-                                </div>
-                    </div>  
-			</div>
+
+                    </div>
                     <?php if (!empty($event_schedule) or !empty($event_speakers) or !empty($event_tickets) or !empty($event_detailed_address) or !empty($event_google_street_link) or !empty($event_faq) or !empty($event_extra_tab1_content) or !empty($event_media_tab_images) or $event_related_events == "on") { ?>
                         <div class="event-detail-tabs">
                             <ul class="nav nav-tabs" role="tablist">
@@ -724,7 +674,7 @@ if (!w.__utlWdgt ) {
                         <?php } ?>
                         <?php if (!empty($event_extra_sidebar_button_link) or !empty($event_extra_sidebar_button_title)) { ?>
                             <li class="button-content">
-                                <a href="<?php echo esc_url($event_extra_sidebar_button_link); ?>"
+                                <a href="<?php echo esc_url($event_extra_sidebar_button_link); ?>""
                                 target="<?php echo esc_attr($event_extra_sidebar_target); ?>"
                                 title="<?php echo esc_attr($event_extra_sidebar_button_title); ?>">
                                 <i class="fa fa-link" aria-hidden="true"></i>
@@ -735,10 +685,62 @@ if (!w.__utlWdgt ) {
                     </ul>
                 </div>
             <?php } ?>
-           
-    
-    
-     
+            <?php if (!empty($event_sponsors)) { ?>
+                <div class="widget-box event-sponsors-widget">
+                    <div class="widget-title"><?php echo esc_html__('Sponsors', 'eventchamp'); ?></div>
+                    <?php
+                    echo '<ul>';
+                    foreach ($event_sponsors as $event_sponsor) {
+                        if (!empty($event_sponsor)) {
+                            echo '<li>';
+                            if (!empty($event_sponsor["title"])) {
+                                $spoonsor_name = $event_sponsor["title"];
+                            } else {
+                                $spoonsor_name = esc_html__('Sponsor', 'eventchamp');
+                            }
+
+                            if (!empty($event_sponsor["event_sponsor_link"])) {
+                                echo '<a href="' . esc_url($event_sponsor["event_sponsor_link"]) . '" target="_blank" title="' . esc_attr($spoonsor_name) . '" rel="nofollow">';
+                                if (!empty($event_sponsor["event_sponsor_logo"])) {
+                                    $sponsor_logo_attachment_id = eventchamp_attachment_id($event_sponsor["event_sponsor_logo"]);
+                                    echo wp_get_attachment_image($sponsor_logo_attachment_id, 'eventchamp-event-sponsor', true, true);
+                                }
+                                echo '</a>';
+                            } else {
+                                if (!empty($event_sponsor["event_sponsor_logo"])) {
+                                    $sponsor_logo_attachment_id = eventchamp_attachment_id($event_sponsor["event_sponsor_logo"]);
+                                    echo wp_get_attachment_image($sponsor_logo_attachment_id, 'eventchamp-event-sponsor', true, true);
+                                }
+                            }
+                            echo '</li>';
+                        }
+                    }
+                    echo '</ul>';
+                    ?>
+                </div>
+            <?php } ?>
+            <?php if (!empty($event_tags)) { ?>
+                <div class="widget-box event-tag-widget">
+                    <div class="widget-title"><?php echo esc_html__('Tags', 'eventchamp'); ?></div>
+                    <div>
+                        <ul class="list">
+                            <?php
+                            foreach ($event_tags as $event_tag) {
+                                echo '<li><a href="' . get_term_link($event_tag->term_id) . '" title="' . esc_attr($event_tag->name) . '">' . esc_attr($event_tag->name) . '</a></li>';
+                            }
+                            ?>
+                        </ul>
+                    </div>
+                </div>
+            <?php } ?>
+            <?php if (!empty($event_adv)) { ?>
+                <div class="widget-box event-tag-widget">
+                    <div class="widget-title"><?php echo esc_html__('Advertisement info', 'eventchamp'); ?></div>
+                    <div>
+                        <p><?php echo esc_html__('Lorem ipsum dolor sit amet, voluptua iracundia disputationi an pri, his utinam principes dignissim ad. Ne nec dolore oblique nusquam, cu luptatum volutpat delicatissimi has. Sed ad dicam platonem, mea eros illum elitr id, ei has similique constituto. Ea movet saperet rationibus sit, pri autem aliquip invidunt an. Consetetur omittantur consequuntur eos et. ', 'eventchamp'); ?></p>
+                    </div>
+                </div>
+            <?php } ?>
             <?php
             $event_detail_sidebar_select = ot_get_option('event_detail_sidebar_select');
             if (!empty($event_detail_sidebar_select)) {
@@ -752,6 +754,6 @@ if (!w.__utlWdgt ) {
     <?php eventchamp_row_after(); ?>
 <?php endwhile; ?>
 <?php eventchamp_container_after(); ?>
-<?php eventchamp_sub_content_after() ?>
+<?php eventchamp_sub_content_after(); ?>
 
-<?php get_footer();?>
+<?php get_footer();

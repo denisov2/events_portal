@@ -29,7 +29,10 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
         eventchamp_row_before();
     }
     ?>
-    <?php eventchamp_post_content_before(); ?>
+    <?php eventchamp_post_content_before();
+
+    var_dump($_POST);
+    ?>
     <div class="page-list page-content-list">
         <?php
         if (!$featured_image_status == 'off' or $featured_image_status == 'on') { ?>
@@ -200,7 +203,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                         </select></span></p>
 
 
-                                                <!--
+
 
 
                                                 <p><b>Platform (Smart contract blockchain)*</b></p>
@@ -526,14 +529,14 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                             aria-invalid="false"></span></p>
 
                                                 <p>
-                                                    <button type="submit"> asdasd as</button>
+                                                    <button type="submit"> Submit Data!</button>
 
                                                     <input type="submit" value="Submit info!"
                                                            class="wpcf7-form-control wpcf7-submit"><span
                                                         class="ajax-loader"></span><span class="ajax-loader"></span>
 
                                                 </p>
-                                                -->
+
 
                                                 <div class="wpcf7-response-output wpcf7-display-none"></div>
                                             </form>
