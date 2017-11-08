@@ -588,4 +588,36 @@ vc_map(array(
 ));
 
 
+
+add_action( 'wpcf7_before_send_mail', 'save_new_event' );
+
+function save_new_event($contact_form){
+
+
+
+
+    $form_id = $contact_form->posted_data['_wpcf7'];
+
+
+
+
+    if ($form_id == 123): // 123 => Your Form ID.
+        $values_list = $_POST['valsitems'];
+        $values_str = implode(", ", $values_list);
+
+        // get mail property
+        $mail = $contact_form->prop( 'mail' ); // returns array
+
+        // add content to email body
+        $mail['body'] .= 'INDUSTRIES SELECTED';
+        $mail['body'] .= $values_list;
+
+
+        // set mail property with changed value(s)
+        $contact_form->set_properties( array( 'mail' => $mail ) );
+    endif;
+
+}
+
+
 require get_theme_file_path('/include/core.php');

@@ -239,7 +239,7 @@
 			detail.status = data.status;
 
 			var $message = $( '.wpcf7-response-output', $form );
-
+			console.log ( data )  ;
 			switch ( data.status ) {
 				case 'validation_failed':
 					$.each( data.invalidFields, function( i, n ) {

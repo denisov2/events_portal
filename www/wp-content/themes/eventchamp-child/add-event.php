@@ -83,6 +83,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                                                                        aria-invalid="false"
                                                                                                        placeholder="ICO Name"></span>
                                                     </div>
+
                                                     <p><span class="wpcf7-form-control-wrap url-610"><input type="url"
                                                                                                             name="url-610"
                                                                                                             value=""
@@ -93,6 +94,8 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                                                                             placeholder="ICO Website URL"></span>
                                                     </p>
 
+
+
                                                     <p><b>Upload Event logo</b></p>
 
                                                     <p><span class="wpcf7-form-control-wrap file-955"><input type="file"
@@ -101,6 +104,8 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                                                                              class="wpcf7-form-control wpcf7-file"
                                                                                                              aria-invalid="false"></span>
                                                     </p></div>
+
+                                                <?php /*
                                                 <p><span class="wpcf7-form-control-wrap textarea-444"><textarea
                                                             name="textarea-444" cols="40" rows="3"
                                                             class="wpcf7-form-control wpcf7-textarea"
@@ -529,6 +534,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                             aria-invalid="false"></span></p>
 
                                                 <p>
+                                                 <?php */ ?>
                                                     <button type="submit"> Submit Data!</button>
 
                                                     <input type="submit" value="Submit info!"
