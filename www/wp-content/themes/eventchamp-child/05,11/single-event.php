@@ -84,11 +84,9 @@ if (!empty ($rating_data)) {
 
 
     $sum = 0;
-	
     foreach ($rating_data as $rating) $sum += $rating;
-	//$rating_datas = (isset($rating_data));
-	$rating_datas = count($rating_data);
-    $average_rating = round($sum / $rating_datas);
+
+    $average_rating = round($sum / count($rating_data), 1);
 
 } else {
     $ratings_titles = ['No data' => 0];

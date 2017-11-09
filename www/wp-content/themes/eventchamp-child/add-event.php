@@ -17,6 +17,102 @@ if (!$post_post_title == 'off' or $post_post_title == 'on') {
         eventchamp_archive_title();
     }
 }
+
+
+if (!empty ($_POST)) {
+
+    //saving enent to database
+    $fields_data = [
+        ['key' => 'ico_name', 'require' => true],
+        ['key' => 'ico_url', 'require' => true],
+        ['key' => 'logo', 'require' => false],
+        ['key' => 'description', 'require' => true],
+        ['key' => 'introduction', 'require' => true],
+        ['key' => 'start_date', 'require' => true],
+        ['key' => 'end_date', 'require' => true],
+        ['key' => 'category', 'require' => true],
+        ['key' => 'platform', 'require' => true],
+        ['key' => 'coin_name', 'require' => true],
+        ['key' => 'symbol', 'require' => true],
+
+
+        ['key' => 'ico_supply', 'require' => false],
+        ['key' => 'max_supply', 'require' => false],
+        ['key' => 'start_bonus', 'require' => false],
+        ['key' => 'hardcap', 'require' => false],
+        ['key' => 'whitepaper_url', 'require' => false],
+        ['key' => 'twitter', 'require' => false],
+        ['key' => 'telegram', 'require' => false],
+        ['key' => 'facebook', 'require' => false],
+        ['key' => 'medium', 'require' => false],
+        ['key' => 'ico_name', 'require' => false],
+        ['key' => 'github', 'require' => false],
+        ['key' => 'instagram', 'require' => false],
+        ['key' => 'youtube', 'require' => false],
+        ['key' => 'bitcointalk', 'require' => false],
+        ['key' => 'bitcointalk', 'require' => false],
+        ['key' => 'help_email', 'require' => false],
+        ['key' => 'full_name', 'require' => false],
+        ['key' => 'contact_email', 'require' => false],
+        ['key' => 'picture', 'require' => false],
+        ['key' => 'short_bio', 'require' => false],
+        ['key' => 'linkedin', 'require' => false],
+        ['key' => 'personal_facebook', 'require' => false],
+        ['key' => 'advertise', 'require' => false],
+    ];
+
+    $data = [];
+    $errors = [];
+    foreach ($fields_data as $field) {
+
+        if (!empty ($_POST[$field['key']])) {
+
+            $data[$field['key']] = $_POST[$field['key']];
+        } else {
+
+            if ($field['require']) {
+
+                $errors[$field['key']] = 'Field ' . $field['key'] . ' is required ';
+            }
+        }
+    }
+
+    if (empty($errors)) {
+
+        $post_arg = [
+            'post_content' => $data['description'],
+            'post_excerpt' => $data['introduction'],
+            'post_name' => $data['ico_name'],
+            'post_status' => 'publish',
+            'post_title' => $data['ico_name'],
+            'post_type' => 'event',
+            'tax_input' => ['eventcat' => array(111, 113)],
+            'meta_input' => [
+                'event_start_date' => $data['start_date'],
+                'event_end_date' => $data['end_date'],
+            ]
+        ];
+
+        $wp_error = false;
+        $post_id = wp_insert_post($post_arg, $wp_error);
+        $success_message = null;
+        if($post_id) {
+
+            $success_message = "Post is send for revision. Temporary link <a href='". get_post_permalink($post_id) ."'>". get_post_permalink($post_id) ."</a>";
+        }
+
+
+    } else {
+
+        $error_message = "Form is not submitted. Fix error listed below:<br>";
+        foreach ($errors as $error) {
+
+            $error_message .= '<br>' . $error;
+        }
+    }
+}
+
+
 ?>
 <?php
 if ($full_with_container == "off" or !$full_with_container == "on") {
@@ -31,7 +127,6 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
     ?>
     <?php eventchamp_post_content_before();
 
-    var_dump($_POST);
     ?>
     <div class="page-list page-content-list">
         <?php
@@ -58,94 +153,93 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                         </div>
                                         <div class="vc_empty_space" style="height: 20px"><span
                                                 class="vc_empty_space_inner"></span></div>
-                                        <div role="form" class="wpcf7" id="wpcf7-f2236-p2227-o1" lang="ru-RU" dir="ltr">
-                                            <div class="screen-reader-response"></div>
-                                            <form action="/add-event/?foo=bar" method="post" class="wpcf7-form"
+                                        <div role="form" class="wp-my-cf7" id="wp-my-cf7-f2236-p2227-o1" lang="ru-RU"
+                                             dir="ltr">
+                                            <?php if ($success_message) { ?>
+                                                <div class="success-message"><p><?= $success_message ?></p></div>
+                                            <?php } ?>
+                                            <?php if ($errors) { ?>
+                                                <div class="error-message"><p><?= $error_message ?></p></div>
+                                            <?php } ?>
+                                            <form action="/add-event/" method="post" class="wp-my-cf7-form"
                                                   enctype="multipart/form-data">
-                                                <div style="display: none;">
-                                                    <input type="hidden" name="_wpcf7" value="2236">
-                                                    <input type="hidden" name="_wpcf7_version" value="4.9">
-                                                    <input type="hidden" name="_wpcf7_locale" value="ru_RU">
-                                                    <input type="hidden" name="_wpcf7_unit_tag"
-                                                           value="wpcf7-f2236-p2227-o1">
-                                                    <input type="hidden" name="_wpcf7_container_post" value="2227">
-                                                </div>
+
                                                 <div class="inputs">
                                                     <p><b>ICO General Info</b></p>
 
                                                     <div class="form-group name"><span
-                                                            class="wpcf7-form-control-wrap ICO"><input type="text"
-                                                                                                       name="ICO"
-                                                                                                       value=""
-                                                                                                       size="40"
-                                                                                                       class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                       aria-required="true"
-                                                                                                       aria-invalid="false"
-                                                                                                       placeholder="ICO Name"></span>
+                                                            class="wp-my-cf7-form-control-wrap ICO">
+                                                            <input type="text" name="ico_name" value=""
+                                                                   size="40"
+                                                                   class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                   aria-required="true"
+                                                                   aria-invalid="false"
+                                                                   placeholder="ICO Name"></span>
                                                     </div>
 
-                                                    <p><span class="wpcf7-form-control-wrap url-610"><input type="url"
-                                                                                                            name="url-610"
-                                                                                                            value=""
-                                                                                                            size="40"
-                                                                                                            class="wpcf7-form-control wpcf7-text wpcf7-url wpcf7-validates-as-required wpcf7-validates-as-url"
-                                                                                                            aria-required="false"
-                                                                                                            aria-invalid="false"
-                                                                                                            placeholder="ICO Website URL"></span>
+                                                    <p><span class="wp-my-cf7-form-control-wrap url-610"><input
+                                                                type="text"
+                                                                name="ico_url"
+                                                                value=""
+                                                                size="40"
+                                                                class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-url wp-my-cf7-validates-as-required wp-my-cf7-validates-as-url"
+                                                                aria-required="false"
+                                                                aria-invalid="false"
+                                                                placeholder="ICO Website URL"></span>
                                                     </p>
-
 
 
                                                     <p><b>Upload Event logo</b></p>
 
-                                                    <p><span class="wpcf7-form-control-wrap file-955"><input type="file"
-                                                                                                             name="file-955"
-                                                                                                             size="40"
-                                                                                                             class="wpcf7-form-control wpcf7-file"
-                                                                                                             aria-invalid="false"></span>
+                                                    <p><span class="wp-my-cf7-form-control-wrap file-955"><input
+                                                                type="file"
+                                                                name="logo"
+                                                                size="40"
+                                                                class="wp-my-cf7-form-control wp-my-cf7-file"
+                                                                aria-invalid="false"></span>
                                                     </p></div>
 
-                                                <?php /*
-                                                <p><span class="wpcf7-form-control-wrap textarea-444"><textarea
-                                                            name="textarea-444" cols="40" rows="3"
-                                                            class="wpcf7-form-control wpcf7-textarea"
+
+                                                <p><span class="wp-my-cf7-form-control-wrap textarea-444"><textarea
+                                                            name="description" cols="40" rows="3"
+                                                            class="wp-my-cf7-form-control wp-my-cf7-textarea"
                                                             aria-invalid="false"
                                                             placeholder="Short ICO description (1-2 sentences)"></textarea></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap textarea-400"><textarea
-                                                            name="textarea-400" cols="40" rows="5"
-                                                            class="wpcf7-form-control wpcf7-textarea"
+                                                <p><span class="wp-my-cf7-form-control-wrap textarea-400"><textarea
+                                                            name="introduction" cols="40" rows="5"
+                                                            class="wp-my-cf7-form-control wp-my-cf7-textarea"
                                                             aria-invalid="false"
                                                             placeholder="Project introduction Less than 500-4000 words ）"></textarea></span>
                                                 </p>
 
                                                 <p><b>ICO start date *</b></p>
 
-                                                <p><span class="wpcf7-form-control-wrap date-101"><input type="date"
-                                                                                                         name="date-101"
-                                                                                                         value="ICO start date"
-                                                                                                         class="wpcf7-form-control wpcf7-date wpcf7-validates-as-required wpcf7-validates-as-date"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap date-101"><input type="date"
+                                                                                                             name="start_date"
+                                                                                                             value="ICO start date"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-date wp-my-cf7-validates-as-required wp-my-cf7-validates-as-date"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"></span>
                                                 </p>
 
                                                 <p><b>ICO end date *</b></p>
 
-                                                <p><span class="wpcf7-form-control-wrap date-566"><input type="date"
-                                                                                                         name="date-566"
-                                                                                                         value=""
-                                                                                                         class="wpcf7-form-control wpcf7-date wpcf7-validates-as-required wpcf7-validates-as-date"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="ICO end date *"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap date-566"><input type="date"
+                                                                                                             name="end_date"
+                                                                                                             value=""
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-date wp-my-cf7-validates-as-required wp-my-cf7-validates-as-date"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="ICO end date *"></span>
                                                 </p>
 
                                                 <p><b>Project Category*</b></p>
 
-                                                <p><span class="wpcf7-form-control-wrap menu-145"><select
-                                                            name="menu-145"
-                                                            class="wpcf7-form-control wpcf7-select wpcf7-validates-as-required"
+                                                <p><span class="wp-my-cf7-form-control-wrap menu-145"><select
+                                                            name="category"
+                                                            class="wp-my-cf7-form-control wp-my-cf7-select wp-my-cf7-validates-as-required"
                                                             aria-required="true" aria-invalid="false">
                                                             <option value="">---</option>
                                                             <option value="Supply &amp; Logistics">Supply &amp;
@@ -207,344 +301,333 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                             <option value="Other">Other</option>
                                                         </select></span></p>
 
-
-
-
-
                                                 <p><b>Platform (Smart contract blockchain)*</b></p>
 
-                                                <p><span class="wpcf7-form-control-wrap checkbox-418"><span
-                                                            class="wpcf7-form-control wpcf7-checkbox"><span
-                                                                class="wpcf7-list-item first"><input type="checkbox"
-                                                                                                     name="checkbox-418[]"
-                                                                                                     value="Bitcoin"><span
-                                                                    class="wpcf7-list-item-label">Bitcoin</span></span><span
-                                                                class="wpcf7-list-item"><input type="checkbox"
-                                                                                               name="checkbox-418[]"
-                                                                                               value="BitShares"><span
-                                                                    class="wpcf7-list-item-label">BitShares</span></span><span
-                                                                class="wpcf7-list-item"><input type="checkbox"
-                                                                                               name="checkbox-418[]"
-                                                                                               value="Burst"><span
-                                                                    class="wpcf7-list-item-label">Burst</span></span><span
-                                                                class="wpcf7-list-item"><input type="checkbox"
-                                                                                               name="checkbox-418[]"
-                                                                                               value="Counterparty"><span
-                                                                    class="wpcf7-list-item-label">Counterparty</span></span><span
-                                                                class="wpcf7-list-item"><input type="checkbox"
-                                                                                               name="checkbox-418[]"
-                                                                                               value="Ethereum"><span
-                                                                    class="wpcf7-list-item-label">Ethereum</span></span><span
-                                                                class="wpcf7-list-item"><input type="checkbox"
-                                                                                               name="checkbox-418[]"
-                                                                                               value="Ethereum Classic"><span
-                                                                    class="wpcf7-list-item-label">Ethereum Classic</span></span><span
-                                                                class="wpcf7-list-item"><input type="checkbox"
-                                                                                               name="checkbox-418[]"
-                                                                                               value="Graphene"><span
-                                                                    class="wpcf7-list-item-label">Graphene</span></span><span
-                                                                class="wpcf7-list-item"><input type="checkbox"
-                                                                                               name="checkbox-418[]"
-                                                                                               value="NEM"><span
-                                                                    class="wpcf7-list-item-label">NEM</span></span><span
-                                                                class="wpcf7-list-item"><input type="checkbox"
-                                                                                               name="checkbox-418[]"
-                                                                                               value="NuBits"><span
-                                                                    class="wpcf7-list-item-label">NuBits</span></span><span
-                                                                class="wpcf7-list-item"><input type="checkbox"
-                                                                                               name="checkbox-418[]"
-                                                                                               value="Nxt"><span
-                                                                    class="wpcf7-list-item-label">Nxt</span></span><span
-                                                                class="wpcf7-list-item"><input type="checkbox"
-                                                                                               name="checkbox-418[]"
-                                                                                               value="Omni"><span
-                                                                    class="wpcf7-list-item-label">Omni</span></span><span
-                                                                class="wpcf7-list-item"><input type="checkbox"
-                                                                                               name="checkbox-418[]"
-                                                                                               value="Uniq"><span
-                                                                    class="wpcf7-list-item-label">Uniq</span></span><span
-                                                                class="wpcf7-list-item"><input type="checkbox"
-                                                                                               name="checkbox-418[]"
-                                                                                               value="Waves"><span
-                                                                    class="wpcf7-list-item-label">Waves</span></span><span
-                                                                class="wpcf7-list-item"><input type="checkbox"
-                                                                                               name="checkbox-418[]"
-                                                                                               value="Own"><span
-                                                                    class="wpcf7-list-item-label">Own</span></span><span
-                                                                class="wpcf7-list-item last"><input type="checkbox"
-                                                                                                    name="checkbox-418[]"
-                                                                                                    value="other"><span
-                                                                    class="wpcf7-list-item-label">other</span></span></span></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap platform"><span
+                                                            class="wp-my-cf7-form-control wp-my-cf7-checkbox"><span
+                                                                class="wp-my-cf7-list-item first"><input type="checkbox"
+                                                                                                         name="platform[]"
+                                                                                                         value="Bitcoin"><span
+                                                                    class="wp-my-cf7-list-item-label">Bitcoin</span></span><span
+                                                                class="wp-my-cf7-list-item"><input type="checkbox"
+                                                                                                   name="platform[]"
+                                                                                                   value="BitShares"><span
+                                                                    class="wp-my-cf7-list-item-label">BitShares</span></span><span
+                                                                class="wp-my-cf7-list-item"><input type="checkbox"
+                                                                                                   name="platform[]"
+                                                                                                   value="Burst"><span
+                                                                    class="wp-my-cf7-list-item-label">Burst</span></span><span
+                                                                class="wp-my-cf7-list-item"><input type="checkbox"
+                                                                                                   name="platform[]"
+                                                                                                   value="Counterparty"><span
+                                                                    class="wp-my-cf7-list-item-label">Counterparty</span></span><span
+                                                                class="wp-my-cf7-list-item"><input type="checkbox"
+                                                                                                   name="platform[]"
+                                                                                                   value="Ethereum"><span
+                                                                    class="wp-my-cf7-list-item-label">Ethereum</span></span><span
+                                                                class="wp-my-cf7-list-item"><input type="checkbox"
+                                                                                                   name="platform[]"
+                                                                                                   value="Ethereum Classic"><span
+                                                                    class="wp-my-cf7-list-item-label">Ethereum Classic</span></span><span
+                                                                class="wp-my-cf7-list-item"><input type="checkbox"
+                                                                                                   name="platform[]"
+                                                                                                   value="Graphene"><span
+                                                                    class="wp-my-cf7-list-item-label">Graphene</span></span><span
+                                                                class="wp-my-cf7-list-item"><input type="checkbox"
+                                                                                                   name="platform[]"
+                                                                                                   value="NEM"><span
+                                                                    class="wp-my-cf7-list-item-label">NEM</span></span><span
+                                                                class="wp-my-cf7-list-item"><input type="checkbox"
+                                                                                                   name="platform[]"
+                                                                                                   value="NuBits"><span
+                                                                    class="wp-my-cf7-list-item-label">NuBits</span></span><span
+                                                                class="wp-my-cf7-list-item"><input type="checkbox"
+                                                                                                   name="platform[]"
+                                                                                                   value="Nxt"><span
+                                                                    class="wp-my-cf7-list-item-label">Nxt</span></span><span
+                                                                class="wp-my-cf7-list-item"><input type="checkbox"
+                                                                                                   name="platform[]"
+                                                                                                   value="Omni"><span
+                                                                    class="wp-my-cf7-list-item-label">Omni</span></span><span
+                                                                class="wp-my-cf7-list-item"><input type="checkbox"
+                                                                                                   name="platform[]"
+                                                                                                   value="Uniq"><span
+                                                                    class="wp-my-cf7-list-item-label">Uniq</span></span><span
+                                                                class="wp-my-cf7-list-item"><input type="checkbox"
+                                                                                                   name="platform[]"
+                                                                                                   value="Waves"><span
+                                                                    class="wp-my-cf7-list-item-label">Waves</span></span><span
+                                                                class="wp-my-cf7-list-item"><input type="checkbox"
+                                                                                                   name="platform[]"
+                                                                                                   value="Own"><span
+                                                                    class="wp-my-cf7-list-item-label">Own</span></span><span
+                                                                class="wp-my-cf7-list-item last"><input type="checkbox"
+                                                                                                        name="platform[]"
+                                                                                                        value="other"><span
+                                                                    class="wp-my-cf7-list-item-label">other</span></span></span></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap text-968"><input type="text"
-                                                                                                         name="text-968"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="Token/coin name*"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-968"><input type="text"
+                                                                                                             name="coin_name"
+                                                                                                             value=""
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="Token/coin name*"></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap text-968"><input type="text"
-                                                                                                         name="text-968"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="Symbol*"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-968"><input type="text"
+                                                                                                             name="symbol"
+                                                                                                             value=""
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="Symbol*"></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap ICOSupply"><input type="text"
-                                                                                                          name="ICOSupply"
-                                                                                                          value=""
-                                                                                                          size="40"
-                                                                                                          class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                          aria-required="true"
-                                                                                                          aria-invalid="false"
-                                                                                                          placeholder="ICOSupply"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap ICOSupply"><input
+                                                            type="text"
+                                                            name="ico_supply"
+                                                            value=""
+                                                            size="40"
+                                                            class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                            aria-required="true"
+                                                            aria-invalid="false"
+                                                            placeholder="ICOSupply"></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap text-969"><input type="text"
-                                                                                                         name="text-969"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="Max Supply"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                             name="max_supply"
+                                                                                                             value=""
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="Max Supply"></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap text-969"><input type="text"
-                                                                                                         name="text-969"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="Start bonus"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                             name="start_bonus"
+                                                                                                             value=""
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="Start bonus"></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap text-969"><input type="text"
-                                                                                                         name="text-969"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="Hardcap"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                             name="hardcap"
+                                                                                                             value=""
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="Hardcap"></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap text-969"><input type="text"
-                                                                                                         name="text-969"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="Whitepaper URL*"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                             name="whitepaper_url"
+                                                                                                             value=""
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="Whitepaper URL*"></span>
                                                 </p>
 
                                                 <p><b>Links:</b></p>
 
-                                                <p><span class="wpcf7-form-control-wrap text-969"><input type="text"
-                                                                                                         name="text-969"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="Twitter"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                             name="twitter"
+                                                                                                             value=""
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="Twitter"></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap text-969"><input type="text"
-                                                                                                         name="text-969"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="Telegram"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                             name="telegram"
+                                                                                                             value=""
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="Telegram"></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap text-969"><input type="text"
-                                                                                                         name="text-969"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="Facebook"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                             name="facebook"
+                                                                                                             value=""
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="Facebook"></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap text-969"><input type="text"
-                                                                                                         name="text-969"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="Medium"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                             name="medium"
+                                                                                                             value=""
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="Medium"></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap text-969"><input type="text"
-                                                                                                         name="text-969"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="Slack"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                             name="slack"
+                                                                                                             value=""
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="Slack"></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap text-969"><input type="text"
-                                                                                                         name="text-969"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="Github"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                             name="github"
+                                                                                                             value=""
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="Github"></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap text-969"><input type="text"
-                                                                                                         name="text-969"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="Instagram"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                             name="instagram"
+                                                                                                             value=""
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="Instagram"></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap text-969"><input type="text"
-                                                                                                         name="text-969"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="YouTube"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                             name="youtube"
+                                                                                                             value=""
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="YouTube"></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap text-969"><input type="text"
-                                                                                                         name="text-969"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="Bitcointalk"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                             name="bitcointalk"
+                                                                                                             value=""
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="Bitcointalk"></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap text-969"><input type="text"
-                                                                                                         name="text-969"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="YouTube video link"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                             name="video_link"
+                                                                                                             value=""
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="YouTube video link"></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap text-969"><input type="text"
-                                                                                                         name="text-969"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="j. Email for help and relevant info*"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input
+                                                            type="email"
+                                                            name="help_email"
+                                                            value=""
+                                                            size="40"
+                                                            class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                            aria-required="true"
+                                                            aria-invalid="false"
+                                                            placeholder="j. Email for help and relevant info*"></span>
                                                 </p>
 
                                                 <h3>Team</h3>
 
-                                                <p><span class="wpcf7-form-control-wrap text-969"><input type="text"
-                                                                                                         name="text-969"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="Full Name*"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                             name="full_name"
+                                                                                                             value=""
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="Full Name*"></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap email-850"><input type="email"
-                                                                                                          name="email-850"
-                                                                                                          value=""
-                                                                                                          size="40"
-                                                                                                          class="wpcf7-form-control wpcf7-text wpcf7-email wpcf7-validates-as-required wpcf7-validates-as-email"
-                                                                                                          aria-required="true"
-                                                                                                          aria-invalid="false"
-                                                                                                          placeholder="Your contact Email"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap email-850"><input
+                                                            type="email"
+                                                            name="contact_email"
+                                                            value=""
+                                                            size="40"
+                                                            class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-email wp-my-cf7-validates-as-required wp-my-cf7-validates-as-email"
+                                                            aria-required="true"
+                                                            aria-invalid="false"
+                                                            placeholder="Your contact Email"></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap file-246"><input type="file"
-                                                                                                         name="file-246"
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-file"
-                                                                                                         aria-invalid="false"></span>
+                                                <p><b>Picture*</b></p>
+
+                                                <p><span class="wp-my-cf7-form-control-wrap file-246"><input type="file"
+                                                                                                             name="picture"
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-file"
+                                                                                                             aria-invalid="false"></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap text-969"><input type="text"
-                                                                                                         name="text-969"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="Full Name*"></span>
-                                                </p>
 
-                                                <p><span class="wpcf7-form-control-wrap ShortBio"><textarea
-                                                            name="ShortBio" cols="40" rows="10"
-                                                            class="wpcf7-form-control wpcf7-textarea wpcf7-validates-as-required"
+                                                <p><span class="wp-my-cf7-form-control-wrap ShortBio"><textarea
+                                                            name="short_bio" cols="40" rows="10"
+                                                            class="wp-my-cf7-form-control wp-my-cf7-textarea wp-my-cf7-validates-as-required"
                                                             aria-required="true" aria-invalid="false"></textarea></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap text-969"><input type="text"
-                                                                                                         name="text-969"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="Linkedin"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                             name="text-969"
+                                                                                                             value=""
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="Linkedin"></span>
                                                 </p>
 
-                                                <p><span class="wpcf7-form-control-wrap text-969"><input type="text"
-                                                                                                         name="text-969"
-                                                                                                         value=""
-                                                                                                         size="40"
-                                                                                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-                                                                                                         aria-required="true"
-                                                                                                         aria-invalid="false"
-                                                                                                         placeholder="Facebook"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                             name="text-969"
+                                                                                                             value=""
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="Facebook"></span>
                                                 </p>
 
                                                 <p><b>Want to advertise your ICO with us?*</b>
                                                 </p>
 
                                                 <p>
-                                                    <span class="wpcf7-form-control-wrap acceptance-691"><input
-                                                            type="checkbox" name="acceptance-691" value="1"
-                                                            class="wpcf7-form-control wpcf7-acceptance"
+                                                    <span class="wp-my-cf7-form-control-wrap acceptance-691"><input
+                                                            type="checkbox" name="advertise" value="1"
+                                                            class="wp-my-cf7-form-control wp-my-cf7-acceptance"
                                                             aria-invalid="false"></span></p>
 
                                                 <p>
-                                                 <?php */ ?>
-                                                    <button type="submit"> Submit Data!</button>
+
 
                                                     <input type="submit" value="Submit info!"
-                                                           class="wpcf7-form-control wpcf7-submit"><span
-                                                        class="ajax-loader"></span><span class="ajax-loader"></span>
+                                                           class="wp-my-cf7-form-control wp-my-cf7-submit">
 
                                                 </p>
 
 
-                                                <div class="wpcf7-response-output wpcf7-display-none"></div>
                                             </form>
                                         </div>
                                     </div>

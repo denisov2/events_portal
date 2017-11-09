@@ -124,7 +124,7 @@ function eventchamp_home_events_output($atts, $content = null)
         $output .= '<div class="categorized-events">';
         $output .= '<ul class="nav nav-tabs" role="tablist">';
 
-       /* if ($atts["alleventstab"] == "true") {
+        if ($atts["alleventstab"] == "true") {
             $output .= '<li role="presentation"><a href="#events_all" aria-controls="events_all" role="tab" data-toggle="tab">' . esc_html__('All', 'All ICO') . '</a></li>';
         }
         $output .= '<li role="presentation"><a href="#events_active" aria-controls="events_active" role="tab" data-toggle="tab">Active ICO</a></li>';
@@ -132,7 +132,7 @@ function eventchamp_home_events_output($atts, $content = null)
         $output .= '<li role="presentation"><a href="#events_past" aria-controls="events_past" role="tab" data-toggle="tab">Past ICO</a></li>';
 
         $output .= '</ul>';
-*/
+
 
         // содержимое вкладки со ВСЕМИ событиями
         $output .= '<div class="tab-content">';
@@ -182,29 +182,15 @@ function eventchamp_home_events_output($atts, $content = null)
             $wp_query = new WP_Query($args);
             if (!empty($wp_query)) {
 
-			
-                 $output .= '
-				<div class="sort_home">
-				<div class="sort_home_text"><span><a href="#events_all" aria-controls="events_all" role="tab" data-toggle="tab">All</a><span> events with 
-				<span><a href="#events_active" aria-controls="events_active" role="tab" data-toggle="tab">Active ICO</a><span>
-				with <a href="#events_upcoming" aria-controls="events_upcoming" role="tab" data-toggle="tab">Upcoming ICO</a><span>
-				with <a href="#events_past" aria-controls="events_past" role="tab" data-toggle="tab">Past ICO</a><span>
-				 </div>
-						<div class="well well-sm ">
-      
+                $output .= '<div class="well well-sm">
+        <strong>Display</strong>
         <div class="btn-group">
             <a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
-            </span></a> <a href="#" id="grid" class="btn btn-default btn-sm"><span
-                class="glyphicon glyphicon-th"></span></a>
+            </span>List</a> <a href="#" id="grid" class="btn btn-default btn-sm"><span
+                class="glyphicon glyphicon-th"></span>Grid</a>
         </div>
-    </div>
-				</div>	';
-$output .= '<div class="event-header-list events-hidens"> ';
-$output .= '<div class="col-xs-12 col-md-4"><div class="ev_name"><p>Name</p> </div><div class="ev_cat"><p>Category</p></div></div>';
-$output .= '<div class="col-xs-12 col-md-5"><div class="ev_desc"><p>Description</p> </div><div class="ev_date"><p>Start Date</p><p>End Date</p></div></div>';
-$output .= '<div class="col-xs-12 col-md-3"><div class="ev_rating"><p>Rating</p><p>Country</p> </div><div class="ev_links"><p>Links</p></div></div>';
-	        $output .= '</div>';
-				
+    </div>';
+
                 $output .= '<div id="products_event" class="event-list column-3">';
 
                 while ($wp_query->have_posts()) {
@@ -268,27 +254,15 @@ $output .= '<div class="col-xs-12 col-md-3"><div class="ev_rating"><p>Rating</p>
 
         if (!empty($wp_query)) {
 
-                  $output .= '
-				<div class="sort_home">
-				<div class="sort_home_text"><span><a href="#events_all" aria-controls="events_all" role="tab" data-toggle="tab">All</a><span> events with 
-				<span><a href="#events_active" aria-controls="events_active" role="tab" data-toggle="tab">Active ICO</a><span>
-				with <a href="#events_upcoming" aria-controls="events_upcoming" role="tab" data-toggle="tab">Upcoming ICO</a><span>
-				with <a href="#events_past" aria-controls="events_past" role="tab" data-toggle="tab">Past ICO</a><span>
-				 </div>
-						<div class="well well-sm ">
-      
+            $output .= '<div class="well well-sm">
+        <strong>Display</strong>
         <div class="btn-group">
-            <a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
-            </span></a> <a href="#" id="grid" class="btn btn-default btn-sm"><span
-                class="glyphicon glyphicon-th"></span></a>
+            <a href="#" id="list_active" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
+            </span>List</a> <a href="#" id="grid_active" class="btn btn-default btn-sm"><span
+                class="glyphicon glyphicon-th"></span>Grid</a>
         </div>
-    </div>
-				</div>	';
-$output .= '<div class="event-header-list events-hidens"> ';
-$output .= '<div class="col-xs-12 col-md-4"><div class="ev_name"><p>Name</p> </div><div class="ev_cat"><p>Category</p></div></div>';
-$output .= '<div class="col-xs-12 col-md-5"><div class="ev_desc"><p>Description</p> </div><div class="ev_date"><p>Start Date</p><p>End Date</p></div></div>';
-$output .= '<div class="col-xs-12 col-md-3"><div class="ev_rating"><p>Rating</p><p>Country</p> </div><div class="ev_links"><p>Links</p></div></div>';
-	        $output .= '</div>';
+    </div>';
+
             $output .= '<div class="event-list column-3">';
             while ($wp_query->have_posts()) {
                 $wp_query->the_post();
@@ -337,29 +311,16 @@ $output .= '<div class="col-xs-12 col-md-3"><div class="ev_rating"><p>Rating</p>
 
         if (!empty($wp_query)) {
 
-                    $output .= '
-				<div class="sort_home">
-				<div class="sort_home_text"><span><a href="#events_all" aria-controls="events_all" role="tab" data-toggle="tab">All</a><span> events with 
-				<span><a href="#events_active" aria-controls="events_active" role="tab" data-toggle="tab">Active ICO</a><span>
-				with <a href="#events_upcoming" aria-controls="events_upcoming" role="tab" data-toggle="tab">Upcoming ICO</a><span>
-				with <a href="#events_past" aria-controls="events_past" role="tab" data-toggle="tab">Past ICO</a><span>
-				 </div>
-						<div class="well well-sm ">
-      
+            $output .= '<div class="well well-sm">
+        <strong>Display</strong>
         <div class="btn-group">
-            <a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
-            </span></a> <a href="#" id="grid" class="btn btn-default btn-sm"><span
-                class="glyphicon glyphicon-th"></span></a>
+            <a href="#" id="list_upcoming" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
+            </span>List</a> <a href="#" id="grid_upcoming" class="btn btn-default btn-sm"><span
+                class="glyphicon glyphicon-th"></span>Grid</a>
         </div>
-    </div>
-				</div>	';
+    </div>';
 
-$output .= '<div class="event-header-list events-hidens"> ';
-$output .= '<div class="col-xs-12 col-md-4"><div class="ev_name"><p>Name</p> </div><div class="ev_cat"><p>Category</p></div></div>';
-$output .= '<div class="col-xs-12 col-md-5"><div class="ev_desc"><p>Description</p> </div><div class="ev_date"><p>Start Date</p><p>End Date</p></div></div>';
-$output .= '<div class="col-xs-12 col-md-3"><div class="ev_rating"><p>Rating</p><p>Country</p> </div><div class="ev_links"><p>Links</p></div></div>';
-	        $output .= '</div>';
-			
+
             $output .= '<div class="event-list column-3">';
             while ($wp_query->have_posts()) {
                 $wp_query->the_post();
@@ -408,27 +369,15 @@ $output .= '<div class="col-xs-12 col-md-3"><div class="ev_rating"><p>Rating</p>
         if (!empty($wp_query)) {
 
 
-               $output .= '
-				<div class="sort_home">
-				<div class="sort_home_text"><span><a href="#events_all" aria-controls="events_all" role="tab" data-toggle="tab">All</a><span> events with 
-				<span><a href="#events_active" aria-controls="events_active" role="tab" data-toggle="tab">Active ICO</a><span>
-				with <a href="#events_upcoming" aria-controls="events_upcoming" role="tab" data-toggle="tab">Upcoming ICO</a><span>
-				with <a href="#events_past" aria-controls="events_past" role="tab" data-toggle="tab">Past ICO</a><span>
-				 </div>
-						<div class="well well-sm ">
-      
+            $output .= '<div class="well well-sm">
+        <strong>Display</strong>
         <div class="btn-group">
-            <a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
-            </span></a> <a href="#" id="grid" class="btn btn-default btn-sm"><span
-                class="glyphicon glyphicon-th"></span></a>
+            <a href="#" id="list_past" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
+            </span>List</a> <a href="#" id="grid_past" class="btn btn-default btn-sm"><span
+                class="glyphicon glyphicon-th"></span>Grid</a>
         </div>
-    </div>
-				</div>	';
-$output .= '<div class="event-header-list events-hidens"> ';
-$output .= '<div class="col-xs-12 col-md-4"><div class="ev_name"><p>Name</p> </div><div class="ev_cat"><p>Category</p></div></div>';
-$output .= '<div class="col-xs-12 col-md-5"><div class="ev_desc"><p>Description</p> </div><div class="ev_date"><p>Start Date</p><p>End Date</p></div></div>';
-$output .= '<div class="col-xs-12 col-md-3"><div class="ev_rating"><p>Rating</p><p>Country</p> </div><div class="ev_links"><p>Links</p></div></div>';
-	        $output .= '</div>';
+    </div>';
+
             $output .= '<div class="event-list column-3">';
             while ($wp_query->have_posts()) {
                 $wp_query->the_post();

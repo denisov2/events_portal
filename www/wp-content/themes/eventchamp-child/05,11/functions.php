@@ -21,10 +21,10 @@ require_once get_theme_file_path('/include/eventchamp_home_events_output.php');
 
 add_shortcode("eventchamp_categorized_events_new", "eventchamp_categorized_events_output_new");
 add_shortcode("eventchamp_home_events_output", "eventchamp_home_events_output");
-	
+
 function eventchamp_event_list_style_4_new($post_id = "", $image = "", $category = "", $date = "", $location = "", $excerpt = "", $status = "", $price = "")
 {
- 
+
     if (!empty($post_id)) {
 
         $output = "";
@@ -97,14 +97,13 @@ function eventchamp_event_list_style_4_new($post_id = "", $image = "", $category
         $output .= '</div>';
 
         if ($date == 'true' or $category == 'true') {
-            /*$event_cats = wp_get_post_terms($post_id, 'eventcat');*/
-			$event_cats = wp_get_post_terms(get_the_ID(), 'eventcat');
+            $event_cats = wp_get_post_terms($post_id, 'eventcat');
             $event_location = get_post_meta(get_the_ID(), 'event_location', true);
             $event_start_date = get_post_meta(get_the_ID(), 'event_start_date', true);
             $event_end_date = get_post_meta(get_the_ID(), 'event_end_date', true);
             if (!empty($event_cats)) {
                 $output .= '<div class="details">';
-               /* if ($category == 'true') {
+                if ($category == 'true') {
                     if (!empty($event_cats)) {
                         $output .= '<div class="category"><ul class="post-categories">';
                         foreach ($event_cats as $event_cat) {
@@ -112,14 +111,7 @@ function eventchamp_event_list_style_4_new($post_id = "", $image = "", $category
                         }
                         $output .= '</ul></div>';
                     }
-                }*/
-				 if (!empty($event_cats)) {
-                                    foreach ($event_cats as $event_cat) {
-                                         $output .= '<div class="category"><ul class="post-categories">';
-                                         $output .= '<li><a href="' . get_term_link($event_cat->term_id) . '" title="' . esc_attr($event_cat->name) . '">' . esc_attr($event_cat->name) . '</a></li>';
-                                        $output .= '</ul></div>';
-                                    }
-                                }
+                }
 
                 if ($location == 'true') {
                     if (!empty($event_location)) {
@@ -172,205 +164,14 @@ function eventchamp_event_list_style_4_new($post_id = "", $image = "", $category
         $output .= "</div>";
         $output .= "<div class='left-labels'>" . $event_start_date . "</div>";
         $output .= "<div class='left-labelss'>" . $event_end_date . "</div>";
-     $output .= "</div>";
-$output .= "<div class='all_right_labels '>";
-		
-$official_web_site = get_post_meta(get_the_ID(), 'event_official_web_site', true);
-	$social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_twitter', true);
-		if (!empty($official_web_site)) {
-            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($official_web_site) . "' class='officialsite' title='" . esc_html__('VISIT SITE', 'eventchamp') . "' target='_blank'><img src='/wp-content/themes/eventchamp-child/img/url.png'></img></a></div>" ;         			}  
-
-	if (!empty($social_media_twitter)) {
-            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_twitter) . "' class='twitter' title='" . esc_html__('Twitter', 'eventchamp') . "' target='_blank'><img src='/wp-content/themes/eventchamp-child/img/soc.png'></img></a></div>" ;         			}  
-
-		$output .= "<div class='all_right_labels_paper'>"; $output .= "</div>";
-		$output .= "<div class='all_right_labels_soc'>"; $output .= "</div>";
+        $output .= "</div>";
+        $output .= "</div>";
         $output .= '</div>';
-        $output .= '</div>';   
-        $output .= "</div>";$output .= "</div>";
-
-     
-	
-	
-	
-	
-	/*list*/
-
-        $output .= '<div class="event-list-styles event-list-style-4 events-list-group-item events-hiden">';
-
-
-        $event_adv = get_post_meta(get_the_ID(), 'event_adv', true);
-        $output .= $event_adv ? ' <div class="event_adv"></div><div class="text_adv">Ad</div>  ' : "";
-
-        $output .= $event_adv ? '<div class="content adv">' : '<div class="content">';
-		
-		  $ratings_titles = [
-            1 => 'Idea and amount of the market.',
-            2 => 'Team.',
-            3 => 'Quality of website, marketing kit etc.',
-            4 => 'Development level (at a moment of adding).',
-            5 => 'Competition (10 - no competitor. 0 - have more than 5 competitor from the companies that have already reached IPO).',
-            6 => 'Investment security (Escrow, whitepaper, chances of realization your idea).',
-        ];
-
-        $rating_data = [];
-
-        foreach ($ratings_titles as $key => $value) {
-
-            $rating_data[$key] = get_post_meta(get_the_ID(), 'event_rating_' . $key, true);
-
-
-        }
-
-
-        if (!empty ($rating_data)) {
-
-
-            $sum = 0;
-            foreach ($rating_data as $rating) $sum += $rating;
-
-            $average_rating = round($sum / count($rating_data), 1);
-
-        } else {
-            $ratings_titles = ['No data' => 0];
-            $average_rating = 'Not';
-
-        }
-		$output .= '<div class="col-xs-12 col-md-4">';
-		$output .= '<div class="ev_name">';
-		$output .= '<div class="content_header">';
-		if ($image == 'true') {
-            if (has_post_thumbnail($post_id)) {
-                $image_url = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'eventchamp-event-list');
-            } else {
-                $image_url = "";
-            }
-
-            if (!empty($image_url)) {
-                $output .= '<div class="image">';
-                $output .= '<img src="' . esc_url($image_url[0]) . '" alt="' . the_title_attribute(array('echo' => 0, 'post' => $post_id)) . '" />';
-                $output .= '</div>';
-            } else {
-                $output .= '<div class="image">';
-                $output .= '<img src="/wp-content/themes/eventchamp-child/No_image_available.svg" alt="' . the_title_attribute(array('echo' => 0, 'post' => $post_id)) . '" />';
-                $output .= '</div>';
-            }
-
-        }
-
-
-        $output .= '<div class="title"><a href="' . get_the_permalink($post_id) . '" title="' . the_title_attribute(array('echo' => 0, 'post' => $post_id)) . '">' . get_the_title($post_id) . '</a></div>';
-
-
-       
-
         $output .= '</div>';
-		   $output .= '</div>';
-		$output .= '<div class="ev_cat">';
- if ($date == 'true' or $category == 'true') {
 
-			$event_cats = wp_get_post_terms(get_the_ID(), 'eventcat');
-         
-           
-            if (!empty($event_cats)) {
-                $output .= '<div class="details">';
-          
-				 if (!empty($event_cats)) {
-                                    foreach ($event_cats as $event_cat) {
-                                         $output .= '<div class="category"><ul class="post-categories">';
-                                         $output .= '<li><a href="' . get_term_link($event_cat->term_id) . '" title="' . esc_attr($event_cat->name) . '">' . esc_attr($event_cat->name) . '</a></li>';
-                                        $output .= '</ul></div>';
-                                    }
-                                }
-
-               
-                $output .= '</div>';
-            }
-        }
-		$output .= '</div>';	
-		$output .= '</div>';
-		 
-		$output .= '<div class="col-xs-12 col-md-5">'; 
-		 $output .= '<div class="ev_desc">'; 
-		 if ($excerpt == 'true') {
-            $excerpt_content = get_the_excerpt();
-            if (!empty($excerpt_content)) {
-                $output .= '<div class="excerpt">' . get_the_excerpt() . '</div>';
-            }
-        }
-		 $output .= '</div>';
-		 $output .= '<div class="ev_date">' ; 
-		 $date_now = date("Y-m-d");
-
-        $datetime_start = new DateTime($event_start_date);
-        $datetime_end = new DateTime($event_end_date);
-        $datetime_now = new DateTime($date_now);
-
-        $interval_days_left = $datetime_now->diff($datetime_end);
-        $interval_days_past = $datetime_start->diff($datetime_now);
-        $interval_days_all = $datetime_start->diff($datetime_end);
-
-        $output .= "<div class='all_labels'>";
-        $output .= "<div class='all_left_labels '>";
-     $output .= "<div class='left-labels'>" . $event_start_date . "</div>";
-        $output .= "<div class='left-labelss'>" . $event_end_date . "</div>";
-        if ($datetime_now >= $datetime_start && $datetime_now <= $datetime_end) {
-
-            $border_left_width = intval($interval_days_past->days / $interval_days_all->days * 180, null);
-            $output .= "<div class='left-label' style='border-left: solid #36a53e " . $border_left_width . "px;'>";
-            $output .= "<div class='left-label-inside' >" . $interval_days_left->format('%r%a days') . "</div>";
-
-        } else {
-            $output .= "<div class='left-label' style='border-left: none'>";
-            $output .= eventchamp_event_status($post_id);
-        }
-
-
-       		   $output .= '</div></div></div></div></div>';
-				 
-		 $output .= '<div class="col-xs-12 col-md-3">';
-		 $output .= '<div class="ev_rating"><p><div class="rating-circle">' . $average_rating . '</div></p>';
-		  $output .= '<p>';
-	if (!empty($location)) {
-                            $output .= '<div class="location">';
-                               $output .= '<span>' . esc_attr($location->name) . '</span>';
-                            $output .= '</div>';
-                        }
-		  $output .= '</p> </div>';
-		 $output .= '<div class="ev_links"><p>';
-		 $output .= '<div class="all_right_labels ">';
-		
-$official_web_site = get_post_meta(get_the_ID(), 'event_official_web_site', true);
-	$social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_twitter', true);
-		if (!empty($official_web_site)) {
-            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($official_web_site) . "' class='officialsite' title='" . esc_html__('VISIT SITE', 'eventchamp') . "' target='_blank'><img src='/wp-content/themes/eventchamp-child/img/url.png'></img></a></div>" ;         			}  
-
-	if (!empty($social_media_twitter)) {
-            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_twitter) . "' class='twitter' title='" . esc_html__('Twitter', 'eventchamp') . "' target='_blank'><img src='/wp-content/themes/eventchamp-child/img/soc.png'></img></a></div>" ;         			}  
-
-		$output .= "<div class='all_right_labels_paper'>"; $output .= "</div>";
-		$output .= "<div class='all_right_labels_soc'>"; $output .= "</div>";
-        $output .= '</div>';
-        $output .= '</div>';   
-        
-
-      
-		 $output .= '</p></div>';
-		  $output .= '</div>';
-		  $output .= '</div>';	  
-		
-      return $output;
+        return $output;
     }
-}  
-      
-
-        
-
-     
-        
-
-        
-
+}
 
 vc_map(array(
     "name" => esc_html__('Categorized Events New Design', 'eventchamp'),
@@ -820,41 +621,3 @@ function save_new_event($contact_form){
 
 
 require get_theme_file_path('/include/core.php');
-
-//виджет
-register_sidebar( array(
-'name' => 'Footer Sidebar 1',
-'id' => 'footer-sidebar-1',
-'description' => 'Appears in the footer area',
-'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-'after_widget' => '</aside>',
-'before_title' => '<h3 class="widget-title">',
-'after_title' => '</h3>',
-) );
-register_sidebar( array(
-'name' => 'Footer Sidebar 2',
-'id' => 'footer-sidebar-2',
-'description' => 'Appears in the footer area',
-'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-'after_widget' => '</aside>',
-'before_title' => '<h3 class="widget-title">',
-'after_title' => '</h3>',
-) );
-register_sidebar( array(
-'name' => 'Footer Sidebar 3',
-'id' => 'footer-sidebar-3',
-'description' => 'Appears in the footer area',
-'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-'after_widget' => '</aside>',
-'before_title' => '<h3 class="widget-title">',
-'after_title' => '</h3>',
-) );
-register_sidebar( array(
-'name' => 'Footer Sidebar 4',
-'id' => 'footer-sidebar-4',
-'description' => 'Appears in the footer area',
-'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-'after_widget' => '</aside>',
-'before_title' => '<h3 class="widget-title">',
-'after_title' => '</h3>',
-) );

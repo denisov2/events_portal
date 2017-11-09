@@ -1,0 +1,99 @@
+<?php
+/*
+Template Name: Активные события
+*/
+?>
+
+<?php get_header(); ?>
+
+<?php eventchamp_sub_content_before(); ?>
+<?php
+$featured_image_status = get_post_meta(get_the_ID(), 'featured_image_status', true);
+$post_post_title_each = get_post_meta(get_the_ID(), 'page_title', true);
+$full_with_container = get_post_meta(get_the_ID(), 'full_with_container', true);
+$post_post_title = ot_get_option('post_post_title');
+if (!$post_post_title == 'off' or $post_post_title == 'on') {
+    if (!$post_post_title_each == 'off' or $post_post_title_each == 'on') {
+        eventchamp_archive_title();
+    }
+}
+?>
+<?php
+if ($full_with_container == "off" or !$full_with_container == "on") {
+    eventchamp_container_before();
+}
+?>
+<?php while (have_posts()) : the_post(); ?>
+    <?php
+    if ($full_with_container == "off" or !$full_with_container == "on") {
+        eventchamp_row_before();
+    }
+    ?>
+    <?php eventchamp_post_content_before(); ?>
+    <div class="page-list page-content-list">
+        <?php if (!$featured_image_status == 'off' or $featured_image_status == 'on') { ?>
+            <?php eventchamp_featured_image_post($post_id = get_the_ID()); ?>
+        <?php } ?>
+        <article id="page-<?php the_ID(); ?>" <?php post_class(); ?>>
+            <div class="page-wrapper">
+                <div class="page-content">
+
+
+                    <div class="page-content-body">
+                        <div id="all_event" class="vc_row wpb_row vc_row-fluid container containerNoPadding vc_row-o-content-middle vc_row-flex">
+                            <div class="wpb_column vc_column_container vc_col-sm-12">
+                                
+							<?php	 if (!empty($wp_query)) {
+				$output .= '<div class="well well-sm">
+        <strong>Display</strong>
+        <div class="btn-group">
+            <a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
+            </span>List</a> <a href="#" id="grid" class="btn btn-default btn-sm"><span
+                class="glyphicon glyphicon-th"></span>Grid</a>
+        </div>
+    </div>';
+                
+				$output .= '<div id="products_event" class="event-list column-3">';  
+			
+                while ($wp_query->have_posts()) {
+                    $wp_query->the_post();
+                    if ($atts["style"] == "style2") {
+                        $output .= eventchamp_event_list_style_3($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
+                    } elseif ($atts["style"] == "style3") {
+                        $output .= eventchamp_event_list_style_4_new($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
+                    } else {
+                        $output .= eventchamp_event_list_style_1($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
+                    }
+                }          
+				$output .= '</div>';
+            }
+            wp_reset_postdata();?>
+                                         
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+        </article>
+    </div>
+
+    <?php eventchamp_content_area_after(); ?>
+    <?php get_sidebar(); ?>
+    <?php
+    if ($full_with_container == "off" or !$full_with_container == "on") {
+        eventchamp_row_after();
+    }
+    ?>
+<?php endwhile; ?>
+<?php
+if ($full_with_container == "off" or !$full_with_container == "on") {
+    eventchamp_container_after();
+}
+?>
+<?php eventchamp_sub_content_after(); ?>
+
+<?php get_footer();
