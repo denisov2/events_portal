@@ -312,7 +312,9 @@ add_filter( 'comment_form_fields', 'eventchamp_move_comment_field_to_bottom' );
 	}
 
 	/*====== Tags ======*/
+
 	if ( ! function_exists( 'event_tags' ) ) {
+		/*
 		function event_tags() {
 			$labels = array(
 				'name' => _x( 'Tags', 'Tags General Name', 'eventchamp' ),
@@ -344,6 +346,7 @@ add_filter( 'comment_form_fields', 'eventchamp_move_comment_field_to_bottom' );
 			register_taxonomy( 'event_tags', array( 'event', 'venue' ), $args );
 
 		}
+		*/
 		add_action( 'init', 'event_tags', 0 );
 	}
 

@@ -23,15 +23,15 @@ if (!empty ($_POST)) {
 
     //saving enent to database
     $fields_data = [
-        ['key' => 'ico_name', 'require' => true],
+        ['key' => 'ico_name', 'require' => true,],
         ['key' => 'ico_url', 'require' => true],
         ['key' => 'logo', 'require' => false],
         ['key' => 'description', 'require' => true],
         ['key' => 'introduction', 'require' => true],
         ['key' => 'start_date', 'require' => true],
         ['key' => 'end_date', 'require' => true],
-        ['key' => 'category', 'require' => true],
-        ['key' => 'platform', 'require' => true],
+        ['key' => 'category', 'require' => true, 'taxonomy' => 'eventcat',],
+        ['key' => 'platform', 'require' => true, 'taxonomy' => 'event_tags',],
         ['key' => 'coin_name', 'require' => true],
         ['key' => 'symbol', 'require' => true],
 
@@ -41,17 +41,18 @@ if (!empty ($_POST)) {
         ['key' => 'start_bonus', 'require' => false],
         ['key' => 'hardcap', 'require' => false],
         ['key' => 'whitepaper_url', 'require' => false],
-        ['key' => 'twitter', 'require' => false],
+        ['key' => 'twitter', 'require' => false, 'meta' => 'event_social_media_twitter'],
         ['key' => 'telegram', 'require' => false],
-        ['key' => 'facebook', 'require' => false],
+        ['key' => 'facebook', 'require' => false, 'meta' => 'event_social_media_facebook'],
         ['key' => 'medium', 'require' => false],
         ['key' => 'ico_name', 'require' => false],
         ['key' => 'github', 'require' => false],
         ['key' => 'instagram', 'require' => false],
-        ['key' => 'youtube', 'require' => false],
+        ['key' => 'youtube', 'require' => false, 'meta' => 'event_social_media_youtube'],
         ['key' => 'bitcointalk', 'require' => false],
-        ['key' => 'bitcointalk', 'require' => false],
-        ['key' => 'help_email', 'require' => false],
+        ['key' => 'video_link', 'require' => false],
+        ['key' => 'help_email', 'require' => true,],
+
         ['key' => 'full_name', 'require' => false],
         ['key' => 'contact_email', 'require' => false],
         ['key' => 'picture', 'require' => false],
@@ -63,19 +64,68 @@ if (!empty ($_POST)) {
 
     $data = [];
     $errors = [];
+    $tax_input = [];
+    $meta_input = [];
     foreach ($fields_data as $field) {
 
-        if (!empty ($_POST[$field['key']])) {
+        $form_element_value = $_POST[$field['key']];
 
-            $data[$field['key']] = $_POST[$field['key']];
-        } else {
+        if (empty ($form_element_value)) {
 
             if ($field['require']) {
 
                 $errors[$field['key']] = 'Field ' . $field['key'] . ' is required ';
             }
+
+        } elseif (!empty ($field['taxonomy'])) {
+
+            $taxonomy_args = array(
+                'taxonomy' => $field['taxonomy'],
+                'hide_empty' => false,
+            );
+            $eventcat_terms = get_terms($taxonomy_args);
+            $eventcat_terms_ids = [];
+            foreach ($eventcat_terms as $eventcat_term) {
+                $eventcat_terms_ids[] = $eventcat_term->term_id;
+            }
+
+
+            if (is_array($form_element_value)) {
+                // TODO: обработчик
+
+                foreach ($form_element_value as $form_element_value_item) {
+
+                    if (in_array($form_element_value_item, $eventcat_terms_ids)) {
+
+                        $data[$field['key']][] = $form_element_value_item;
+                        $tax_input[$field['taxonomy']][] = $form_element_value_item;
+                    } else $errors[$field['key']] = 'Field ' . $field['key'] . ' is no a value of taxonomy ' . $field['taxonomy'];
+
+                }
+
+            } else {
+                if (in_array($form_element_value, $eventcat_terms_ids)) {
+
+                    $data[$field['key']] = $form_element_value;
+                    $tax_input[$field['taxonomy']] = [$form_element_value];
+                } else $errors[$field['key']] = 'Field ' . $field['key'] . ' is no a value of taxonomy ' . $field['taxonomy'];
+            }
+
+        } elseif (!empty ($field['meta'])) {
+
+            // елси это мета поле
+            $data[$field['key']] = $form_element_value;
+            $meta_input[$field['meta']] = $form_element_value;
+
+
+
+        } else {
+            $data[$field['key']] = $form_element_value;
         }
     }
+
+    $meta_input['event_start_date'] = $data['start_date'];
+    $meta_input['event_end_date'] = $data['end_date'];
 
     if (empty($errors)) {
 
@@ -86,19 +136,15 @@ if (!empty ($_POST)) {
             'post_status' => 'publish',
             'post_title' => $data['ico_name'],
             'post_type' => 'event',
-            'tax_input' => ['eventcat' => array(111, 113)],
-            'meta_input' => [
-                'event_start_date' => $data['start_date'],
-                'event_end_date' => $data['end_date'],
-            ]
+            'tax_input' => $tax_input,
+            'meta_input' => $meta_input
         ];
 
         $wp_error = false;
         $post_id = wp_insert_post($post_arg, $wp_error);
         $success_message = null;
-        if($post_id) {
-
-            $success_message = "Post is send for revision. Temporary link <a href='". get_post_permalink($post_id) ."'>". get_post_permalink($post_id) ."</a>";
+        if ($post_id) {
+            $success_message = "Post is send for revision. Temporary link <a href='" . get_post_permalink($post_id) . "'>" . get_post_permalink($post_id) . "</a>";
         }
 
 
@@ -169,7 +215,8 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
 
                                                     <div class="form-group name"><span
                                                             class="wp-my-cf7-form-control-wrap ICO">
-                                                            <input type="text" name="ico_name" value=""
+                                                            <input type="text" name="ico_name"
+                                                                   value="<?= !empty($data['ico_name']) ? $data['ico_name'] : '' ?>"
                                                                    size="40"
                                                                    class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                                    aria-required="true"
@@ -180,7 +227,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                     <p><span class="wp-my-cf7-form-control-wrap url-610"><input
                                                                 type="text"
                                                                 name="ico_url"
-                                                                value=""
+                                                                value="<?= !empty($data['ico_url']) ? $data['ico_url'] : '' ?>"
                                                                 size="40"
                                                                 class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-url wp-my-cf7-validates-as-required wp-my-cf7-validates-as-url"
                                                                 aria-required="false"
@@ -204,21 +251,21 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                             name="description" cols="40" rows="3"
                                                             class="wp-my-cf7-form-control wp-my-cf7-textarea"
                                                             aria-invalid="false"
-                                                            placeholder="Short ICO description (1-2 sentences)"></textarea></span>
+                                                            placeholder="Short ICO description (1-2 sentences)"><?= !empty($data['description']) ? $data['description'] : '' ?></textarea></span>
                                                 </p>
 
                                                 <p><span class="wp-my-cf7-form-control-wrap textarea-400"><textarea
                                                             name="introduction" cols="40" rows="5"
                                                             class="wp-my-cf7-form-control wp-my-cf7-textarea"
                                                             aria-invalid="false"
-                                                            placeholder="Project introduction Less than 500-4000 words ）"></textarea></span>
+                                                            placeholder="Project introduction Less than 500-4000 words ）"><?= !empty($data['introduction']) ? $data['introduction'] : '' ?></textarea></span>
                                                 </p>
 
                                                 <p><b>ICO start date *</b></p>
 
                                                 <p><span class="wp-my-cf7-form-control-wrap date-101"><input type="date"
                                                                                                              name="start_date"
-                                                                                                             value="ICO start date"
+                                                                                                             value="<?= !empty($data['start_date']) ? $data['start_date'] : '' ?>"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-date wp-my-cf7-validates-as-required wp-my-cf7-validates-as-date"
                                                                                                              aria-required="true"
                                                                                                              aria-invalid="false"></span>
@@ -228,7 +275,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
 
                                                 <p><span class="wp-my-cf7-form-control-wrap date-566"><input type="date"
                                                                                                              name="end_date"
-                                                                                                             value=""
+                                                                                                             value="<?= !empty($data['end_date']) ? $data['end_date'] : '' ?>"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-date wp-my-cf7-validates-as-required wp-my-cf7-validates-as-date"
                                                                                                              aria-required="true"
                                                                                                              aria-invalid="false"
@@ -242,134 +289,51 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                             class="wp-my-cf7-form-control wp-my-cf7-select wp-my-cf7-validates-as-required"
                                                             aria-required="true" aria-invalid="false">
                                                             <option value="">---</option>
-                                                            <option value="Supply &amp; Logistics">Supply &amp;
-                                                                Logistics
-                                                            </option>
-                                                            <option value="Commerce &amp; Advertising">Commerce &amp;
-                                                                Advertising
-                                                            </option>
-                                                            <option value="Social Network">Social Network</option>
-                                                            <option value="Content Management">Content Management
-                                                            </option>
-                                                            <option value="Governance">Governance</option>
-                                                            <option value="Gambling &amp; Betting">Gambling &amp;
-                                                                Betting
-                                                            </option>
-                                                            <option value="Data Analytics">Data Analytics</option>
-                                                            <option value="Mining">Mining</option>
-                                                            <option value="Energy &amp; Utilities">Energy &amp;
-                                                                Utilities
-                                                            </option>
-                                                            <option value="Provenance &amp; Notary">Provenance &amp;
-                                                                Notary
-                                                            </option>
-                                                            <option value="Compliance &amp; Security">Compliance &amp;
-                                                                Security
-                                                            </option>
-                                                            <option value="Gaming &amp; VR">Gaming &amp; VR</option>
-                                                            <option value="Trading &amp; Investing">Trading &amp;
-                                                                Investing
-                                                            </option>
-                                                            <option value="Finance">Finance</option>
-                                                            <option value="Payments">Payments</option>
-                                                            <option value="Identity &amp; Reputation">Identity &amp;
-                                                                Reputation
-                                                            </option>
-                                                            <option value="Legal">Legal</option>
-                                                            <option value="Drugs &amp; Healthcare">Drugs &amp;
-                                                                Healthcare
-                                                            </option>
-                                                            <option value="Infrastructure">Infrastructure</option>
-                                                            <option value="Recruitment">Recruitment</option>
-                                                            <option value="Events &amp; Entertainment">Events &amp;
-                                                                Entertainment
-                                                            </option>
-                                                            <option value="Real Estate">Real Estate</option>
-                                                            <option value="Art &amp; Music">Art &amp; Music</option>
-                                                            <option value="Privacy &amp; Security">Privacy &amp;
-                                                                Security
-                                                            </option>
-                                                            <option value="Transport">Transport</option>
-                                                            <option value="Machine Learning &amp; AI">Machine Learning
-                                                                &amp; AI
-                                                            </option>
-                                                            <option value="Commodities">Commodities</option>
-                                                            <option value="Communications">Communications</option>
-                                                            <option value="Data Storage">Data Storage</option>
-                                                            <option value="Travel &amp; Tourism">Travel &amp; Tourism
-                                                            </option>
-                                                            <option value="Other">Other</option>
+                                                            <?php
+                                                            $taxonomy_args = array(
+                                                                'taxonomy' => 'eventcat',
+                                                                'hide_empty' => false,
+                                                            );
+                                                            $eventcat_terms = get_terms($taxonomy_args);
+                                                            foreach ($eventcat_terms as $eventcat_term) {
+                                                                $selected = !empty ($data['category']) && in_array($eventcat_term->term_id, $data['category']) ? " selected=selected " : "";
+                                                                ?>
+                                                                <option selected="<?= $selected ?>"
+                                                                        value="<?= $eventcat_term->term_id ?>">
+                                                                    <?= $eventcat_term->name ?>
+                                                                </option>
+                                                                <?php
+                                                            } ?>
                                                         </select></span></p>
 
                                                 <p><b>Platform (Smart contract blockchain)*</b></p>
 
-                                                <p><span class="wp-my-cf7-form-control-wrap platform"><span
-                                                            class="wp-my-cf7-form-control wp-my-cf7-checkbox"><span
-                                                                class="wp-my-cf7-list-item first"><input type="checkbox"
-                                                                                                         name="platform[]"
-                                                                                                         value="Bitcoin"><span
-                                                                    class="wp-my-cf7-list-item-label">Bitcoin</span></span><span
-                                                                class="wp-my-cf7-list-item"><input type="checkbox"
-                                                                                                   name="platform[]"
-                                                                                                   value="BitShares"><span
-                                                                    class="wp-my-cf7-list-item-label">BitShares</span></span><span
-                                                                class="wp-my-cf7-list-item"><input type="checkbox"
-                                                                                                   name="platform[]"
-                                                                                                   value="Burst"><span
-                                                                    class="wp-my-cf7-list-item-label">Burst</span></span><span
-                                                                class="wp-my-cf7-list-item"><input type="checkbox"
-                                                                                                   name="platform[]"
-                                                                                                   value="Counterparty"><span
-                                                                    class="wp-my-cf7-list-item-label">Counterparty</span></span><span
-                                                                class="wp-my-cf7-list-item"><input type="checkbox"
-                                                                                                   name="platform[]"
-                                                                                                   value="Ethereum"><span
-                                                                    class="wp-my-cf7-list-item-label">Ethereum</span></span><span
-                                                                class="wp-my-cf7-list-item"><input type="checkbox"
-                                                                                                   name="platform[]"
-                                                                                                   value="Ethereum Classic"><span
-                                                                    class="wp-my-cf7-list-item-label">Ethereum Classic</span></span><span
-                                                                class="wp-my-cf7-list-item"><input type="checkbox"
-                                                                                                   name="platform[]"
-                                                                                                   value="Graphene"><span
-                                                                    class="wp-my-cf7-list-item-label">Graphene</span></span><span
-                                                                class="wp-my-cf7-list-item"><input type="checkbox"
-                                                                                                   name="platform[]"
-                                                                                                   value="NEM"><span
-                                                                    class="wp-my-cf7-list-item-label">NEM</span></span><span
-                                                                class="wp-my-cf7-list-item"><input type="checkbox"
-                                                                                                   name="platform[]"
-                                                                                                   value="NuBits"><span
-                                                                    class="wp-my-cf7-list-item-label">NuBits</span></span><span
-                                                                class="wp-my-cf7-list-item"><input type="checkbox"
-                                                                                                   name="platform[]"
-                                                                                                   value="Nxt"><span
-                                                                    class="wp-my-cf7-list-item-label">Nxt</span></span><span
-                                                                class="wp-my-cf7-list-item"><input type="checkbox"
-                                                                                                   name="platform[]"
-                                                                                                   value="Omni"><span
-                                                                    class="wp-my-cf7-list-item-label">Omni</span></span><span
-                                                                class="wp-my-cf7-list-item"><input type="checkbox"
-                                                                                                   name="platform[]"
-                                                                                                   value="Uniq"><span
-                                                                    class="wp-my-cf7-list-item-label">Uniq</span></span><span
-                                                                class="wp-my-cf7-list-item"><input type="checkbox"
-                                                                                                   name="platform[]"
-                                                                                                   value="Waves"><span
-                                                                    class="wp-my-cf7-list-item-label">Waves</span></span><span
-                                                                class="wp-my-cf7-list-item"><input type="checkbox"
-                                                                                                   name="platform[]"
-                                                                                                   value="Own"><span
-                                                                    class="wp-my-cf7-list-item-label">Own</span></span><span
-                                                                class="wp-my-cf7-list-item last"><input type="checkbox"
-                                                                                                        name="platform[]"
-                                                                                                        value="other"><span
-                                                                    class="wp-my-cf7-list-item-label">other</span></span></span></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap platform">
+
+                                                    <?php
+                                                    $taxonomy_args = array(
+                                                        'taxonomy' => 'event_tags',
+                                                        'hide_empty' => false,
+                                                    );
+                                                    $event_tags_terms = get_terms($taxonomy_args);
+                                                    foreach ($event_tags_terms as $event_tags_term) {
+                                                    $checked = !empty ($data['platform']) && in_array($event_tags_term->term_id, $data['platform']) ? " checked=checked " : "";
+
+                                                    ?>
+                                                        <span class="wp-my-cf7-form-control wp-my-cf7-checkbox"><span
+                                                                class="wp-my-cf7-list-item first">
+                                                        <input <?= $checked ?> type="checkbox" name="platform[]"
+                                                                               value="<?= $event_tags_term->term_id ?>">
+                                                        <span
+                                                            class="wp-my-cf7-list-item-label"><?= $event_tags_term->name ?></span></span>
+                                                            <?php } ?>
+
+                                                </span>
                                                 </p>
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-968"><input type="text"
                                                                                                              name="coin_name"
-                                                                                                             value=""
+                                                                                                             value="<?= !empty($data['coin_name']) ? $data['coin_name'] : '' ?>"
                                                                                                              size="40"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                                                                              aria-required="true"
@@ -379,7 +343,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-968"><input type="text"
                                                                                                              name="symbol"
-                                                                                                             value=""
+                                                                                                             value="<?= !empty($data['symbol']) ? $data['symbol'] : '' ?>"
                                                                                                              size="40"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                                                                              aria-required="true"
@@ -390,7 +354,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                 <p><span class="wp-my-cf7-form-control-wrap ICOSupply"><input
                                                             type="text"
                                                             name="ico_supply"
-                                                            value=""
+                                                            value="<?= !empty($data['ico_supply']) ? $data['ico_supply'] : '' ?>"
                                                             size="40"
                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                             aria-required="true"
@@ -400,7 +364,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
                                                                                                              name="max_supply"
-                                                                                                             value=""
+                                                                                                             value="<?= !empty($data['max_supply']) ? $data['max_supply'] : '' ?>"
                                                                                                              size="40"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                                                                              aria-required="true"
@@ -410,7 +374,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
                                                                                                              name="start_bonus"
-                                                                                                             value=""
+                                                                                                             value="<?= !empty($data['start_bonus']) ? $data['start_bonus'] : '' ?>"
                                                                                                              size="40"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                                                                              aria-required="true"
@@ -420,7 +384,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
                                                                                                              name="hardcap"
-                                                                                                             value=""
+                                                                                                             value="<?= !empty($data['hardcap']) ? $data['hardcap'] : '' ?>"
                                                                                                              size="40"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                                                                              aria-required="true"
@@ -430,7 +394,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
                                                                                                              name="whitepaper_url"
-                                                                                                             value=""
+                                                                                                             value="<?= !empty($data['whitepaper_url']) ? $data['whitepaper_url'] : '' ?>"
                                                                                                              size="40"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                                                                              aria-required="true"
@@ -442,7 +406,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
                                                                                                              name="twitter"
-                                                                                                             value=""
+                                                                                                             value="<?= !empty($data['twitter']) ? $data['twitter'] : '' ?>"
                                                                                                              size="40"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                                                                              aria-required="true"
@@ -452,7 +416,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
                                                                                                              name="telegram"
-                                                                                                             value=""
+                                                                                                             value="<?= !empty($data['telegram']) ? $data['telegram'] : '' ?>"
                                                                                                              size="40"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                                                                              aria-required="true"
@@ -462,7 +426,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
                                                                                                              name="facebook"
-                                                                                                             value=""
+                                                                                                             value="<?= !empty($data['facebook']) ? $data['facebook'] : '' ?>"
                                                                                                              size="40"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                                                                              aria-required="true"
@@ -472,7 +436,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
                                                                                                              name="medium"
-                                                                                                             value=""
+                                                                                                             value="<?= !empty($data['medium']) ? $data['medium'] : '' ?>"
                                                                                                              size="40"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                                                                              aria-required="true"
@@ -482,7 +446,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
                                                                                                              name="slack"
-                                                                                                             value=""
+                                                                                                             value="<?= !empty($data['slack']) ? $data['slack'] : '' ?>"
                                                                                                              size="40"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                                                                              aria-required="true"
@@ -492,7 +456,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
                                                                                                              name="github"
-                                                                                                             value=""
+                                                                                                             value="<?= !empty($data['github']) ? $data['github'] : '' ?>"
                                                                                                              size="40"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                                                                              aria-required="true"
@@ -502,7 +466,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
                                                                                                              name="instagram"
-                                                                                                             value=""
+                                                                                                             value="<?= !empty($data['instagram']) ? $data['instagram'] : '' ?>"
                                                                                                              size="40"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                                                                              aria-required="true"
@@ -512,7 +476,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
                                                                                                              name="youtube"
-                                                                                                             value=""
+                                                                                                             value="<?= !empty($data['youtube']) ? $data['youtube'] : '' ?>"
                                                                                                              size="40"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                                                                              aria-required="true"
@@ -522,7 +486,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
                                                                                                              name="bitcointalk"
-                                                                                                             value=""
+                                                                                                             value="<?= !empty($data['bitcointalk']) ? $data['bitcointalk'] : '' ?>"
                                                                                                              size="40"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                                                                              aria-required="true"
@@ -532,7 +496,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
                                                                                                              name="video_link"
-                                                                                                             value=""
+                                                                                                             value="<?= !empty($data['video_link']) ? $data['video_link'] : '' ?>"
                                                                                                              size="40"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                                                                              aria-required="true"
@@ -543,7 +507,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input
                                                             type="email"
                                                             name="help_email"
-                                                            value=""
+                                                            value="<?= !empty($data['help_email']) ? $data['help_email'] : '' ?>"
                                                             size="40"
                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                             aria-required="true"
@@ -555,7 +519,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
                                                                                                              name="full_name"
-                                                                                                             value=""
+                                                                                                             value="<?= !empty($data['full_name']) ? $data['full_name'] : '' ?>"
                                                                                                              size="40"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                                                                              aria-required="true"
@@ -566,7 +530,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                 <p><span class="wp-my-cf7-form-control-wrap email-850"><input
                                                             type="email"
                                                             name="contact_email"
-                                                            value=""
+                                                            value="<?= !empty($data['contact_email']) ? $data['contact_email'] : '' ?>"
                                                             size="40"
                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-email wp-my-cf7-validates-as-required wp-my-cf7-validates-as-email"
                                                             aria-required="true"
@@ -587,12 +551,13 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                 <p><span class="wp-my-cf7-form-control-wrap ShortBio"><textarea
                                                             name="short_bio" cols="40" rows="10"
                                                             class="wp-my-cf7-form-control wp-my-cf7-textarea wp-my-cf7-validates-as-required"
-                                                            aria-required="true" aria-invalid="false"></textarea></span>
+                                                            aria-required="true"
+                                                            aria-invalid="false"><?= !empty($data['short_bio']) ? $data['short_bio'] : '' ?></textarea></span>
                                                 </p>
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
-                                                                                                             name="text-969"
-                                                                                                             value=""
+                                                                                                             name="linkedin"
+                                                                                                             value="<?= !empty($data['linkedin']) ? $data['linkedin'] : '' ?>"
                                                                                                              size="40"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                                                                              aria-required="true"
@@ -601,8 +566,8 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                 </p>
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
-                                                                                                             name="text-969"
-                                                                                                             value=""
+                                                                                                             name="personal_facebook"
+                                                                                                             value="<?= !empty($data['personal_facebook']) ? $data['personal_facebook'] : '' ?>"
                                                                                                              size="40"
                                                                                                              class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                                                                              aria-required="true"
