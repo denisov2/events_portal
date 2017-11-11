@@ -93,7 +93,7 @@ if (!empty ($rating_data)) {
 
 } else {
     $ratings_titles = ['No data' => 0];
-    $average_rating = '?';
+    $average_rating = 'Not';
 
 }
 
@@ -149,16 +149,9 @@ if (!empty ($rating_data)) {
                                 <div class="event-info-dates col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
                                     <?php if (has_post_thumbnail()) {
                                         echo '<div class="post-featured-header">';
-                                        if(!empty (get_the_post_thumbnail(get_the_ID(), array(320, 320)) ) ) {
-                                            echo get_the_post_thumbnail(get_the_ID(), array(320, 320))  ;
-                                        } else {
-                                            echo '<div class="image">';
-                                            echo '<img src="/wp-content/themes/eventchamp-child/No_image_available.svg"  />';
-                                            echo '</div>';
-                                        }
+                                        echo get_the_post_thumbnail(get_the_ID(), array(320, 320));
                                         echo '</div>';
                                     }
-
                                     $event_start_date_last = date_format(date_create($event_start_date), "Y-m-d");
                                     $event_end_date_last = date_format(date_create($event_end_date), "Y-m-d");
                                     $date_now = date("Y-m-d");

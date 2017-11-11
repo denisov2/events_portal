@@ -18,7 +18,6 @@ add_action('wp_enqueue_scripts', 'grid_list_script');
 
 require_once get_theme_file_path('/include/eventchamp_categorized_events_output.php');
 require_once get_theme_file_path('/include/eventchamp_home_events_output.php');
-require_once get_theme_file_path('/include/eventchamp_search_events_output.php');
 
 add_shortcode("eventchamp_categorized_events_new", "eventchamp_categorized_events_output_new");
 add_shortcode("eventchamp_home_events_output", "eventchamp_home_events_output");
@@ -61,42 +60,38 @@ function eventchamp_event_list_style_4_new($post_id = "", $image = "", $category
         $output .= '<div class="title"><a href="' . get_the_permalink($post_id) . '" title="' . the_title_attribute(array('echo' => 0, 'post' => $post_id)) . '">' . get_the_title($post_id) . '</a></div>';
 
 
-        
-$ratings_titles = [
-    1 => 'Idea and market size',
-    2 => 'Team',
-    3 => 'Quality of website, marketing etc',
-    4 => 'Development level',
-    5 => 'Competition',
-    6 => 'Investment security',
-];
+        $ratings_titles = [
+            1 => 'Idea and amount of the market.',
+            2 => 'Team.',
+            3 => 'Quality of website, marketing kit etc.',
+            4 => 'Development level (at a moment of adding).',
+            5 => 'Competition (10 - no competitor. 0 - have more than 5 competitor from the companies that have already reached IPO).',
+            6 => 'Investment security (Escrow, whitepaper, chances of realization your idea).',
+        ];
 
-$rating_data = [];
+        $rating_data = [];
 
-foreach ($ratings_titles as $key => $value) {
+        foreach ($ratings_titles as $key => $value) {
 
-     if (get_post_meta(get_the_ID(), 'event_rating_' . $key, true)) {
-
-         $rating_data[$key] = get_post_meta(get_the_ID(), 'event_rating_' . $key, true);
-     }
-}
+            $rating_data[$key] = get_post_meta(get_the_ID(), 'event_rating_' . $key, true);
 
 
-if (!empty ($rating_data)) {
+        }
 
 
-    $sum = 0;
+        if (!empty ($rating_data)) {
 
-    foreach ($rating_data as $rating) $sum += $rating;
-    //$rating_datas = (isset($rating_data));
-    $rating_datas = count($rating_data);
-    $average_rating = round($sum / $rating_datas , 1);
 
-} else {
-    $ratings_titles = ['No data' => 0];
-    $average_rating = '?';
+            $sum = 0;
+            foreach ($rating_data as $rating) $sum += $rating;
 
-}
+            $average_rating = round($sum / count($rating_data), 1);
+
+        } else {
+            $ratings_titles = ['No data' => 0];
+            $average_rating = 'Not';
+
+        }
         $output .= '<div class="rating-circle">' . $average_rating . '</div>';
 
         $output .= '</div>';
@@ -210,42 +205,38 @@ if (!empty ($rating_data)) {
 
         $output .= $event_adv ? '<div class="content adv">' : '<div class="content">';
 
-        
-$ratings_titles = [
-    1 => 'Idea and market size',
-    2 => 'Team',
-    3 => 'Quality of website, marketing etc',
-    4 => 'Development level',
-    5 => 'Competition',
-    6 => 'Investment security',
-];
+        $ratings_titles = [
+            1 => 'Idea and amount of the market.',
+            2 => 'Team.',
+            3 => 'Quality of website, marketing kit etc.',
+            4 => 'Development level (at a moment of adding).',
+            5 => 'Competition (10 - no competitor. 0 - have more than 5 competitor from the companies that have already reached IPO).',
+            6 => 'Investment security (Escrow, whitepaper, chances of realization your idea).',
+        ];
 
-$rating_data = [];
+        $rating_data = [];
 
-foreach ($ratings_titles as $key => $value) {
+        foreach ($ratings_titles as $key => $value) {
 
-     if (get_post_meta(get_the_ID(), 'event_rating_' . $key, true)) {
-
-         $rating_data[$key] = get_post_meta(get_the_ID(), 'event_rating_' . $key, true);
-     }
-}
+            $rating_data[$key] = get_post_meta(get_the_ID(), 'event_rating_' . $key, true);
 
 
-if (!empty ($rating_data)) {
+        }
 
 
-    $sum = 0;
+        if (!empty ($rating_data)) {
 
-    foreach ($rating_data as $rating) $sum += $rating;
-    //$rating_datas = (isset($rating_data));
-    $rating_datas = count($rating_data);
-    $average_rating = round($sum / $rating_datas , 1);
 
-} else {
-    $ratings_titles = ['No data' => 0];
-    $average_rating = '?';
+            $sum = 0;
+            foreach ($rating_data as $rating) $sum += $rating;
 
-}
+            $average_rating = round($sum / count($rating_data), 1);
+
+        } else {
+            $ratings_titles = ['No data' => 0];
+            $average_rating = 'Not';
+
+        }
         $output .= '<div class="col-xs-12 col-md-4">';
         $output .= '<div class="ev_name">';
         $output .= '<div class="content_header">';

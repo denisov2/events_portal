@@ -1366,6 +1366,7 @@ add_filter( 'comment_form_fields', 'eventchamp_move_comment_field_to_bottom' );
 	}
 
 	/*====== Event Search Tool ======*/
+/*
 	function eventchamp_event_search_output( $atts, $content = null ) {
 		$atts = shortcode_atts(
 			array(
@@ -1389,7 +1390,7 @@ add_filter( 'comment_form_fields', 'eventchamp_move_comment_field_to_bottom' );
 			} else {
 				$keyword_total = "0";
 			}
-			
+
 			if( $atts["category"] == "true" ) {
 				$category_total = "1";
 			} else {
@@ -1637,6 +1638,8 @@ add_filter( 'comment_form_fields', 'eventchamp_move_comment_field_to_bottom' );
 	}
 
 	/*====== Event Search Results ======*/
+
+/*
 	function eventchamp_events_search_results_output( $atts, $content = null ) {
 		$atts = shortcode_atts(
 			array(
@@ -1780,7 +1783,7 @@ add_filter( 'comment_form_fields', 'eventchamp_move_comment_field_to_bottom' );
 					$startdate_compare = ">=";
 				} else {
 					$startdate = "-";
-					$startdate_compare = "LIKE";					
+					$startdate_compare = "LIKE";
 				}
 
 				if( !empty( $enddate ) ) {
@@ -1789,7 +1792,7 @@ add_filter( 'comment_form_fields', 'eventchamp_move_comment_field_to_bottom' );
 					$enddate = $startdate;
 					$enddate_compare = ">=";
 				}
-				
+
 				if( $status == "upcoming" ) {
 					$compare = ">";
 					$compare2 = "BETWEEN";
@@ -1838,7 +1841,7 @@ add_filter( 'comment_form_fields', 'eventchamp_move_comment_field_to_bottom' );
 			} else {
 				$order = "ASC";
 				$orderby = "title";
-				$meta_key = "";				
+				$meta_key = "";
 			}
 
 			if( isset( $_GET['location'] ) ) {
@@ -1895,7 +1898,7 @@ add_filter( 'comment_form_fields', 'eventchamp_move_comment_field_to_bottom' );
 								'value' => $location,
 							),
 						),
-					); 
+					);
 				} else {
 					$args = array(
 						'posts_per_page' => $atts["eventcount"],
@@ -1926,7 +1929,7 @@ add_filter( 'comment_form_fields', 'eventchamp_move_comment_field_to_bottom' );
 								'value' => $location,
 							),
 						),
-					); 
+					);
 				}
 			} else {
 				if( !empty( $category ) ) {
@@ -1966,7 +1969,7 @@ add_filter( 'comment_form_fields', 'eventchamp_move_comment_field_to_bottom' );
 								'value' => $location,
 							),
 						),
-					); 
+					);
 				} else {
 					$args = array(
 						'posts_per_page' => $atts["eventcount"],
@@ -1997,7 +2000,7 @@ add_filter( 'comment_form_fields', 'eventchamp_move_comment_field_to_bottom' );
 								'value' => $location,
 							),
 						),
-					); 
+					);
 				}
 			}
 
@@ -2036,7 +2039,7 @@ add_filter( 'comment_form_fields', 'eventchamp_move_comment_field_to_bottom' );
 							while ( $wp_query->have_posts() ) {
 								$wp_query->the_post();
 								$output .= eventchamp_event_list_style_1( $post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status );
-								
+
 							}
 						} else {
 							$output .= '<p>' . esc_html__( "There are no results that match your search.", "eventchamp" ) . '</p>';
@@ -2197,6 +2200,7 @@ add_filter( 'comment_form_fields', 'eventchamp_move_comment_field_to_bottom' );
 		)
 		);
 	}
+*/
 
 	/*====== Categorized Events ======*/
 	function eventchamp_categorized_events_output( $atts, $content = null ) {

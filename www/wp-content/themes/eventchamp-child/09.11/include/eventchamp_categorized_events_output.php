@@ -140,172 +140,105 @@ function eventchamp_categorized_events_output_new($atts, $content = null)
 
         // содержимое вкладки со ВСЕМИ событиями
         $output .= '<div class="tab-content">';
+        if ($atts["alleventstab"] == "true") {
+            $output .= '<div role="tabpanel" class="tab-pane" id="categorized_events_all">';
+            $args = array(
+                'posts_per_page' => $atts["eventcount"],
+                'post_status' => 'publish',
+                'post__not_in' => $excludeevents,
+                'offset' => $atts["offset"],
+                'ignore_sticky_posts' => true,
+                'post_type' => 'event',
+                'order' => $ordertype,
+                'orderby' => $sortby,
+                'meta_key' => 'event_start_date'
+            );
 
-        $output .= '<div role="tabpanel" class="tab-pane" id="categorized_events_all">';
-        $args_adv = [
-            'posts_per_page' => $atts["eventcount"],
-            'post_status' => 'publish',
-            'post__not_in' => $excludeevents,
-            'o  ffset' => $atts["offset"],
-            'ignore_sticky_posts' => true,
-            'post_type' => 'event',
-            'order' => $ordertype,
-            'orderby' => $sortby,
-            'meta_key' => 'event_start_date',
-            'meta_query' => [
-                [
-                    'key' => 'event_adv',
-                    'value' => 1,
-                ],
-            ],
-        ];
-
-        $args_no_adv = [
-            'posts_per_page' => $atts["eventcount"],
-            'post_status' => 'publish',
-            'post__not_in' => $excludeevents,
-            'o  ffset' => $atts["offset"],
-            'ignore_sticky_posts' => true,
-            'post_type' => 'event',
-            'order' => $ordertype,
-            'orderby' => $sortby,
-            'meta_key' => 'event_start_date',
-            'meta_query' => [
-                'relation' => 'OR',
-                [
-                    'key' => 'event_adv',
-                    'value' => 0,
-                ],
-                [
-                    'key' => 'event_adv',
-                    'compare' => 'NOT EXISTS',
-                ],
-            ],
-        ];
-
-        if (!empty($excludecategories) or !empty($includecategories)) {
-            if (!empty($includecategories)) {
-                $defaults = array(
-                    'tax_query' => array(
-                        array(
-                            'taxonomy' => 'eventcat',
-                            'field' => 'term_id',
-                            'terms' => $includecategories,
+            if (!empty($excludecategories) or !empty($includecategories)) {
+                if (!empty($includecategories)) {
+                    $defaults = array(
+                        'tax_query' => array(
+                            array(
+                                'taxonomy' => 'eventcat',
+                                'field' => 'term_id',
+                                'terms' => $includecategories,
+                            ),
                         ),
-                    ),
-                );
-                $args_adv = wp_parse_args($args_adv, $defaults);
-                $args_no_adv = wp_parse_args($args_no_adv, $defaults);
-            }
+                    );
+                    $args = wp_parse_args($args, $defaults);
+                }
 
-            if (!empty($excludecategories)) {
-                $defaults = array(
-                    'tax_query' => array(
-                        array(
-                            'taxonomy' => 'eventcat',
-                            'field' => 'term_id',
-                            'terms' => $excludecategories,
-                            'operator' => 'NOT IN'
+                if (!empty($excludecategories)) {
+                    $defaults = array(
+                        'tax_query' => array(
+                            array(
+                                'taxonomy' => 'eventcat',
+                                'field' => 'term_id',
+                                'terms' => $excludecategories,
+                                'operator' => 'NOT IN'
+                            ),
                         ),
-                    ),
-                );
-                $args_adv = wp_parse_args($args_adv, $defaults);
-                $args_no_adv = wp_parse_args($args_no_adv, $defaults);
-            }
-        }
-
-        $wp_query_adv = new WP_Query($args_adv);
-        $wp_query_no_adv = new WP_Query($args_no_adv);
-
-        if (!empty($wp_query_adv) || !empty($wp_query_no_adv)) {
-
-            $output .= '
-                    <div class="well well-sm ">
-                        <div class="btn-group">
-                            <a href="#" id="list" class="list-all btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
-                            </span></a> <a href="#" id="grid" class="grid-all btn btn-default btn-sm"><span
-                                class="glyphicon glyphicon-th"></span></a>
-                        </div>
-				</div>	';
-
-
-
-            $output .= '<div id="products_event" class="event-list column-3">';
-
-            while ($wp_query_adv->have_posts()) {
-                $wp_query_adv->the_post();
-
-                $cur_post_id = get_the_ID();
-                $event_start_date = get_post_meta($cur_post_id, 'event_start_date', true);
-                $event_end_date = get_post_meta($cur_post_id, 'event_end_date', true);
-
-                $event_start_date_last = date_format(date_create($event_start_date), "Y-m-d");
-                $event_end_date_last = date_format(date_create($event_end_date), "Y-m-d");
-                $date_now = date("Y-m-d");
-
-                if (!empty($event_start_date) or !empty($event_end_date)) {
-
-                    if ($atts['ico_status'] == 'active') {
-                        if ($date_now >= $event_start_date_last and $date_now <= $event_end_date_last) {
-                            $output .= eventchamp_event_list_style_4_new($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
-                        }
-                    } elseif ($atts['ico_status'] == 'upcoming') {
-                        if ($event_start_date_last > $date_now) {
-                            $output .= eventchamp_event_list_style_4_new($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
-                        }
-                    } elseif ($atts['ico_status'] == 'past') {
-                        if ($date_now > $event_end_date) {
-                            $output .= eventchamp_event_list_style_4_new($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
-                        }
-                    } elseif ($atts['ico_status'] == 'all') {
-                        $output .= eventchamp_event_list_style_4_new($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
-                    } else {
-                        $output .= eventchamp_event_list_style_4_new($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
-                    }
+                    );
+                    $args = wp_parse_args($args, $defaults);
                 }
             }
-            while ($wp_query_no_adv->have_posts()) {
-                $wp_query_no_adv->the_post();
 
-                $cur_post_id = get_the_ID();
-                $event_start_date = get_post_meta($cur_post_id, 'event_start_date', true);
-                $event_end_date = get_post_meta($cur_post_id, 'event_end_date', true);
+            $wp_query = new WP_Query($args);
+            if (!empty($wp_query)) {
+                $output .= '<div class="well well-sm">
+        <strong>Display</strong>
+        <div class="btn-group">
+            <a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
+            </span>List</a> <a href="#" id="grid" class="btn btn-default btn-sm"><span
+                class="glyphicon glyphicon-th"></span>Grid</a>
+        </div>
+    </div>';
 
-                $event_start_date_last = date_format(date_create($event_start_date), "Y-m-d");
-                $event_end_date_last = date_format(date_create($event_end_date), "Y-m-d");
-                $date_now = date("Y-m-d");
+                $output .= '<div id="products_event" class="event-list column-3">';
 
-                if (!empty($event_start_date) or !empty($event_end_date)) {
+                while ($wp_query->have_posts()) {
+                    $wp_query->the_post();
 
-                    if ($atts['ico_status'] == 'active') {
-                        if ($date_now >= $event_start_date_last and $date_now <= $event_end_date_last) {
+                    $cur_post_id = get_the_ID();
+                    $event_start_date = get_post_meta($cur_post_id, 'event_start_date', true);
+                    $event_end_date = get_post_meta($cur_post_id, 'event_end_date', true);
+
+                    $event_start_date_last = date_format(date_create($event_start_date), "Y-m-d");
+                    $event_end_date_last = date_format(date_create($event_end_date), "Y-m-d");
+                    $date_now = date("Y-m-d");
+
+                    if (!empty($event_start_date) or !empty($event_end_date)) {
+
+                        if ($atts['ico_status'] == 'active') {
+                            if ($date_now >= $event_start_date_last and $date_now <= $event_end_date_last) {
+                                $output .= eventchamp_event_list_style_4_new($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
+                            }
+                        } elseif ($atts['ico_status'] == 'upcoming') {
+                            if ($event_start_date_last > $date_now) {
+                                $output .= eventchamp_event_list_style_4_new($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
+                            }
+                        } elseif ($atts['ico_status'] == 'past') {
+                            if ($date_now > $event_end_date) {
+                                $output .= eventchamp_event_list_style_4_new($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
+                            }
+                        } elseif ($atts['ico_status'] == 'all') {
+                            $output .= eventchamp_event_list_style_4_new($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
+                        } else {
                             $output .= eventchamp_event_list_style_4_new($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
                         }
-                    } elseif ($atts['ico_status'] == 'upcoming') {
-                        if ($event_start_date_last > $date_now) {
-                            $output .= eventchamp_event_list_style_4_new($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
-                        }
-                    } elseif ($atts['ico_status'] == 'past') {
-                        if ($date_now > $event_end_date) {
-                            $output .= eventchamp_event_list_style_4_new($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
-                        }
-                    } elseif ($atts['ico_status'] == 'all') {
-                        $output .= eventchamp_event_list_style_4_new($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
-                    } else {
-                        $output .= eventchamp_event_list_style_4_new($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
                     }
                 }
+                $output .= '</div>';
+            }
+            wp_reset_postdata();
+
+            if ($atts["allbutton"] == "true") {
+                $output .= '<a href="' . esc_url(get_post_type_archive_link('event')) . '" class="all-button">' . esc_html__('All Events', 'eventchamp') . '</a>';
             }
             $output .= '</div>';
         }
-        wp_reset_postdata();
 
-        if ($atts["allbutton"] == "true") {
-            $output .= '<a href="' . esc_url(get_post_type_archive_link('event')) . '" class="all-button">' . esc_html__('All Events', 'eventchamp') . '</a>';
-        }
-        $output .= '</div>';
 
-        /*
         foreach ($eventcat_terms as $eventcat_term) {
 
             // вкладки уже непосредственно под каждую категорию
@@ -370,11 +303,11 @@ function eventchamp_categorized_events_output_new($atts, $content = null)
             }
             wp_reset_postdata();
 
-            // if ($atts["allbutton"] == "true") {
-             //    $output .= '<a href="' . esc_url(get_term_link($eventcat_term_term_id)) . '" class="all-button">' . esc_html__('All', 'eventchamp') . ' ' . esc_attr($eventcat_term_name) . ' ' . esc_html__('Events', 'eventchamp') . '</a>';
-             //   $output .= '</div>';
-              // }
-        */
+            /* if ($atts["allbutton"] == "true") {
+                 $output .= '<a href="' . esc_url(get_term_link($eventcat_term_term_id)) . '" class="all-button">' . esc_html__('All', 'eventchamp') . ' ' . esc_attr($eventcat_term_name) . ' ' . esc_html__('Events', 'eventchamp') . '</a>';
+             }*/
+            $output .= '</div>';
+        }
         $output .= '</div>';
         $output .= '</div>';
     }

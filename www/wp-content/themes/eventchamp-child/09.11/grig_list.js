@@ -1,7 +1,7 @@
 
 jQuery(document).ready(function () {
 
-    jQuery('a.list-all').click(function (event) {
+    jQuery('#list').click(function (event) {
         event.preventDefault();
         // jQuery('.event-list-styles.event-list-style-4').removeClass('events-grid-group-item');
 		
@@ -9,27 +9,9 @@ jQuery(document).ready(function () {
 		jQuery('.event-list-styles.event-list-style-4.events-list-group-item').removeClass('events-hiden');
 		 jQuery('.event-header-list').removeClass('events-hidens');
     });
-    jQuery('a.grid-all').click(function (event) {
-        event.preventDefault();
-			
-        jQuery('.event-list-styles.event-list-style-4').removeClass('events-hiden');
-		jQuery('.event-list-styles.event-list-style-4.events-list-group-item').addClass('events-hiden');
-		 jQuery('.event-header-list').addClass('events-hidens');
-        // jQuery('.event-list-styles.event-list-style-4').addClass('events-grid-group-item');
-    });
-
-
-    jQuery('#list').click(function (event) {
-        event.preventDefault();
-        // jQuery('.event-list-styles.event-list-style-4').removeClass('events-grid-group-item');
-
-        jQuery('.event-list-styles.event-list-style-4').addClass('events-hiden');
-		jQuery('.event-list-styles.event-list-style-4.events-list-group-item').removeClass('events-hiden');
-		 jQuery('.event-header-list').removeClass('events-hidens');
-    });
     jQuery('#grid').click(function (event) {
         event.preventDefault();
-
+			
         jQuery('.event-list-styles.event-list-style-4').removeClass('events-hiden');
 		jQuery('.event-list-styles.event-list-style-4.events-list-group-item').addClass('events-hiden');
 		 jQuery('.event-header-list').addClass('events-hidens');
