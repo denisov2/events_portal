@@ -21,6 +21,10 @@ if (!$post_post_title == 'off' or $post_post_title == 'on') {
 
 if (!empty ($_POST)) {
 
+
+
+
+
     //saving enent to database
     $fields_data = [
         ['key' => 'ico_name', 'require' => true,],
@@ -118,7 +122,6 @@ if (!empty ($_POST)) {
             $meta_input[$field['meta']] = $form_element_value;
 
 
-
         } else {
             $data[$field['key']] = $form_element_value;
         }
@@ -130,8 +133,9 @@ if (!empty ($_POST)) {
     if (empty($errors)) {
 
         $post_arg = [
-            'post_content' => $data['description'],
-            'post_excerpt' => $data['introduction'],
+
+            'post_content' => $data['introduction'],
+            'post_excerpt' => $data['description'],
             'post_name' => $data['ico_name'],
             'post_status' => 'publish',
             'post_title' => $data['ico_name'],
@@ -140,11 +144,62 @@ if (!empty ($_POST)) {
             'meta_input' => $meta_input
         ];
 
-        $wp_error = false;
         $post_id = wp_insert_post($post_arg, $wp_error);
         $success_message = null;
-        if ($post_id) {
+        if (!is_wp_error($post_id)) {
+
             $success_message = "Post is send for revision. Temporary link <a href='" . get_post_permalink($post_id) . "'>" . get_post_permalink($post_id) . "</a>";
+
+            if (wp_verify_nonce($_POST['nonce_field'], 'add-event')) {
+                if (!function_exists('wp_handle_upload'))
+                    require_once(ABSPATH . 'wp-admin/includes/file.php');
+
+                $file = &$_FILES['logo'];
+                $overrides = array('test_form' => false);
+                $file_logo = wp_handle_upload($file, $overrides);
+
+                if ($file_logo && empty($file_logo['error'])) {
+
+                    $filename = $file_logo['file'];
+
+                    $filetype = wp_check_filetype(basename($filename), null);
+
+                    $wp_upload_dir = wp_upload_dir();
+
+                    $attachment = array(
+                        'guid' => $wp_upload_dir['url'] . '/' . basename($filename),
+                        'post_mime_type' => $filetype['type'],
+                        'post_title' => preg_replace('/\.[^.]+$/', '', basename($filename)),
+                        'post_content' => '',
+                        'post_status' => 'inherit'
+                    );
+
+                    $attach_id = wp_insert_attachment($attachment, $filename, $post_id);
+
+                    require_once(ABSPATH . 'wp-admin/includes/image.php');
+
+                    $attach_data = wp_generate_attachment_metadata($attach_id, $filename);
+                    wp_update_attachment_metadata($attach_id, $attach_data);
+
+                    if( set_post_thumbnail( $post_id, $attach_id ) ) {
+                    }
+                    else {
+                        $errors[] = 'Unable to attache logo to event';
+                    }
+
+                } else {
+                    // echo "Возможны атаки при загрузке файла!\n";
+                }
+
+
+            }
+
+
+
+
+        } else {
+
+            $errors[] = " Post does not saved";
         }
 
 
@@ -207,8 +262,12 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                             <?php if ($errors) { ?>
                                                 <div class="error-message"><p><?= $error_message ?></p></div>
                                             <?php } ?>
-                                            <form action="/add-event/" method="post" class="wp-my-cf7-form"
+
+                                            <!-- // FORM START -->
+
+                                            <form action="" method="post" class="wp-my-cf7-form"
                                                   enctype="multipart/form-data">
+                                                <?php wp_nonce_field('add-event', 'nonce_field'); ?>
 
                                                 <div class="inputs">
                                                     <p><b>ICO General Info</b></p>
@@ -516,6 +575,56 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                 </p>
 
                                                 <h3>Team</h3>
+
+                                                <div id="accordion">
+                                                    <h3>Section 1</h3>
+                                                    <div>
+                                                        <p>
+                                                            Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
+                                                            ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
+                                                            amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
+                                                            odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+                                                        </p>
+                                                    </div>
+                                                    <h3>Section 2</h3>
+                                                    <div>
+                                                        <p>
+                                                            Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+                                                            purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+                                                            velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+                                                            suscipit faucibus urna.
+                                                        </p>
+                                                    </div>
+                                                    <h3>Section 3</h3>
+                                                    <div>
+                                                        <p>
+                                                            Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
+                                                            Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
+                                                            ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
+                                                            lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+                                                        </p>
+                                                        <ul>
+                                                            <li>List item one</li>
+                                                            <li>List item two</li>
+                                                            <li>List item three</li>
+                                                        </ul>
+                                                    </div>
+                                                    <h3>Section 4</h3>
+                                                    <div>
+                                                        <p>
+                                                            Cras dictum. Pellentesque habitant morbi tristique senectus et netus
+                                                            et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in
+                                                            faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia
+                                                            mauris vel est.
+                                                        </p>
+                                                        <p>
+                                                            Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.
+                                                            Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+                                                            inceptos himenaeos.
+                                                        </p>
+                                                    </div>
+                                                </div>
+
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
                                                                                                              name="full_name"
