@@ -8,13 +8,20 @@ function eventchamp_enqueue_styles()
 
 }
 
-function grid_list_script()
+function add_custom_scripts()
 {
     $scriptSrc = get_stylesheet_directory_uri() . '/grig_list.js';
-    wp_enqueue_script('grid_list', $scriptSrc, array(), '1.0', false);
+    wp_enqueue_script('custom_scripts', $scriptSrc, array(), '1.0', false);
+    $scriptSrc = get_stylesheet_directory_uri() . '/add_event_team.js';
+    wp_enqueue_script('add_event_team', $scriptSrc, array(), '1.0', false);
+
+    wp_enqueue_script("jquery-ui.js",'http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/jquery-ui.js', array('jquery'), '1.8.8');
 }
 
-add_action('wp_enqueue_scripts', 'grid_list_script');
+add_action('wp_enqueue_scripts', 'add_custom_scripts');
+
+
+
 
 require_once get_theme_file_path('/include/eventchamp_categorized_events_output.php');
 require_once get_theme_file_path('/include/eventchamp_home_events_output.php');

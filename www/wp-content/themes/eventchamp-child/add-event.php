@@ -6,6 +6,12 @@ Template Name: Добавление собьытия
 
 <?php get_header(); ?>
 
+<?php
+
+
+
+?>
+
 <?php eventchamp_sub_content_before(); ?>
 <?php
 $featured_image_status = get_post_meta(get_the_ID(), 'featured_image_status', true);
@@ -19,7 +25,11 @@ if (!$post_post_title == 'off' or $post_post_title == 'on') {
 }
 
 
+
 if (!empty ($_POST)) {
+
+//    var_dump($_POST);
+  //  var_dump($_FILES);
 
 
 
@@ -577,113 +587,251 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                 <h3>Team</h3>
 
                                                 <div id="accordion">
-                                                    <h3>Section 1</h3>
+                                                    <h3>Team member 1</h3>
                                                     <div>
-                                                        <p>
-                                                            Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
-                                                            ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
-                                                            amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
-                                                            odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+                                                        <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                                     name="full_name[0]"
+                                                                                                                     value="<?= !empty($data['full_name']) ? $data['full_name'] : '' ?>"
+                                                                                                                     size="40"
+                                                                                                                     class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                                     aria-required="true"
+                                                                                                                     aria-invalid="false"
+                                                                                                                     placeholder="Full Name*"></span>
+                                                        </p>
+
+                                                        <p><span class="wp-my-cf7-form-control-wrap email-850"><input
+                                                                    type="email"
+                                                                    name="contact_email[0]"
+                                                                    value="<?= !empty($data['contact_email']) ? $data['contact_email'] : '' ?>"
+                                                                    size="40"
+                                                                    class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-email wp-my-cf7-validates-as-required wp-my-cf7-validates-as-email"
+                                                                    aria-required="true"
+                                                                    aria-invalid="false"
+                                                                    placeholder="Your contact Email"></span>
+                                                        </p>
+
+                                                        <p><b>Picture*</b></p>
+
+                                                        <p><span class="wp-my-cf7-form-control-wrap file-246"><input type="file"
+                                                                                                                     name="picture[0]"
+                                                                                                                     size="40"
+                                                                                                                     class="wp-my-cf7-form-control wp-my-cf7-file"
+                                                                                                                     aria-invalid="false"></span>
+                                                        </p>
+
+
+                                                        <p><span class="wp-my-cf7-form-control-wrap ShortBio"><textarea
+                                                                    name="short_bio[0]" cols="40" rows="10"
+                                                                    class="wp-my-cf7-form-control wp-my-cf7-textarea wp-my-cf7-validates-as-required"
+                                                                    aria-required="true"
+                                                                    aria-invalid="false"><?= !empty($data['short_bio']) ? $data['short_bio'] : '' ?></textarea></span>
+                                                        </p>
+
+                                                        <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                                     name="linkedin[0]"
+                                                                                                                     value="<?= !empty($data['linkedin']) ? $data['linkedin'] : '' ?>"
+                                                                                                                     size="40"
+                                                                                                                     class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                                     aria-required="true"
+                                                                                                                     aria-invalid="false"
+                                                                                                                     placeholder="Linkedin"></span>
+                                                        </p>
+
+                                                        <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                                     name="personal_facebook[0]"
+                                                                                                                     value="<?= !empty($data['personal_facebook']) ? $data['personal_facebook'] : '' ?>"
+                                                                                                                     size="40"
+                                                                                                                     class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                                     aria-required="true"
+                                                                                                                     aria-invalid="false"
+                                                                                                                     placeholder="Facebook"></span>
                                                         </p>
                                                     </div>
-                                                    <h3>Section 2</h3>
+                                                    <h3>Team member 2</h3>
                                                     <div>
-                                                        <p>
-                                                            Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
-                                                            purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
-                                                            velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
-                                                            suscipit faucibus urna.
+                                                        <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                                     name="full_name[1]"
+                                                                                                                     value="<?= !empty($data['full_name']) ? $data['full_name'] : '' ?>"
+                                                                                                                     size="40"
+                                                                                                                     class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                                     aria-required="true"
+                                                                                                                     aria-invalid="false"
+                                                                                                                     placeholder="Full Name*"></span>
+                                                        </p>
+
+                                                        <p><span class="wp-my-cf7-form-control-wrap email-850"><input
+                                                                    type="email"
+                                                                    name="contact_email[1]"
+                                                                    value="<?= !empty($data['contact_email']) ? $data['contact_email'] : '' ?>"
+                                                                    size="40"
+                                                                    class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-email wp-my-cf7-validates-as-required wp-my-cf7-validates-as-email"
+                                                                    aria-required="true"
+                                                                    aria-invalid="false"
+                                                                    placeholder="Your contact Email"></span>
+                                                        </p>
+
+                                                        <p><b>Picture*</b></p>
+
+                                                        <p><span class="wp-my-cf7-form-control-wrap file-246"><input type="file"
+                                                                                                                     name="picture[1]"
+                                                                                                                     size="40"
+                                                                                                                     class="wp-my-cf7-form-control wp-my-cf7-file"
+                                                                                                                     aria-invalid="false"></span>
+                                                        </p>
+
+
+                                                        <p><span class="wp-my-cf7-form-control-wrap ShortBio"><textarea
+                                                                    name="short_bio[1]" cols="40" rows="10"
+                                                                    class="wp-my-cf7-form-control wp-my-cf7-textarea wp-my-cf7-validates-as-required"
+                                                                    aria-required="true"
+                                                                    aria-invalid="false"><?= !empty($data['short_bio']) ? $data['short_bio'] : '' ?></textarea></span>
+                                                        </p>
+
+                                                        <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                                     name="linkedin[1]"
+                                                                                                                     value="<?= !empty($data['linkedin']) ? $data['linkedin'] : '' ?>"
+                                                                                                                     size="40"
+                                                                                                                     class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                                     aria-required="true"
+                                                                                                                     aria-invalid="false"
+                                                                                                                     placeholder="Linkedin"></span>
+                                                        </p>
+
+                                                        <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                                     name="personal_facebook[1]"
+                                                                                                                     value="<?= !empty($data['personal_facebook']) ? $data['personal_facebook'] : '' ?>"
+                                                                                                                     size="40"
+                                                                                                                     class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                                     aria-required="true"
+                                                                                                                     aria-invalid="false"
+                                                                                                                     placeholder="Facebook"></span>
                                                         </p>
                                                     </div>
-                                                    <h3>Section 3</h3>
+                                                    <h3>Team member 3</h3>
                                                     <div>
-                                                        <p>
-                                                            Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
-                                                            Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
-                                                            ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
-                                                            lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+                                                        <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                                     name="full_name[2]"
+                                                                                                                     value="<?= !empty($data['full_name']) ? $data['full_name'] : '' ?>"
+                                                                                                                     size="40"
+                                                                                                                     class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                                     aria-required="true"
+                                                                                                                     aria-invalid="false"
+                                                                                                                     placeholder="Full Name*"></span>
                                                         </p>
-                                                        <ul>
-                                                            <li>List item one</li>
-                                                            <li>List item two</li>
-                                                            <li>List item three</li>
-                                                        </ul>
+
+                                                        <p><span class="wp-my-cf7-form-control-wrap email-850"><input
+                                                                    type="email"
+                                                                    name="contact_email[2]"
+                                                                    value="<?= !empty($data['contact_email']) ? $data['contact_email'] : '' ?>"
+                                                                    size="40"
+                                                                    class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-email wp-my-cf7-validates-as-required wp-my-cf7-validates-as-email"
+                                                                    aria-required="true"
+                                                                    aria-invalid="false"
+                                                                    placeholder="Your contact Email"></span>
+                                                        </p>
+
+                                                        <p><b>Picture*</b></p>
+
+                                                        <p><span class="wp-my-cf7-form-control-wrap file-246"><input type="file"
+                                                                                                                     name="picture[2]"
+                                                                                                                     size="40"
+                                                                                                                     class="wp-my-cf7-form-control wp-my-cf7-file"
+                                                                                                                     aria-invalid="false"></span>
+                                                        </p>
+
+
+                                                        <p><span class="wp-my-cf7-form-control-wrap ShortBio"><textarea
+                                                                    name="short_bio[2]" cols="40" rows="10"
+                                                                    class="wp-my-cf7-form-control wp-my-cf7-textarea wp-my-cf7-validates-as-required"
+                                                                    aria-required="true"
+                                                                    aria-invalid="false"><?= !empty($data['short_bio']) ? $data['short_bio'] : '' ?></textarea></span>
+                                                        </p>
+
+                                                        <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                                     name="linkedin[2]"
+                                                                                                                     value="<?= !empty($data['linkedin']) ? $data['linkedin'] : '' ?>"
+                                                                                                                     size="40"
+                                                                                                                     class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                                     aria-required="true"
+                                                                                                                     aria-invalid="false"
+                                                                                                                     placeholder="Linkedin"></span>
+                                                        </p>
+
+                                                        <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                                     name="personal_facebook[2]"
+                                                                                                                     value="<?= !empty($data['personal_facebook']) ? $data['personal_facebook'] : '' ?>"
+                                                                                                                     size="40"
+                                                                                                                     class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                                     aria-required="true"
+                                                                                                                     aria-invalid="false"
+                                                                                                                     placeholder="Facebook"></span>
+                                                        </p>
                                                     </div>
-                                                    <h3>Section 4</h3>
+                                                    <h3>Team member 4</h3>
                                                     <div>
-                                                        <p>
-                                                            Cras dictum. Pellentesque habitant morbi tristique senectus et netus
-                                                            et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in
-                                                            faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia
-                                                            mauris vel est.
+                                                        <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                                     name="full_name[3]"
+                                                                                                                     value="<?= !empty($data['full_name']) ? $data['full_name'] : '' ?>"
+                                                                                                                     size="40"
+                                                                                                                     class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                                     aria-required="true"
+                                                                                                                     aria-invalid="false"
+                                                                                                                     placeholder="Full Name*"></span>
                                                         </p>
-                                                        <p>
-                                                            Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.
-                                                            Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
-                                                            inceptos himenaeos.
+
+                                                        <p><span class="wp-my-cf7-form-control-wrap email-850"><input
+                                                                    type="email"
+                                                                    name="contact_email[3]"
+                                                                    value="<?= !empty($data['contact_email']) ? $data['contact_email'] : '' ?>"
+                                                                    size="40"
+                                                                    class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-email wp-my-cf7-validates-as-required wp-my-cf7-validates-as-email"
+                                                                    aria-required="true"
+                                                                    aria-invalid="false"
+                                                                    placeholder="Your contact Email"></span>
+                                                        </p>
+
+                                                        <p><b>Picture*</b></p>
+
+                                                        <p><span class="wp-my-cf7-form-control-wrap file-246"><input type="file"
+                                                                                                                     name="picture[3]"
+                                                                                                                     size="40"
+                                                                                                                     class="wp-my-cf7-form-control wp-my-cf7-file"
+                                                                                                                     aria-invalid="false"></span>
+                                                        </p>
+
+
+                                                        <p><span class="wp-my-cf7-form-control-wrap ShortBio"><textarea
+                                                                    name="short_bio[3]" cols="40" rows="10"
+                                                                    class="wp-my-cf7-form-control wp-my-cf7-textarea wp-my-cf7-validates-as-required"
+                                                                    aria-required="true"
+                                                                    aria-invalid="false"><?= !empty($data['short_bio']) ? $data['short_bio'] : '' ?></textarea></span>
+                                                        </p>
+
+                                                        <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                                     name="linkedin[3]"
+                                                                                                                     value="<?= !empty($data['linkedin']) ? $data['linkedin'] : '' ?>"
+                                                                                                                     size="40"
+                                                                                                                     class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                                     aria-required="true"
+                                                                                                                     aria-invalid="false"
+                                                                                                                     placeholder="Linkedin"></span>
+                                                        </p>
+
+                                                        <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                                     name="personal_facebook[3]"
+                                                                                                                     value="<?= !empty($data['personal_facebook']) ? $data['personal_facebook'] : '' ?>"
+                                                                                                                     size="40"
+                                                                                                                     class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                                     aria-required="true"
+                                                                                                                     aria-invalid="false"
+                                                                                                                     placeholder="Facebook"></span>
                                                         </p>
                                                     </div>
                                                 </div>
 
 
-                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
-                                                                                                             name="full_name"
-                                                                                                             value="<?= !empty($data['full_name']) ? $data['full_name'] : '' ?>"
-                                                                                                             size="40"
-                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
-                                                                                                             aria-required="true"
-                                                                                                             aria-invalid="false"
-                                                                                                             placeholder="Full Name*"></span>
-                                                </p>
 
-                                                <p><span class="wp-my-cf7-form-control-wrap email-850"><input
-                                                            type="email"
-                                                            name="contact_email"
-                                                            value="<?= !empty($data['contact_email']) ? $data['contact_email'] : '' ?>"
-                                                            size="40"
-                                                            class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-email wp-my-cf7-validates-as-required wp-my-cf7-validates-as-email"
-                                                            aria-required="true"
-                                                            aria-invalid="false"
-                                                            placeholder="Your contact Email"></span>
-                                                </p>
-
-                                                <p><b>Picture*</b></p>
-
-                                                <p><span class="wp-my-cf7-form-control-wrap file-246"><input type="file"
-                                                                                                             name="picture"
-                                                                                                             size="40"
-                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-file"
-                                                                                                             aria-invalid="false"></span>
-                                                </p>
-
-
-                                                <p><span class="wp-my-cf7-form-control-wrap ShortBio"><textarea
-                                                            name="short_bio" cols="40" rows="10"
-                                                            class="wp-my-cf7-form-control wp-my-cf7-textarea wp-my-cf7-validates-as-required"
-                                                            aria-required="true"
-                                                            aria-invalid="false"><?= !empty($data['short_bio']) ? $data['short_bio'] : '' ?></textarea></span>
-                                                </p>
-
-                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
-                                                                                                             name="linkedin"
-                                                                                                             value="<?= !empty($data['linkedin']) ? $data['linkedin'] : '' ?>"
-                                                                                                             size="40"
-                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
-                                                                                                             aria-required="true"
-                                                                                                             aria-invalid="false"
-                                                                                                             placeholder="Linkedin"></span>
-                                                </p>
-
-                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
-                                                                                                             name="personal_facebook"
-                                                                                                             value="<?= !empty($data['personal_facebook']) ? $data['personal_facebook'] : '' ?>"
-                                                                                                             size="40"
-                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
-                                                                                                             aria-required="true"
-                                                                                                             aria-invalid="false"
-                                                                                                             placeholder="Facebook"></span>
-                                                </p>
-
+                                                            <p></p>
                                                 <p><b>Want to advertise your ICO with us?*</b>
                                                 </p>
 
