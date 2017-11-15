@@ -61,15 +61,17 @@ if (!empty ($_POST)) {
         ['key' => 'start_bonus', 'require' => false],
         ['key' => 'hardcap', 'require' => false],
         ['key' => 'whitepaper_url', 'require' => false],
+
         ['key' => 'twitter', 'require' => false, 'meta' => 'event_social_media_twitter'],
-        ['key' => 'telegram', 'require' => false],
+        ['key' => 'telegram', 'require' => false, 'meta' => 'event_social_media_telegram'],
         ['key' => 'facebook', 'require' => false, 'meta' => 'event_social_media_facebook'],
-        ['key' => 'medium', 'require' => false],
-        ['key' => 'ico_name', 'require' => false],
-        ['key' => 'github', 'require' => false],
-        ['key' => 'instagram', 'require' => false],
+        ['key' => 'medium', 'require' => false, 'meta' => 'event_social_media_medium'],
+        ['key' => 'slack', 'require' => false, 'meta' => 'event_social_media_slack'],
+        ['key' => 'github', 'require' => false, 'meta' => 'event_social_media_github'],
+        ['key' => 'instagram', 'require' => false, 'meta' => 'event_social_media_instagram'],
         ['key' => 'youtube', 'require' => false, 'meta' => 'event_social_media_youtube'],
-        ['key' => 'bitcointalk', 'require' => false],
+        ['key' => 'bitcointalk', 'require' => false, 'meta' => 'event_social_media_bitcointalk'],
+
         ['key' => 'video_link', 'require' => false],
         ['key' => 'help_email', 'require' => true,],
 
@@ -543,6 +545,17 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                                                                              aria-invalid="false"
                                                                                                              placeholder="Whitepaper URL*"></span>
                                                 </p>
+                                                <p><b>Support email:</b></p>
+                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input
+                                                            type="email"
+                                                            name="help_email"
+                                                            value="<?= !empty($data['help_email']) ? $data['help_email'] : '' ?>"
+                                                            size="40"
+                                                            class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                            aria-required="true"
+                                                            aria-invalid="false"
+                                                            placeholder="j. Email for help and relevant info*"></span>
+                                                </p>
 
                                                 <p><b>Links:</b></p>
 
@@ -557,6 +570,17 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                 </p>
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
+                                                                                                             name="facebook"
+                                                                                                             value="<?= !empty($data['facebook']) ? $data['facebook'] : '' ?>"
+                                                                                                             size="40"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                                                             aria-required="true"
+                                                                                                             aria-invalid="false"
+                                                                                                             placeholder="Facebook"></span>
+                                                </p>
+
+
+                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
                                                                                                              name="telegram"
                                                                                                              value="<?= !empty($data['telegram']) ? $data['telegram'] : '' ?>"
                                                                                                              size="40"
@@ -566,15 +590,6 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                                                                              placeholder="Telegram"></span>
                                                 </p>
 
-                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
-                                                                                                             name="facebook"
-                                                                                                             value="<?= !empty($data['facebook']) ? $data['facebook'] : '' ?>"
-                                                                                                             size="40"
-                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
-                                                                                                             aria-required="true"
-                                                                                                             aria-invalid="false"
-                                                                                                             placeholder="Facebook"></span>
-                                                </p>
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
                                                                                                              name="medium"
@@ -646,16 +661,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                                                                              placeholder="YouTube video link"></span>
                                                 </p>
 
-                                                <p><span class="wp-my-cf7-form-control-wrap text-969"><input
-                                                            type="email"
-                                                            name="help_email"
-                                                            value="<?= !empty($data['help_email']) ? $data['help_email'] : '' ?>"
-                                                            size="40"
-                                                            class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
-                                                            aria-required="true"
-                                                            aria-invalid="false"
-                                                            placeholder="j. Email for help and relevant info*"></span>
-                                                </p>
+
 
                                                 <h3>Team</h3>
 
@@ -695,7 +701,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                                                                                      aria-invalid="false"></span>
                                                         </p>
 
-
+                                                        <p><b>Short Bio*</b></p>
                                                         <p><span class="wp-my-cf7-form-control-wrap ShortBio"><textarea name="short_bio[<?=$speaker_number?>]" cols="40" rows="10"
                                                                     class="wp-my-cf7-form-control wp-my-cf7-textarea wp-my-cf7-validates-as-required"
                                                                     aria-required="true"

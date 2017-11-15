@@ -189,13 +189,60 @@ if (!empty ($rating_data)) {
 
         $official_web_site = get_post_meta(get_the_ID(), 'event_official_web_site', true);
         $social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_twitter', true);
+        $social_media_facebook = get_post_meta(get_the_ID(), 'event_social_media_facebook', true);
+        $social_media_telegram = get_post_meta(get_the_ID(), 'event_social_media_telegram', true);
+        $social_media_medium = get_post_meta(get_the_ID(), 'event_social_media_medium', true);
+        $social_media_slack = get_post_meta(get_the_ID(), 'event_social_media_slack', true);
+        $social_media_github = get_post_meta(get_the_ID(), 'event_social_media_github', true);
+        $social_media_instagram = get_post_meta(get_the_ID(), 'event_social_media_instagram', true);
+        $social_media_youtube = get_post_meta(get_the_ID(), 'event_social_media_youtube', true);
+        $social_media_bitcointalk = get_post_meta(get_the_ID(), 'event_social_media_bitcointalk', true);
+
+        $social_count = 0;
         if (!empty($official_web_site)) {
-            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($official_web_site) . "' class='officialsite' title='" . esc_html__('VISIT SITE', 'eventchamp') . "' target='_blank'><img src='/wp-content/themes/eventchamp-child/img/url.png'></img></a></div>";
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($official_web_site) . "'  title='" . esc_html__('VISIT SITE', 'eventchamp') . "' target='_blank'><i class='fa fa-globe fa-2x' aria-hidden='true'></i></a></div>";
+            $social_count++;
         }
 
         if (!empty($social_media_twitter)) {
-            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_twitter) . "' class='twitter' title='" . esc_html__('Twitter', 'eventchamp') . "' target='_blank'><img src='/wp-content/themes/eventchamp-child/img/soc.png'></img></a></div>";
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_twitter) . "' title='" . esc_html__('Twitter', 'eventchamp') . "' target='_blank'><i class='fa fa-twitter fa-2x' aria-hidden='true'></i></a></div>";
+            $social_count++;
         }
+
+        if (!empty($social_media_facebook)) {
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_facebook) . "'  title='" . esc_html__('Facebook', 'eventchamp') . "' target='_blank'><i class='fa fa-facebook fa-2x' aria-hidden='true'></i></a></div>";
+            $social_count++;
+        }
+        if (!empty($social_media_telegram) && $social_count < 3) {
+        //    var_dump($social_media_telegram); die();
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_telegram) . "' title='" . esc_html__('Telegram', 'eventchamp') . "' target='_blank'><i class='fa fa-paper-plane fa-2x' aria-hidden='true'></i></a></div>";
+            $social_count++;
+        }
+        if (!empty($social_media_medium) && $social_count < 3) {
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_medium) . "'  title='" . esc_html__('Facebook', 'eventchamp') . "' target='_blank'><i class='fa fa-medium fa-2x' aria-hidden='true'></i></a></div>";
+            $social_count++;
+        }
+        if (!empty($social_media_slack) && $social_count < 3) {
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_slack) . "'   title='" . esc_html__('Facebook', 'eventchamp') . "' target='_blank'><i class='fa fa-slack fa-2x' aria-hidden='true'></i></a></div>";
+            $social_count++;
+        }
+        if (!empty($social_media_github) && $social_count < 3) {
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_github) . "'   title='" . esc_html__('Facebook', 'eventchamp') . "' target='_blank'><i class='fa fa-github fa-2x' aria-hidden='true'></i></a></div>";
+            $social_count++;
+        }
+        if (!empty($social_media_instagram) && $social_count < 3) {
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_instagram) . "'  title='" . esc_html__('Facebook', 'eventchamp') . "' target='_blank'><i class='fa fa-instagram fa-2x' aria-hidden='true'></i></a></div>";
+            $social_count++;
+        }
+        if (!empty($social_media_youtube) && $social_count < 3) {
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_youtube) . "'  title='" . esc_html__('Facebook', 'eventchamp') . "' target='_blank'><i class='fa fa-youtube fa-2x' aria-hidden='true'></i></a></div>";
+            $social_count++;
+        }
+        if (!empty($social_media_bitcointalk) && $social_count < 3) {
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_bitcointalk) . "'  title='" . esc_html__('Facebook', 'eventchamp') . "' target='_blank'><i class='fa fa-bitcoin fa-2x' aria-hidden='true'></i></a></div>";
+            $social_count++;
+        }
+
 
         $output .= "<div class='all_right_labels_paper'>";
         $output .= "</div>";
@@ -357,6 +404,23 @@ if (!empty ($rating_data)) {
 
         $official_web_site = get_post_meta(get_the_ID(), 'event_official_web_site', true);
         $social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_twitter', true);
+
+
+        $social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_facebook', true);
+        $social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_youtube', true);
+
+        $social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_twitter', true);
+        $social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_twitter', true);
+        $social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_twitter', true);
+        $social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_twitter', true);
+        $social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_twitter', true);
+        $social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_twitter', true);
+
+
+
+
+
+
         if (!empty($official_web_site)) {
             $output .= "<div class='all_right_labels_url'><a href='" . esc_url($official_web_site) . "' class='officialsite' title='" . esc_html__('VISIT SITE', 'eventchamp') . "' target='_blank'><img src='/wp-content/themes/eventchamp-child/img/url.png'></img></a></div>";
         }
