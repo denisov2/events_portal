@@ -15,12 +15,10 @@ function add_custom_scripts()
     $scriptSrc = get_stylesheet_directory_uri() . '/add_event_team.js';
     wp_enqueue_script('add_event_team', $scriptSrc, array(), '1.0', false);
 
-    wp_enqueue_script("jquery-ui.js",'http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/jquery-ui.js', array('jquery'), '1.8.8');
+    wp_enqueue_script("jquery-ui.js", 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/jquery-ui.js', array('jquery'), '1.8.8');
 }
 
 add_action('wp_enqueue_scripts', 'add_custom_scripts');
-
-
 
 
 require_once get_theme_file_path('/include/eventchamp_categorized_events_output.php');
@@ -68,42 +66,41 @@ function eventchamp_event_list_style_4_new($post_id = "", $image = "", $category
         $output .= '<div class="title"><a href="' . get_the_permalink($post_id) . '" title="' . the_title_attribute(array('echo' => 0, 'post' => $post_id)) . '">' . get_the_title($post_id) . '</a></div>';
 
 
-        
-$ratings_titles = [
-    1 => 'Idea and market size',
-    2 => 'Team',
-    3 => 'Quality of website, marketing etc',
-    4 => 'Development level',
-    5 => 'Competition',
-    6 => 'Investment security',
-];
+        $ratings_titles = [
+            1 => 'Idea and market size',
+            2 => 'Team',
+            3 => 'Quality of website, marketing etc',
+            4 => 'Development level',
+            5 => 'Competition',
+            6 => 'Investment security',
+        ];
 
-$rating_data = [];
+        $rating_data = [];
 
-foreach ($ratings_titles as $key => $value) {
+        foreach ($ratings_titles as $key => $value) {
 
-     if (get_post_meta(get_the_ID(), 'event_rating_' . $key, true)) {
+            if (get_post_meta(get_the_ID(), 'event_rating_' . $key, true)) {
 
-         $rating_data[$key] = get_post_meta(get_the_ID(), 'event_rating_' . $key, true);
-     }
-}
-
-
-if (!empty ($rating_data)) {
+                $rating_data[$key] = get_post_meta(get_the_ID(), 'event_rating_' . $key, true);
+            }
+        }
 
 
-    $sum = 0;
+        if (!empty ($rating_data)) {
 
-    foreach ($rating_data as $rating) $sum += $rating;
-    //$rating_datas = (isset($rating_data));
-    $rating_datas = count($rating_data);
-    $average_rating = round($sum / $rating_datas , 1);
 
-} else {
-    $ratings_titles = ['No data' => 0];
-    $average_rating = '?';
+            $sum = 0;
 
-}
+            foreach ($rating_data as $rating) $sum += $rating;
+            //$rating_datas = (isset($rating_data));
+            $rating_datas = count($rating_data);
+            $average_rating = round($sum / $rating_datas, 1);
+
+        } else {
+            $ratings_titles = ['No data' => 0];
+            $average_rating = '?';
+
+        }
         $output .= '<div class="rating-circle">' . $average_rating . '</div>';
 
         $output .= '</div>';
@@ -171,9 +168,18 @@ if (!empty ($rating_data)) {
 
         if ($datetime_now >= $datetime_start && $datetime_now <= $datetime_end) {
 
+            $counter_width = ($interval_days_past->days / $interval_days_all->days) * 100;
+            $output .= '<div class="left-label"><span class="counter-back">
+					<span class="counter-bar" style="width: ' . $counter_width . '%;"></span>
+				</span>
+				<span class="counter-count">' . $interval_days_past->days . ' out of ' . $interval_days_all->days . '</span>';
+
+            /*
             $border_left_width = intval($interval_days_past->days / $interval_days_all->days * 180, null);
             $output .= "<div class='left-label' style='border-left: solid #36a53e " . $border_left_width . "px;'>";
             $output .= "<div class='left-label-inside' >" . $interval_days_left->format('%r%a days') . "</div>";
+            */
+
 
         } else {
             $output .= "<div class='left-label' style='border-left: none'>";
@@ -214,32 +220,32 @@ if (!empty ($rating_data)) {
             $social_count++;
         }
         if (!empty($social_media_telegram) && $social_count < 3) {
-        //    var_dump($social_media_telegram); die();
+            //    var_dump($social_media_telegram); die();
             $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_telegram) . "' title='" . esc_html__('Telegram', 'eventchamp') . "' target='_blank'><i class='fa fa-paper-plane fa-2x' aria-hidden='true'></i></a></div>";
             $social_count++;
         }
         if (!empty($social_media_medium) && $social_count < 3) {
-            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_medium) . "'  title='" . esc_html__('Facebook', 'eventchamp') . "' target='_blank'><i class='fa fa-medium fa-2x' aria-hidden='true'></i></a></div>";
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_medium) . "'  title='" . esc_html__('Medium', 'eventchamp') . "' target='_blank'><i class='fa fa-medium fa-2x' aria-hidden='true'></i></a></div>";
             $social_count++;
         }
         if (!empty($social_media_slack) && $social_count < 3) {
-            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_slack) . "'   title='" . esc_html__('Facebook', 'eventchamp') . "' target='_blank'><i class='fa fa-slack fa-2x' aria-hidden='true'></i></a></div>";
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_slack) . "'   title='" . esc_html__('Slack', 'eventchamp') . "' target='_blank'><i class='fa fa-slack fa-2x' aria-hidden='true'></i></a></div>";
             $social_count++;
         }
         if (!empty($social_media_github) && $social_count < 3) {
-            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_github) . "'   title='" . esc_html__('Facebook', 'eventchamp') . "' target='_blank'><i class='fa fa-github fa-2x' aria-hidden='true'></i></a></div>";
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_github) . "'   title='" . esc_html__('Github', 'eventchamp') . "' target='_blank'><i class='fa fa-github fa-2x' aria-hidden='true'></i></a></div>";
             $social_count++;
         }
         if (!empty($social_media_instagram) && $social_count < 3) {
-            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_instagram) . "'  title='" . esc_html__('Facebook', 'eventchamp') . "' target='_blank'><i class='fa fa-instagram fa-2x' aria-hidden='true'></i></a></div>";
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_instagram) . "'  title='" . esc_html__('Instagram', 'eventchamp') . "' target='_blank'><i class='fa fa-instagram fa-2x' aria-hidden='true'></i></a></div>";
             $social_count++;
         }
         if (!empty($social_media_youtube) && $social_count < 3) {
-            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_youtube) . "'  title='" . esc_html__('Facebook', 'eventchamp') . "' target='_blank'><i class='fa fa-youtube fa-2x' aria-hidden='true'></i></a></div>";
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_youtube) . "'  title='" . esc_html__('Youtube', 'eventchamp') . "' target='_blank'><i class='fa fa-youtube fa-2x' aria-hidden='true'></i></a></div>";
             $social_count++;
         }
         if (!empty($social_media_bitcointalk) && $social_count < 3) {
-            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_bitcointalk) . "'  title='" . esc_html__('Facebook', 'eventchamp') . "' target='_blank'><i class='fa fa-bitcoin fa-2x' aria-hidden='true'></i></a></div>";
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_bitcointalk) . "'  title='" . esc_html__('Bitcointalk', 'eventchamp') . "' target='_blank'><i class='fa fa-bitcoin fa-2x' aria-hidden='true'></i></a></div>";
             $social_count++;
         }
 
@@ -264,42 +270,42 @@ if (!empty ($rating_data)) {
 
         $output .= $event_adv ? '<div class="content adv">' : '<div class="content">';
 
-        
-$ratings_titles = [
-    1 => 'Idea and market size',
-    2 => 'Team',
-    3 => 'Quality of website, marketing etc',
-    4 => 'Development level',
-    5 => 'Competition',
-    6 => 'Investment security',
-];
 
-$rating_data = [];
+        $ratings_titles = [
+            1 => 'Idea and market size',
+            2 => 'Team',
+            3 => 'Quality of website, marketing etc',
+            4 => 'Development level',
+            5 => 'Competition',
+            6 => 'Investment security',
+        ];
 
-foreach ($ratings_titles as $key => $value) {
+        $rating_data = [];
 
-     if (get_post_meta(get_the_ID(), 'event_rating_' . $key, true)) {
+        foreach ($ratings_titles as $key => $value) {
 
-         $rating_data[$key] = get_post_meta(get_the_ID(), 'event_rating_' . $key, true);
-     }
-}
+            if (get_post_meta(get_the_ID(), 'event_rating_' . $key, true)) {
 
-
-if (!empty ($rating_data)) {
+                $rating_data[$key] = get_post_meta(get_the_ID(), 'event_rating_' . $key, true);
+            }
+        }
 
 
-    $sum = 0;
+        if (!empty ($rating_data)) {
 
-    foreach ($rating_data as $rating) $sum += $rating;
-    //$rating_datas = (isset($rating_data));
-    $rating_datas = count($rating_data);
-    $average_rating = round($sum / $rating_datas , 1);
 
-} else {
-    $ratings_titles = ['No data' => 0];
-    $average_rating = '?';
+            $sum = 0;
 
-}
+            foreach ($rating_data as $rating) $sum += $rating;
+            //$rating_datas = (isset($rating_data));
+            $rating_datas = count($rating_data);
+            $average_rating = round($sum / $rating_datas, 1);
+
+        } else {
+            $ratings_titles = ['No data' => 0];
+            $average_rating = '?';
+
+        }
         $output .= '<div class="col-xs-12 col-md-4">';
         $output .= '<div class="ev_name">';
         $output .= '<div class="content_header">';
@@ -376,11 +382,21 @@ if (!empty ($rating_data)) {
         $output .= "<div class='all_left_labels '>";
         $output .= "<div class='left-labels'>" . $event_start_date . "</div>";
         $output .= "<div class='left-labelss'>" . $event_end_date . "</div>";
+
         if ($datetime_now >= $datetime_start && $datetime_now <= $datetime_end) {
 
+            $counter_width = ($interval_days_past->days / $interval_days_all->days) * 100;
+            $output .= '<div class="left-label"><span class="counter-back">
+					<span class="counter-bar" style="width: ' . $counter_width . '%;"></span>
+				</span>
+				<span class="counter-count">' . $interval_days_past->days . ' out of ' . $interval_days_all->days . '</span>';
+
+            /*
             $border_left_width = intval($interval_days_past->days / $interval_days_all->days * 180, null);
             $output .= "<div class='left-label' style='border-left: solid #36a53e " . $border_left_width . "px;'>";
             $output .= "<div class='left-label-inside' >" . $interval_days_left->format('%r%a days') . "</div>";
+            */
+
 
         } else {
             $output .= "<div class='left-label' style='border-left: none'>";
@@ -402,31 +418,50 @@ if (!empty ($rating_data)) {
         $output .= '<div class="ev_links"><p>';
         $output .= '<div class="all_right_labels ">';
 
-        $official_web_site = get_post_meta(get_the_ID(), 'event_official_web_site', true);
-        $social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_twitter', true);
 
-
-        $social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_facebook', true);
-        $social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_youtube', true);
-
-        $social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_twitter', true);
-        $social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_twitter', true);
-        $social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_twitter', true);
-        $social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_twitter', true);
-        $social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_twitter', true);
-        $social_media_twitter = get_post_meta(get_the_ID(), 'event_social_media_twitter', true);
-
-
-
-
-
-
+        $social_count = 0;
         if (!empty($official_web_site)) {
-            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($official_web_site) . "' class='officialsite' title='" . esc_html__('VISIT SITE', 'eventchamp') . "' target='_blank'><img src='/wp-content/themes/eventchamp-child/img/url.png'></img></a></div>";
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($official_web_site) . "'  title='" . esc_html__('VISIT SITE', 'eventchamp') . "' target='_blank'><i class='fa fa-globe fa-2x' aria-hidden='true'></i></a></div>";
+            $social_count++;
         }
 
         if (!empty($social_media_twitter)) {
-            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_twitter) . "' class='twitter' title='" . esc_html__('Twitter', 'eventchamp') . "' target='_blank'><img src='/wp-content/themes/eventchamp-child/img/soc.png'></img></a></div>";
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_twitter) . "' title='" . esc_html__('Twitter', 'eventchamp') . "' target='_blank'><i class='fa fa-twitter fa-2x' aria-hidden='true'></i></a></div>";
+            $social_count++;
+        }
+
+        if (!empty($social_media_facebook)) {
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_facebook) . "'  title='" . esc_html__('Facebook', 'eventchamp') . "' target='_blank'><i class='fa fa-facebook fa-2x' aria-hidden='true'></i></a></div>";
+            $social_count++;
+        }
+        if (!empty($social_media_telegram) && $social_count < 3) {
+            //    var_dump($social_media_telegram); die();
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_telegram) . "' title='" . esc_html__('Telegram', 'eventchamp') . "' target='_blank'><i class='fa fa-paper-plane fa-2x' aria-hidden='true'></i></a></div>";
+            $social_count++;
+        }
+        if (!empty($social_media_medium) && $social_count < 3) {
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_medium) . "'  title='" . esc_html__('Medium', 'eventchamp') . "' target='_blank'><i class='fa fa-medium fa-2x' aria-hidden='true'></i></a></div>";
+            $social_count++;
+        }
+        if (!empty($social_media_slack) && $social_count < 3) {
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_slack) . "'   title='" . esc_html__('Slack', 'eventchamp') . "' target='_blank'><i class='fa fa-slack fa-2x' aria-hidden='true'></i></a></div>";
+            $social_count++;
+        }
+        if (!empty($social_media_github) && $social_count < 3) {
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_github) . "'   title='" . esc_html__('Github', 'eventchamp') . "' target='_blank'><i class='fa fa-github fa-2x' aria-hidden='true'></i></a></div>";
+            $social_count++;
+        }
+        if (!empty($social_media_instagram) && $social_count < 3) {
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_instagram) . "'  title='" . esc_html__('Instagram', 'eventchamp') . "' target='_blank'><i class='fa fa-instagram fa-2x' aria-hidden='true'></i></a></div>";
+            $social_count++;
+        }
+        if (!empty($social_media_youtube) && $social_count < 3) {
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_youtube) . "'  title='" . esc_html__('Youtube', 'eventchamp') . "' target='_blank'><i class='fa fa-youtube fa-2x' aria-hidden='true'></i></a></div>";
+            $social_count++;
+        }
+        if (!empty($social_media_bitcointalk) && $social_count < 3) {
+            $output .= "<div class='all_right_labels_url'><a href='" . esc_url($social_media_bitcointalk) . "'  title='" . esc_html__('Bitcointalk', 'eventchamp') . "' target='_blank'><i class='fa fa-bitcoin fa-2x' aria-hidden='true'></i></a></div>";
+            $social_count++;
         }
 
         $output .= "<div class='all_right_labels_paper'>";
@@ -480,7 +515,6 @@ function event_tags()
     register_taxonomy('event_tags', array('event', 'venue'), $args);
 
 }
-
 
 
 vc_map(array(

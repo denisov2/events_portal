@@ -867,5 +867,58 @@ select.wp-my-cf7-form-control{
     border: 1px solid #c8c8c8;
     border-radius: 3px;
     float: left;
+    width: 100%;min-height: 320px;
+}
+
+.counter-back {
+
+	background-color: lightgreen;
+	width: 100%;
+	display: inline-block;
+	height: 20px;
+	vertical-align: middle;float: right;
+}
+.counter-bar {
+	background-color: #36a53e;
+	display: block;
+	height: 20px;
+	vertical-align: middle;
+}
+.plugin-support .counter-count {
+
+}
+
+.counter-count{
+
+
+	position: absolute;
+	color: white;
+	width: 100%;
+	width: -webkit-calc(100% - 8px);
+	width: calc(100% - 8px);
+}
+
+.event-list-style-4 .excerpt {
+    margin-bottom: 14px;
+    font-size: 12px;
+    min-height: 70px;float: left;
+}
+.content_header {
+    min-height: 75px;
+    float: left;width: 100%;
+}
+.event-list-style-4 .details {
+    margin-bottom: 3px;
     width: 100%;
+    min-height: 35px;
+    float: left;
+}
+.all_right_labels .all_right_labels_url i.fa-2x {
+    font-size: 1.7em !important;
+}
+.event-list-styles.event-list-style-4.events-list-group-item .content {
+    min-height: 120px;
+}
+.event-list-styles.event-list-style-4.events-list-group-item .image {
+    width: 75px;
 }

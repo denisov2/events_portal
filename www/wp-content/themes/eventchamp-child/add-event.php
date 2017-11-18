@@ -177,11 +177,10 @@ if (!empty ($_POST)) {
                     require_once(ABSPATH . 'wp-admin/includes/file.php');
 
                 //save speaker data
-
-
+                $speakers_ids = [];
+                $speaker_data = [];
                 for($i=0; $i<=$speakers_count-1; $i++) {
 
-                    $speaker_data = [];
 
 
                     // Если заполнены минимальные поля по спикерам - сохранить!
@@ -204,40 +203,65 @@ if (!empty ($_POST)) {
 
 
                         $wp_error = true;
-                        $post_id = wp_insert_post($speaker_arg, $wp_error);
+                        $speaker_post_id = wp_insert_post($speaker_arg, $wp_error);
 
-                        if (is_wp_error($post_id)) {
+                        if (is_wp_error($speaker_post_id)) {
                             var_dump('Error creating speaker' . $i);
-                            var_dump($post_id);
+                            var_dump($speaker_post_id);
                         }
                         else {
-                            $success_message.= '<p>Speaker created....'.$post_id.'</p>';
+                            $success_message.= '<p>Speaker created....'.$speaker_post_id.'</p>';
+                            $speakers_ids[] = $speaker_post_id;
+
+
+
+
+                            $file = &$_FILES['picture_' . $i];
+                            var_dump($_FILES['picture_0']);
+
+                            $overrides = array('test_form' => false);
+                            $file_picture = wp_handle_upload($file, $overrides);
+
+                            if ($file_picture && empty($file_picture['error'])) {
+
+                                $filename = $file_picture['file'];
+                                $filetype = wp_check_filetype(basename($filename), null);
+                                $wp_upload_dir = wp_upload_dir();
+
+                                $attachment = array(
+                                    'guid' => $wp_upload_dir['url'] . '/' . basename($filename),
+                                    'post_mime_type' => $filetype['type'],
+                                    'post_title' => preg_replace('/\.[^.]+$/', '', basename($filename)),
+                                    'post_content' => '',
+                                    'post_status' => 'inherit'
+                                );
+
+                                $attach_id = wp_insert_attachment($attachment, $filename, $speaker_post_id);
+
+                                require_once(ABSPATH . 'wp-admin/includes/image.php');
+
+                                $attach_data = wp_generate_attachment_metadata($attach_id, $filename);
+                                wp_update_attachment_metadata($attach_id, $attach_data);
+
+                                if( set_post_thumbnail( $speaker_post_id, $attach_id ) ) {
+                                }
+                                else {
+                                    $errors[] = 'Unable to attache picture to speacker';
+                                }
+                            }
                         }
-
-
-                    } else {
-                      //  var_dump('not enougph data for speacker!!!!');
-
                     }
-
                     $speaker_data[$i]['full_name'] = $_POST['full_name'][$i];
+                }
+                if(!empty($speakers_ids)) {
 
 
-
+                //Update inserts a new entry if it doesn't exist, updates otherwise
+                    update_post_meta($post_id, 'event_speakers', $speakers_ids);
+                    //$event_speakers = get_post_meta(get_the_ID(), 'event_speakers', true);
+                    //  echo eventchamp_speakers($post_id = get_the_ID(), $column = "3");
 
                 }
-
-
-
-
-
-                // full_name
-                // contact_email
-                // short_bio
-                // linkedin
-                //personal_facebook
-                //picture
-
 
                 $file = &$_FILES['logo'];
                 $overrides = array('test_form' => false);
@@ -246,9 +270,7 @@ if (!empty ($_POST)) {
                 if ($file_logo && empty($file_logo['error'])) {
 
                     $filename = $file_logo['file'];
-
                     $filetype = wp_check_filetype(basename($filename), null);
-
                     $wp_upload_dir = wp_upload_dir();
 
                     $attachment = array(
@@ -272,15 +294,8 @@ if (!empty ($_POST)) {
                         $errors[] = 'Unable to attache logo to event';
                     }
 
-                } else {
-                    // echo "Возможны атаки при загрузке файла!\n";
                 }
-
-
             }
-
-
-
 
         } else {
 
@@ -407,23 +422,21 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
 
                                                 <p><b>ICO start date *</b></p>
 
-                                                <p><span class="wp-my-cf7-form-control-wrap date-101"><input type="date"
-                                                                                                             name="start_date"
-                                                                                                             value="<?= !empty($data['start_date']) ? $data['start_date'] : '' ?>"
-                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-date wp-my-cf7-validates-as-required wp-my-cf7-validates-as-date"
-                                                                                                             aria-required="true"
-                                                                                                             aria-invalid="false"></span>
+
+
+                                                <p><span class="wp-my-cf7-form-control-wrap date-101">
+                                                    <input type="text"  name="start_date" value="<?= !empty($data['start_date']) ? $data['start_date'] : '' ?>" placeholder="Start Date"
+                                                           class="eventsearchdate-datepicker wp-my-cf7-form-control wp-my-cf7-date wp-my-cf7-validates-as-required wp-my-cf7-validates-as-date" />
+
+                                                </span>
                                                 </p>
 
                                                 <p><b>ICO end date *</b></p>
 
-                                                <p><span class="wp-my-cf7-form-control-wrap date-566"><input type="date"
-                                                                                                             name="end_date"
-                                                                                                             value="<?= !empty($data['end_date']) ? $data['end_date'] : '' ?>"
-                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-date wp-my-cf7-validates-as-required wp-my-cf7-validates-as-date"
-                                                                                                             aria-required="true"
-                                                                                                             aria-invalid="false"
-                                                                                                             placeholder="ICO end date *"></span>
+                                                <p><span class="wp-my-cf7-form-control-wrap date-566">
+                                                <input type="text"  name="end_date" value="<?= !empty($data['end_date']) ? $data['end_date'] : '' ?>" placeholder="End date"
+                                                        class="eventsearchdate-datepicker wp-my-cf7-form-control wp-my-cf7-date wp-my-cf7-validates-as-required wp-my-cf7-validates-as-date" />
+                                                            </span>
                                                 </p>
 
                                                 <p><b>Project Category*</b></p>
@@ -540,8 +553,8 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                                                                              name="whitepaper_url"
                                                                                                              value="<?= !empty($data['whitepaper_url']) ? $data['whitepaper_url'] : '' ?>"
                                                                                                              size="40"
-                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
-                                                                                                             aria-required="true"
+                                                                                                             class="wp-my-cf7-form-control wp-my-cf7-text "
+                                                                                                             aria-required="false"
                                                                                                              aria-invalid="false"
                                                                                                              placeholder="Whitepaper URL*"></span>
                                                 </p>
@@ -695,7 +708,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                         <p><b>Picture*</b></p>
 
                                                         <p><span class="wp-my-cf7-form-control-wrap file-246"><input type="file"
-                                                                                                                     name="picture[<?=$speaker_number?>]"
+                                                                                                                     name="picture_<?=$speaker_number?>"
                                                                                                                      size="40"
                                                                                                                      class="wp-my-cf7-form-control wp-my-cf7-file"
                                                                                                                      aria-invalid="false"></span>
