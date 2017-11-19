@@ -15,7 +15,7 @@ function eventchamp_event_search_output( $atts, $content = null ) {
             'keyword' => '',
             'location' => '',
             'category' => '',
-            'status' => '',
+            'status' => 'false',
             'sort' => '',
             'startdate' => '',
             'enddate' => '',
@@ -82,30 +82,55 @@ function eventchamp_event_search_output( $atts, $content = null ) {
         }
         if( $atts["keyword"] == "true" or $atts["category"] == "true" or $atts["status"] == "true" or $atts["sort"] == "true" ) {
             $output .= '<div class="columns">';
+
+            if( isset( $_GET['keyword'] ) ) {
+                $keyword =  esc_js( esc_sql( balanceTags( htmlspecialchars( esc_html__( $_GET["keyword"] ) ) ) ) ) ;
+            } else {
+                $keyword = "";
+            }
+
             if( $atts["keyword"] == "true" ) {
+
+
+
                 $output .= '<div class="column">';
-                $output .= '<input name="keyword" type="text" placeholder="' . esc_html__( 'Keywords', 'eventchamp' ) . '">';
+                $output .= '<input name="keyword" type="text" value="'.$keyword.'" placeholder="' . esc_html__( 'Keywords', 'eventchamp' ) . '">';
                 $output .= '</div>';
             } else {
-                $output .= '<input name="keyword" type="hidden" placeholder="' . esc_html__( 'Keywords', 'eventchamp' ) . '">';
+                $output .= '<input name="keyword"  value="'.$keyword.'" type="hidden" placeholder="' . esc_html__( 'Keywords', 'eventchamp' ) . '">';
             }
             if( $atts["category"] == "true" ) {
+
+                if( isset( $_GET['category'] ) ) {
+                    $category = strtolower( esc_js( esc_sql( balanceTags( htmlspecialchars( esc_html__( $_GET["category"] ) ) ) ) ) );
+                } else {
+                    $category = "";
+                }
+
                 $output .= '<div class="column">';
                 $output .= '<select name="category" class="cs-select">';
                 $output .= '<option value="">' . esc_html__( 'Category', 'eventchamp' ) . '</option>';
                 $eventcat_terms = get_terms( array( 'taxonomy' => 'eventcat', 'hide_empty' => false ) );
                 if ( ! empty( $eventcat_terms ) && ! is_wp_error( $eventcat_terms ) ) {
                     foreach ( $eventcat_terms as $eventcat_term ) {
+                        $category == strtolower($eventcat_term->slug)? $selected = ' selected="selected" ' : $selected = "";
                         $eventcat_term_term_id = $eventcat_term->term_id;
                         $eventcat_term_name = $eventcat_term->name;
                         $eventcat_term_slug = $eventcat_term->slug;
                         $eventcat_term_term_group = $eventcat_term->term_group;
-                        $output .= '<option value="' . esc_attr( $eventcat_term_slug ) . '" data-class="cat-id-' . esc_attr( $eventcat_term_term_id ) . '">' . esc_attr( $eventcat_term_name ) . '</option>';
+                        $output .= '<option '.$selected.' value="' . esc_attr( $eventcat_term_slug ) . '" data-class="cat-id-' . esc_attr( $eventcat_term_term_id ) . '">' . esc_attr( $eventcat_term_name ) . '</option>';
                     }
                 }
                 $output .= '</select>';
                 $output .= '</div>';
             }
+
+            if( isset( $_GET['location'] ) ) {
+                $location =  esc_js( esc_sql( balanceTags( htmlspecialchars( esc_html__( $_GET["location"] ) ) ) ) ) ;
+            } else {
+                $location = "";
+            }
+
             if( $atts["location"] == "true" ) {
                 $output .= '<div class="column">';
                 $output .= '<select name="location" class="cs-select">';
@@ -113,10 +138,11 @@ function eventchamp_event_search_output( $atts, $content = null ) {
                 $eventcat_terms = get_terms( array( 'taxonomy' => 'location', 'hide_empty' => false ) );
                 if ( ! empty( $eventcat_terms ) && ! is_wp_error( $eventcat_terms ) ) {
                     foreach ( $eventcat_terms as $eventcat_term ) {
+                        $selected = $location == $eventcat_term->term_id ? ' selected="selected" ': "";
                         $eventcat_term_name = $eventcat_term->name;
                         $eventcat_term_slug = $eventcat_term->slug;
                         $eventcat_term_term_id = $eventcat_term->term_id;
-                        $output .= '<option value="' . esc_attr( $eventcat_term_term_id ) . '">' . esc_attr( $eventcat_term_name ) . '</option>';
+                        $output .= '<option '.$selected.' value="' . esc_attr( $eventcat_term_term_id ) . '">' . esc_attr( $eventcat_term_name ) . '</option>';
                     }
                 }
                 $output .= '</select>';
@@ -671,20 +697,74 @@ function eventchamp_events_search_results_output( $atts, $content = null ) {
         );
         $args = wp_parse_args( $args, $defaults2 );
     }
-
-    $output .= '<div class="events-list-grid eventchamp-search-results">';
     $wp_query = new WP_Query( $args );
-    if( !empty( $wp_query ) ) {
-        $output .= '<div class="event-list column-2">';
-        if( $wp_query->have_posts() ) {
-            while ( $wp_query->have_posts() ) {
-                $wp_query->the_post();
-                $output .= eventchamp_event_list_style_1( $post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status );
+    //  формирование сетки результатов с $args
+    //*****************************************
+    // содержимое вкладки со ВСЕМИ событиями
+    $output .= '<div class="categorized-events">';
+    $output .= '<div class="tab-content">';
 
+    $output .= '<div role="tabpanel" class="tab-pane" id="events_all">';
+
+    if (!empty($wp_query)) {
+
+        $output .= '
+				<div class="sort_home">
+                    <div class="well well-sm ">
+                        <div class="btn-group">
+                            <a href="#" id="list" class="list-all btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
+                            </span></a> <a href="#" id="grid" class="grid-all btn btn-default btn-sm"><span
+                                class="glyphicon glyphicon-th"></span></a>
+                        </div>
+                    </div>
+				</div>	';
+
+
+        $output .= '<div class="event-header-list events-hidens"> ';
+        $output .= '<div class="col-xs-12 col-md-4"><div class="ev_name"><p>Name</p> </div><div class="ev_cat"><p>Category</p></div></div>';
+        $output .= '<div class="col-xs-12 col-md-5"><div class="ev_desc"><p>Description</p> </div><div class="ev_date"><p>Start Date</p><p>End Date</p></div></div>';
+        $output .= '<div class="col-xs-12 col-md-3"><div class="ev_rating"><p>Rating</p><p>Country</p> </div><div class="ev_links"><p>Links</p></div></div>';
+        $output .= '</div>';
+
+        $output .= '<div id="products_event" class="event-list column-3">';
+
+        // объявления
+        while ($wp_query->have_posts()) {
+            $wp_query->the_post();
+
+            $cur_post_id = get_the_ID();
+            $event_start_date = get_post_meta($cur_post_id, 'event_start_date', true);
+            $event_end_date = get_post_meta($cur_post_id, 'event_end_date', true);
+
+            $event_start_date_last = date_format(date_create($event_start_date), "Y-m-d");
+            $event_end_date_last = date_format(date_create($event_end_date), "Y-m-d");
+            $date_now = date("Y-m-d");
+
+            if (!empty($event_start_date) or !empty($event_end_date)) {
+
+                if ($atts['ico_status'] == 'active') {
+                    if ($date_now >= $event_start_date_last and $date_now <= $event_end_date_last) {
+                        $output .= eventchamp_event_list_style_4_new($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
+                    }
+                } elseif ($atts['ico_status'] == 'upcoming') {
+                    if ($event_start_date_last > $date_now) {
+                        $output .= eventchamp_event_list_style_4_new($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
+                    }
+                } elseif ($atts['ico_status'] == 'past') {
+                    if ($date_now > $event_end_date) {
+                        $output .= eventchamp_event_list_style_4_new($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
+                    }
+                } elseif ($atts['ico_status'] == 'all') {
+                    $output .= eventchamp_event_list_style_4_new($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
+                } else {
+                    $output .= eventchamp_event_list_style_4_new($post_id = get_the_ID(), $image = "true", $category = $category_status, $date = $date_status, $location = $location_status, $excerpt = $excerpt_status, $status = $status_status, $price = $price_status);
+                }
             }
-        } else {
-            $output .= '<p>' . esc_html__( "There are no results that match your search.", "eventchamp" ) . '</p>';
         }
+
+
+        // объявления без рекламы
+
         $output .= '</div>';
     }
     wp_reset_postdata();
@@ -692,7 +772,13 @@ function eventchamp_events_search_results_output( $atts, $content = null ) {
     if ( $atts['pagination'] == 'true' ) {
         $output .= eventchamp_element_pagination( $paged = $paged, $query = $wp_query );
     }
+
+    $output .= '</div>'; // таб панель?
+
     $output .= '</div>';
+    $output .= '</div>';
+
+    //******************************************
 
     return $output;
 }

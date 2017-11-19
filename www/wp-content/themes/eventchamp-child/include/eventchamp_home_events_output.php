@@ -314,7 +314,7 @@ function eventchamp_home_events_output($atts, $content = null)
         if ($atts["allbutton"] == "true") {
             $output .= '<a href="' . esc_url(get_post_type_archive_link('event')) . '" class="all-button">' . esc_html__('All Events', 'eventchamp') . '</a>';
         }
-        $output .= '</div>';
+        $output .= '</div>'; // таб панель?
 
         // выводим по очереди вкладку с каждым тип ICO
 
@@ -392,7 +392,7 @@ function eventchamp_home_events_output($atts, $content = null)
         /* if ($atts["allbutton"] == "true") {
              $output .= '<a href="' . esc_url(get_term_link($eventcat_term_term_id)) . '" class="all-button">' . esc_html__('All', 'eventchamp') . ' ' . esc_attr($eventcat_term_name) . ' ' . esc_html__('Events', 'eventchamp') . '</a>';
          }*/
-        $output .= '</div>';
+        $output .= '</div>'; // таб панель
 
         $output .= '<div role="tabpanel" class="tab-pane" id="events_upcoming">';
 
@@ -468,7 +468,7 @@ function eventchamp_home_events_output($atts, $content = null)
         /* if ($atts["allbutton"] == "true") {
              $output .= '<a href="' . esc_url(get_term_link($eventcat_term_term_id)) . '" class="all-button">' . esc_html__('All', 'eventchamp') . ' ' . esc_attr($eventcat_term_name) . ' ' . esc_html__('Events', 'eventchamp') . '</a>';
          }*/
-        $output .= '</div>';
+        $output .= '</div>'; // таб панель
 
         // выводим по очереди вкладку с каждым тип ICO
 

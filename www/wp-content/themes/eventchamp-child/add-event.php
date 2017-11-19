@@ -214,10 +214,8 @@ if (!empty ($_POST)) {
                             $speakers_ids[] = $speaker_post_id;
 
 
-
-
                             $file = &$_FILES['picture_' . $i];
-                            var_dump($_FILES['picture_0']);
+                          //  var_dump($_FILES);
 
                             $overrides = array('test_form' => false);
                             $file_picture = wp_handle_upload($file, $overrides);
@@ -225,6 +223,7 @@ if (!empty ($_POST)) {
                             if ($file_picture && empty($file_picture['error'])) {
 
                                 $filename = $file_picture['file'];
+
                                 $filetype = wp_check_filetype(basename($filename), null);
                                 $wp_upload_dir = wp_upload_dir();
 
@@ -238,12 +237,17 @@ if (!empty ($_POST)) {
 
                                 $attach_id = wp_insert_attachment($attachment, $filename, $speaker_post_id);
 
+
+
                                 require_once(ABSPATH . 'wp-admin/includes/image.php');
 
                                 $attach_data = wp_generate_attachment_metadata($attach_id, $filename);
+
                                 wp_update_attachment_metadata($attach_id, $attach_data);
 
                                 if( set_post_thumbnail( $speaker_post_id, $attach_id ) ) {
+
+                                   // var_dump($attach_data);
                                 }
                                 else {
                                     $errors[] = 'Unable to attache picture to speacker';
@@ -270,6 +274,7 @@ if (!empty ($_POST)) {
                 if ($file_logo && empty($file_logo['error'])) {
 
                     $filename = $file_logo['file'];
+
                     $filetype = wp_check_filetype(basename($filename), null);
                     $wp_upload_dir = wp_upload_dir();
 

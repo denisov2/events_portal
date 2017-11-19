@@ -177,11 +177,14 @@ if (!empty ($rating_data)) {
 
                                         <?php
                                         if ($date_now >= $event_start_date_last && $date_now <= $event_end_date_last) {
-                                            echo '<div class="left-label" style="border-left-width:' . $border_left_width . 'px">';
-                                            echo $interval_days_left->format('%r%a days');
+                                            $counter_width = ($interval_days_past->days / $interval_days_all->days) * 100;
+                                            echo '<div class="left-label"><span class="counter-back">
+                            					<span class="counter-bar" style="width: ' . $counter_width . '%;"></span>
+				                                </span>
+				                        <span class="counter-count">' . $interval_days_past->days . ' out of ' . $interval_days_all->days . '</span>';
                                         } else {
-                                            echo eventchamp_event_status($post_id = get_the_ID());
-                                            echo '<div class="left-label">';
+                                            echo "<div class='left-label' style='border-left: none'>";
+                                            echo eventchamp_event_status(get_the_ID());
                                         }
                                         ?>
                                     </div>
