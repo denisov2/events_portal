@@ -1255,6 +1255,7 @@
 	* Schedule of Event
 	*
 	======*/
+/*
 	function eventchamp_schedule( $post_id = "" ) {
 		if( !empty( $post_id ) ) {
 			$event_schedule = get_post_meta( $post_id, 'event_schedule', true );
@@ -1369,12 +1370,13 @@
 			}
 		}
 	}
-
+		*/
 	/*======
 	*
 	* Speaker of Event
 	*
 	======*/
+	/*
 	function eventchamp_speakers( $post_id = "", $column = "4" ) {
 		if( !empty( $post_id ) ) {
 			$event_speakers = get_post_meta( $post_id, 'event_speakers', true );
@@ -1481,6 +1483,7 @@
 			return $output;
 		}
 	}
+	*/
 
 	function eventchamp_speaker_list_style_1( $post_id = "", $image = "", $profession = "" ) {
 		if( !empty( $post_id ) ) {

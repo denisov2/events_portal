@@ -368,7 +368,7 @@ if (!empty ($rating_data)) {
                                     <li role="presentation">
                                         <a href="#speakers" aria-controls="speakers" role="tab" data-toggle="tab">
                                             <i class="fa fa-users" aria-hidden="true"></i>
-                                            <?php echo esc_html__('Speakers', 'eventchamp'); ?>
+                                            <?php echo esc_html__('Team', 'eventchamp'); ?>
                                         </a>
                                     </li>
                                 <?php } ?>
