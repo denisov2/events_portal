@@ -534,6 +534,9 @@
     float: none;
     margin: 0 auto;
 }
+.event-ratings-info {
+	margin-bottom: 20px;
+}
 .event-ratings-info .rating-circle {
     width: 50px;
     height: 50px;
@@ -887,9 +890,7 @@ select.wp-my-cf7-form-control{
 .plugin-support .counter-count {
 
 }
-
 .counter-count{
-
 
 	position: absolute;
 	color: white;
@@ -921,4 +922,51 @@ select.wp-my-cf7-form-control{
 }
 .event-list-styles.event-list-style-4.events-list-group-item .image {
     width: 75px;
+}
+
+
+
+.counter-rating-back {
+
+
+	width: 100%;
+	display: inline-block;
+	height: 30px;
+	vertical-align: middle; float: right;
+	border-radius: 5px;
+}
+
+.counter-rating-back.rating-type-1 {background-color: lightgreen;}
+.counter-rating-back.rating-type-2 {background-color: lightskyblue;}
+.counter-rating-back.rating-type-3 {background-color: lightsteelblue;}
+
+.counter-rating-bar {
+	display: block;
+	height: 30px;
+	vertical-align: middle;
+	border-radius: 5px ;
+	-moz-border-radius-topright: 0;
+	-moz-border-radius-bottomright: 0;
+
+}
+
+.counter-rating-bar.rating-type-1 {background-color: #36a53e;}
+.counter-rating-bar.rating-type-2 {background-color: #0210AB;}
+.counter-rating-bar.rating-type-3 {background-color: #8700AB;}
+
+
+
+.plugin-support .counter-count {
+
+}
+.counter-rating-count{
+
+	height: 30px;
+	padding: 5px;
+	vertical-align: middle;
+	position: absolute;
+	color: white;
+	width: 100%;
+	width: -webkit-calc(100% - 8px);
+	width: calc(100% - 8px);
 }

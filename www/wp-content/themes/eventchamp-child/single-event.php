@@ -311,17 +311,23 @@ if (!empty ($rating_data)) {
                                     if (isset ($rating_data[$key]) && $rating_data[$key]) {
                                         $rating = isset ($rating_data[$key]) ? $rating_data[$key] : 'Not set';
                                         $border_left_width = $rating * 30;
-                                        if ($i % 3 == 2) $class = "rating-box-2";
-                                        elseif ($i % 3 == 0) $class = "rating-box-3";
-                                        else $class = "";
+                                        if ($i % 3 == 2) $class = "rating-type-2";
+                                        elseif ($i % 3 == 0) $class = "rating-type-3";
+                                        else $class = "rating-type-1";
+
+                                        $counter_width = 300 * $rating / 10;
 
                                         ?>
                                         <div class="rating-item">
                                             <div class="rating-label"><?= $criteria ?></div>
-                                            <div class="rating-box <?= $class ?> "
-                                                 style="border-left-width: <?= $border_left_width ?>px"><?= $rating ?>
-                                                /10
-                                            </div>
+
+                                            <span class="counter-rating-back <?= $class ?>">
+                            					<span class="counter-rating-bar <?= $class ?>" style="width:<?=$counter_width?>px">
+
+                                                </span>
+				                                </span>
+                                            <span class="counter-rating-count"> <?=$rating?> from 10</span>
+
                                         </div>
                                         <?php
                                         $i++;
