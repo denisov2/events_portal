@@ -204,7 +204,7 @@ function eventchamp_speakers( $post_id = "", $column = "4" ) {
                 }
 
                 $output .= '<div class="details">';
-
+                
                 if( !empty( $official_web_site ) or !empty( $social_media_facebook ) or !empty( $social_media_twitter ) or !empty( $social_media_googleplus ) or !empty( $social_media_instagram ) or !empty( $social_media_youtube ) or !empty( $social_media_flickr ) or !empty( $social_media_soundcloud ) or !empty( $social_media_vimeo ) ) {
                     $output .= '<ul class="social-links">';
                     if( !empty( $official_web_site ) ) {

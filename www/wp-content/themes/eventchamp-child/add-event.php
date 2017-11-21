@@ -9,7 +9,6 @@ Template Name: Добавление собьытия
 <?php
 
 
-
 ?>
 
 <?php eventchamp_sub_content_before(); ?>
@@ -31,14 +30,10 @@ if (!$post_post_title == 'off' or $post_post_title == 'on') {
 }
 
 
-
 if (!empty ($_POST)) {
 
 //    var_dump($_POST);
-  //  var_dump($_FILES);
-
-
-
+    //  var_dump($_FILES);
 
 
     //saving enent to database
@@ -91,7 +86,7 @@ if (!empty ($_POST)) {
 
     foreach ($fields_data as $field) {
 
-        if(!isset($_POST[$field['key']])) continue;
+        if (!isset($_POST[$field['key']])) continue;
 
         $form_element_value = $_POST[$field['key']];
 
@@ -149,10 +144,10 @@ if (!empty ($_POST)) {
     }
 
     $meta_input['event_start_date'] = isset ($data['start_date']) ? $data['start_date'] : null;
-    $meta_input['event_end_date'] = isset($data['end_date']) ? $data['end_date'] : null ;
+    $meta_input['event_end_date'] = isset($data['end_date']) ? $data['end_date'] : null;
 
 
-        if (empty($errors)) {
+    if (empty($errors)) {
 
         $post_arg = [
 
@@ -179,20 +174,18 @@ if (!empty ($_POST)) {
                 //save speaker data
                 $speakers_ids = [];
                 $speaker_data = [];
-                for($i=0; $i<=$speakers_count-1; $i++) {
-
+                for ($i = 0; $i <= $speakers_count - 1; $i++) {
 
 
                     // Если заполнены минимальные поля по спикерам - сохранить!
-                    if(!empty ($_POST['full_name'][$i]) && !empty($_POST['contact_email'][$i]) && !empty($_POST['short_bio'][$i])) {
-
+                    if (!empty ($_POST['full_name'][$i]) && !empty($_POST['contact_email'][$i]) && !empty($_POST['short_bio'][$i])) {
 
 
                         $speaker_arg = [
 
                             'post_content' => $_POST['short_bio'][$i],
                             'post_excerpt' => $_POST['short_bio'][$i],
-                            'post_name' =>$_POST['full_name'][$i],
+                            'post_name' => $_POST['full_name'][$i],
                             'post_status' => 'publish',
                             'post_title' => $_POST['full_name'][$i],
                             'post_type' => 'speaker',
@@ -208,14 +201,13 @@ if (!empty ($_POST)) {
                         if (is_wp_error($speaker_post_id)) {
                             var_dump('Error creating speaker' . $i);
                             var_dump($speaker_post_id);
-                        }
-                        else {
-                            $success_message.= '<p>Speaker created....'.$speaker_post_id.'</p>';
+                        } else {
+                            $success_message .= '<p>Speaker created....' . $speaker_post_id . '</p>';
                             $speakers_ids[] = $speaker_post_id;
 
 
                             $file = &$_FILES['picture_' . $i];
-                          //  var_dump($_FILES);
+                            //  var_dump($_FILES);
 
                             $overrides = array('test_form' => false);
                             $file_picture = wp_handle_upload($file, $overrides);
@@ -238,18 +230,16 @@ if (!empty ($_POST)) {
                                 $attach_id = wp_insert_attachment($attachment, $filename, $speaker_post_id);
 
 
-
                                 require_once(ABSPATH . 'wp-admin/includes/image.php');
 
                                 $attach_data = wp_generate_attachment_metadata($attach_id, $filename);
 
                                 wp_update_attachment_metadata($attach_id, $attach_data);
 
-                                if( set_post_thumbnail( $speaker_post_id, $attach_id ) ) {
+                                if (set_post_thumbnail($speaker_post_id, $attach_id)) {
 
-                                   // var_dump($attach_data);
-                                }
-                                else {
+                                    // var_dump($attach_data);
+                                } else {
                                     $errors[] = 'Unable to attache picture to speacker';
                                 }
                             }
@@ -257,10 +247,10 @@ if (!empty ($_POST)) {
                     }
                     $speaker_data[$i]['full_name'] = $_POST['full_name'][$i];
                 }
-                if(!empty($speakers_ids)) {
+                if (!empty($speakers_ids)) {
 
 
-                //Update inserts a new entry if it doesn't exist, updates otherwise
+                    //Update inserts a new entry if it doesn't exist, updates otherwise
                     update_post_meta($post_id, 'event_speakers', $speakers_ids);
                     //$event_speakers = get_post_meta(get_the_ID(), 'event_speakers', true);
                     //  echo eventchamp_speakers($post_id = get_the_ID(), $column = "3");
@@ -293,9 +283,8 @@ if (!empty ($_POST)) {
                     $attach_data = wp_generate_attachment_metadata($attach_id, $filename);
                     wp_update_attachment_metadata($attach_id, $attach_data);
 
-                    if( set_post_thumbnail( $post_id, $attach_id ) ) {
-                    }
-                    else {
+                    if (set_post_thumbnail($post_id, $attach_id)) {
+                    } else {
                         $errors[] = 'Unable to attache logo to event';
                     }
 
@@ -428,10 +417,11 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                 <p><b>ICO start date *</b></p>
 
 
-
                                                 <p><span class="wp-my-cf7-form-control-wrap date-101">
-                                                    <input type="text"  name="start_date" value="<?= !empty($data['start_date']) ? $data['start_date'] : '' ?>" placeholder="Start Date"
-                                                           class="eventsearchdate-datepicker wp-my-cf7-form-control wp-my-cf7-date wp-my-cf7-validates-as-required wp-my-cf7-validates-as-date" />
+                                                    <input type="text" name="start_date"
+                                                           value="<?= !empty($data['start_date']) ? $data['start_date'] : '' ?>"
+                                                           placeholder="Start Date"
+                                                           class="eventsearchdate-datepicker wp-my-cf7-form-control wp-my-cf7-date wp-my-cf7-validates-as-required wp-my-cf7-validates-as-date"/>
 
                                                 </span>
                                                 </p>
@@ -439,8 +429,10 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                 <p><b>ICO end date *</b></p>
 
                                                 <p><span class="wp-my-cf7-form-control-wrap date-566">
-                                                <input type="text"  name="end_date" value="<?= !empty($data['end_date']) ? $data['end_date'] : '' ?>" placeholder="End date"
-                                                        class="eventsearchdate-datepicker wp-my-cf7-form-control wp-my-cf7-date wp-my-cf7-validates-as-required wp-my-cf7-validates-as-date" />
+                                                <input type="text" name="end_date"
+                                                       value="<?= !empty($data['end_date']) ? $data['end_date'] : '' ?>"
+                                                       placeholder="End date"
+                                                       class="eventsearchdate-datepicker wp-my-cf7-form-control wp-my-cf7-date wp-my-cf7-validates-as-required wp-my-cf7-validates-as-date"/>
                                                             </span>
                                                 </p>
 
@@ -563,7 +555,9 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                                                                              aria-invalid="false"
                                                                                                              placeholder="Whitepaper URL*"></span>
                                                 </p>
+
                                                 <p><b>Support email:</b></p>
+
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input
                                                             type="email"
                                                             name="help_email"
@@ -680,86 +674,90 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                 </p>
 
 
-
                                                 <h3>Team</h3>
 
                                                 <div id="accordion">
                                                     <?php
-                                                     for($speaker_number=0; $speaker_number<=$speakers_count-1; $speaker_number++) {
+                                                    for ($speaker_number = 0; $speaker_number <= $speakers_count - 1; $speaker_number++) {
                                                         ?>
-                                                    <h3>Team member <?=($speaker_number+1)?></h3>
-                                                    <div>
-                                                        <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
-                                                                                                                     name="full_name[<?=$speaker_number?>]"
-                                                                                                                     value="<?= !empty($_POST['full_name'][$speaker_number]) ? $_POST['full_name'][$speaker_number] : '' ?>"
-                                                                                                                     size="40"
-                                                                                                                     class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
-                                                                                                                     aria-required="true"
-                                                                                                                     aria-invalid="false"
-                                                                                                                     placeholder="Full Name*"></span>
-                                                        </p>
+                                                        <h3>Team member <?= ($speaker_number + 1) ?></h3>
+                                                        <div>
+                                                            <p><span class="wp-my-cf7-form-control-wrap text-969"><input
+                                                                        type="text"
+                                                                        name="full_name[<?= $speaker_number ?>]"
+                                                                        value="<?= !empty($_POST['full_name'][$speaker_number]) ? $_POST['full_name'][$speaker_number] : '' ?>"
+                                                                        size="40"
+                                                                        class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                        aria-required="true"
+                                                                        aria-invalid="false"
+                                                                        placeholder="Full Name*"></span>
+                                                            </p>
 
-                                                        <p><span class="wp-my-cf7-form-control-wrap email-850"><input
-                                                                    type="text"
-                                                                    name="contact_email[<?=$speaker_number?>]"
-                                                                    value="<?php echo !empty($_POST['contact_email'][$speaker_number]) ? $_POST['contact_email'][$speaker_number] : '????????????' ?>"
-                                                                    size="40"
-                                                                    class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-email wp-my-cf7-validates-as-required wp-my-cf7-validates-as-email"
-                                                                    aria-required="true"
-                                                                    aria-invalid="false"
-                                                                    placeholder="Your contact Email"></span>
-                                                        </p>
+                                                            <p><span
+                                                                    class="wp-my-cf7-form-control-wrap email-850"><input
+                                                                        type="text"
+                                                                        name="contact_email[<?= $speaker_number ?>]"
+                                                                        value="<?php echo !empty($_POST['contact_email'][$speaker_number]) ? $_POST['contact_email'][$speaker_number] : '' ?>"
+                                                                        size="40"
+                                                                        class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-email wp-my-cf7-validates-as-required wp-my-cf7-validates-as-email"
+                                                                        aria-required="true"
+                                                                        aria-invalid="false"
+                                                                        placeholder="Your contact Email"></span>
+                                                            </p>
 
-                                                        <p><b>Picture*</b></p>
+                                                            <p><b>Picture*</b></p>
 
-                                                        <p><span class="wp-my-cf7-form-control-wrap file-246"><input type="file"
-                                                                                                                     name="picture_<?=$speaker_number?>"
-                                                                                                                     size="40"
-                                                                                                                     class="wp-my-cf7-form-control wp-my-cf7-file"
-                                                                                                                     aria-invalid="false"></span>
-                                                        </p>
+                                                            <p><span class="wp-my-cf7-form-control-wrap file-246"><input
+                                                                        type="file"
+                                                                        name="picture_<?= $speaker_number ?>"
+                                                                        size="40"
+                                                                        class="wp-my-cf7-form-control wp-my-cf7-file"
+                                                                        aria-invalid="false"></span>
+                                                            </p>
 
-                                                        <p><b>Short Bio*</b></p>
-                                                        <p><span class="wp-my-cf7-form-control-wrap ShortBio"><textarea name="short_bio[<?=$speaker_number?>]" cols="40" rows="10"
-                                                                    class="wp-my-cf7-form-control wp-my-cf7-textarea wp-my-cf7-validates-as-required"
-                                                                    aria-required="true"
-                                                                    aria-invalid="false"><?= !empty($_POST['short_bio'][$speaker_number]) ? $_POST['short_bio'][$speaker_number] : '' ?></textarea></span>
-                                                        </p>
+                                                            <p><b>Short Bio*</b></p>
 
-                                                        <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
-                                                                                                                     name="linkedin[<?=$speaker_number?>]"
-                                                                                                                     value="<?= !empty($_POST['linkedin'][$speaker_number]) ? $_POST['linkedin'][$speaker_number] : '' ?>"
-                                                                                                                     size="40"
-                                                                                                                     class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
-                                                                                                                     aria-required="true"
-                                                                                                                     aria-invalid="false"
-                                                                                                                     placeholder="Linkedin"></span>
-                                                        </p>
+                                                            <p><span
+                                                                    class="wp-my-cf7-form-control-wrap ShortBio"><textarea
+                                                                        name="short_bio[<?= $speaker_number ?>]"
+                                                                        cols="40" rows="10"
+                                                                        class="wp-my-cf7-form-control wp-my-cf7-textarea wp-my-cf7-validates-as-required"
+                                                                        aria-required="true"
+                                                                        aria-invalid="false"><?= !empty($_POST['short_bio'][$speaker_number]) ? $_POST['short_bio'][$speaker_number] : '' ?></textarea></span>
+                                                            </p>
 
-                                                        <p><span class="wp-my-cf7-form-control-wrap text-969"><input type="text"
-                                                                                                                     name="personal_facebook[<?=$speaker_number?>]"
-                                                                                                                     value="<?= !empty($_POST['personal_facebook'][$speaker_number]) ? $_POST['personal_facebook'][$speaker_number] : '' ?>"
-                                                                                                                     size="40"
-                                                                                                                     class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
-                                                                                                                     aria-required="true"
-                                                                                                                     aria-invalid="false"
-                                                                                                                     placeholder="Facebook"></span>
-                                                        </p>
-                                                    </div>
-                                                    <?php
-                                                     }
+                                                            <p><span class="wp-my-cf7-form-control-wrap text-969"><input
+                                                                        type="text"
+                                                                        name="linkedin[<?= $speaker_number ?>]"
+                                                                        value="<?= !empty($_POST['linkedin'][$speaker_number]) ? $_POST['linkedin'][$speaker_number] : '' ?>"
+                                                                        size="40"
+                                                                        class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                        aria-required="true"
+                                                                        aria-invalid="false"
+                                                                        placeholder="Linkedin"></span>
+                                                            </p>
+
+                                                            <p><span class="wp-my-cf7-form-control-wrap text-969"><input
+                                                                        type="text"
+                                                                        name="personal_facebook[<?= $speaker_number ?>]"
+                                                                        value="<?= !empty($_POST['personal_facebook'][$speaker_number]) ? $_POST['personal_facebook'][$speaker_number] : '' ?>"
+                                                                        size="40"
+                                                                        class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
+                                                                        aria-required="true"
+                                                                        aria-invalid="false"
+                                                                        placeholder="Facebook"></span>
+                                                            </p>
+                                                        </div>
+                                                        <?php
+                                                    }
                                                     ?>
-
-
-
-
 
 
                                                 </div>
 
 
+                                                <p></p>
 
-                                                            <p></p>
                                                 <p><b>Want to advertise your ICO with us?*</b>
                                                 </p>
 
@@ -790,6 +788,8 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                 </div>
         </article>
     </div>
+
+
 
     <?php eventchamp_content_area_after(); ?>
     <?php get_sidebar(); ?>
