@@ -37,6 +37,26 @@ $social_media_flickr = get_post_meta(get_the_ID(), 'event_social_media_flickr', 
 $social_media_soundcloud = get_post_meta(get_the_ID(), 'event_social_media_soundcloud', true);
 $social_media_vimeo = get_post_meta(get_the_ID(), 'event_social_media_vimeo', true);
 $social_media_linkedin = get_post_meta(get_the_ID(), 'event_social_media_linkedin', true);
+
+$social_media_telegram = get_post_meta(get_the_ID(), 'event_social_media_telegram', true);
+$social_media_medium = get_post_meta(get_the_ID(), 'event_social_media_medium', true);
+$social_media_slack = get_post_meta(get_the_ID(), 'event_social_media_slack', true);
+$social_media_github = get_post_meta(get_the_ID(), 'event_social_media_github', true);
+$social_media_youtube = get_post_meta(get_the_ID(), 'event_social_media_youtube', true);
+$social_media_bitcointalk = get_post_meta(get_the_ID(), 'event_social_media_bitcointalk', true);
+
+$event_coin_name = get_post_meta(get_the_ID(), 'event_coin_name', true);
+$event_symbol = get_post_meta(get_the_ID(), 'event_symbol', true);
+
+$event_ico_supply = get_post_meta(get_the_ID(), 'event_ico_supply', true);
+$event_max_supply = get_post_meta(get_the_ID(), 'event_max_supply', true);
+$event_start_bonus = get_post_meta(get_the_ID(), 'event_start_bonus', true);
+$event_hardcap = get_post_meta(get_the_ID(), 'event_hardcap', true);
+$event_whitepaper_url = get_post_meta(get_the_ID(), 'event_whitepaper_url', true);
+
+$event_video_link = get_post_meta(get_the_ID(), 'event_video_link', true);
+$event_help_email = get_post_meta(get_the_ID(), 'event_help_email', true);
+
 $event_remaining_tickets = get_post_meta(get_the_ID(), 'event_remaining_tickets', true);
 $event_tickets = get_post_meta(get_the_ID(), 'event_tickets', true);
 $event_sponsors = get_post_meta(get_the_ID(), 'event_sponsors', true);
@@ -74,10 +94,10 @@ $rating_data = [];
 
 foreach ($ratings_titles as $key => $value) {
 
-     if (get_post_meta(get_the_ID(), 'event_rating_' . $key, true)) {
+    if (get_post_meta(get_the_ID(), 'event_rating_' . $key, true)) {
 
-         $rating_data[$key] = get_post_meta(get_the_ID(), 'event_rating_' . $key, true);
-     }
+        $rating_data[$key] = get_post_meta(get_the_ID(), 'event_rating_' . $key, true);
+    }
 }
 
 
@@ -89,7 +109,7 @@ if (!empty ($rating_data)) {
     foreach ($rating_data as $rating) $sum += $rating;
     //$rating_datas = (isset($rating_data));
     $rating_datas = count($rating_data);
-    $average_rating = round($sum / $rating_datas , 1);
+    $average_rating = round($sum / $rating_datas, 1);
 
 } else {
     $ratings_titles = ['No data' => 0];
@@ -149,8 +169,8 @@ if (!empty ($rating_data)) {
                                 <div class="event-info-dates col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
                                     <?php if (has_post_thumbnail()) {
                                         echo '<div class="post-featured-header">';
-                                        if(!empty (get_the_post_thumbnail(get_the_ID(), array(320, 320)) ) ) {
-                                            echo get_the_post_thumbnail(get_the_ID(), array(320, 320))  ;
+                                        if (!empty (get_the_post_thumbnail(get_the_ID(), array(320, 320)))) {
+                                            echo get_the_post_thumbnail(get_the_ID(), array(320, 320));
                                         } else {
                                             echo '<div class="image">';
                                             echo '<img src="/wp-content/themes/eventchamp-child/No_image_available.svg"  />';
@@ -192,7 +212,7 @@ if (!empty ($rating_data)) {
                                     <div class="left-labelss"><?= $event_end_date ?></div>
                                 </div>
                                 <div class="button-content">
-                                    <a href="#" class="ticketLink_"  sp-show-form="87033" title="SUBSCRIBE">
+                                    <a href="#" class="ticketLink_" sp-show-form="87033" title="SUBSCRIBE">
                                         <i class="fa fa-newspaper-o" aria-hidden="true"></i>
                                         <span class="content">SUBSCRIBE</span>
                                     </a>
@@ -223,38 +243,42 @@ if (!empty ($rating_data)) {
 
                                 <?php $locations = wp_get_post_terms(get_the_ID(), 'location');
                                 if (!empty($locations)) { ?>
-                                <div class="event-locations">
-                                    <div class="event-details-widget event-locations-left col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <ul>
+                                    <div class="event-locations">
+                                        <div
+                                            class="event-details-widget event-locations-left col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <ul>
                                                 <li>
                                                     <i class="fa fa-map-marker" aria-hidden="true"></i>
                                                     <span><?php echo esc_html__('Location', 'eventchamp'); ?></span>
+
                                                     <div>
                                                         <?php
-                                                        foreach($locations as $location) {
+                                                        foreach ($locations as $location) {
                                                             echo '<a href="' . esc_url(get_term_link($location)) . '" title="' . esc_attr($location->name) . '">' . esc_attr($location->name) . '</a> ';
                                                         }
                                                         ?>
                                                     </div>
                                                 </li>
-                                        </ul>
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <?php }  ?>
+                                <?php } ?>
 
                                 <?php $event_tags = wp_get_post_terms(get_the_ID(), 'event_tags');
 
                                 if (!empty($event_tags)) { ?>
                                     <div class="event-locations">
-                                        <div class="event-details-widget event-locations-left col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div
+                                            class="event-details-widget event-locations-left col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <ul>
                                                 <li>
                                                     <i class="fa fa-map-marker" aria-hidden="true"></i>
                                                     <span><?php echo esc_html__('Platforms', 'eventchamp'); ?></span>
+
                                                     <div>
                                                         <?php
-                                                        foreach($event_tags as $event_tag) {
+                                                        foreach ($event_tags as $event_tag) {
                                                             echo '<a href="' . esc_url(get_term_link($event_tag)) . '" title="' . esc_attr($event_tag->name) . '">' . esc_attr($event_tag->name) . '</a> ';
                                                         }
                                                         ?>
@@ -264,7 +288,7 @@ if (!empty ($rating_data)) {
                                         </div>
                                     </div>
 
-                                <?php }  ?>
+                                <?php } ?>
 
                                 <div class="event-share"><span>SHARE:</span>
                                     <script type="text/javascript">(function (w, doc) {
@@ -322,11 +346,12 @@ if (!empty ($rating_data)) {
                                             <div class="rating-label"><?= $criteria ?></div>
 
                                             <span class="counter-rating-back <?= $class ?>">
-                            					<span class="counter-rating-bar <?= $class ?>" style="width:<?=$counter_width?>px">
+                            					<span class="counter-rating-bar <?= $class ?>"
+                                                      style="width:<?= $counter_width ?>px">
 
                                                 </span>
 				                                </span>
-                                            <span class="counter-rating-count"> <?=$rating?> from 10</span>
+                                            <span class="counter-rating-count"> <?= $rating ?> from 10</span>
 
                                         </div>
                                         <?php
@@ -352,7 +377,7 @@ if (!empty ($rating_data)) {
                             } ?>
 
                             <div class="button-content bottom">
-                                <a href="#subscribe-tab" class="ticketLink" title="Remaining Ticket">
+                                <a href="<?= esc_url( $event_whitepaper_url ) ?>" class="ticketLink" title="Remaining Ticket">
                                     <i class="fa fa-file-text-o" aria-hidden="true"></i>
                                     <span class="content">WHITEPAPER</span>
                                 </a>
@@ -543,8 +568,8 @@ if (!empty ($rating_data)) {
         <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 event-detail-widgets">
             <?php if (!empty($event_location) or !empty($event_start_date) or !empty($event_start_time) or !empty($event_end_date) or !empty($event_end_time) or !empty($event_organizer) or !empty($event_cats) or !empty($event_phone) or !empty($event_email) or !empty($event_detailed_address) or !empty($official_web_site) or !empty($social_media_facebook) or !empty($social_media_twitter) or !empty($social_media_googleplus) or !empty($social_media_instagram) or !empty($social_media_youtube) or !empty($social_media_flickr) or !empty($social_media_soundcloud) or !empty($social_media_vimeo) or !empty($social_media_linkedin) or !empty($event_remaining_tickets) or !empty($event_tickets) or !empty($event_sponsors) or !empty($event_tags)) { ?>
                 <div class="widget-box event-details-widget">
-                    <div class="widget-title"><?php echo esc_html__('Event', 'eventchamp'); ?>
-                        <span><?php echo esc_html__('Details', 'eventchamp'); ?></span></div>
+                    <div class="widget-title"><?php echo esc_html__('ICO', 'eventchamp'); ?>
+                        <span><?php echo esc_html__(' DETAILS', 'eventchamp'); ?></span></div>
                     <ul>
                         <?php
                         $event_start_date_last = date_format(date_create($event_start_date), "Y-m-d");
@@ -696,10 +721,72 @@ if (!empty ($rating_data)) {
                                 </div>
                             </li>
                         <?php } ?>
+
+               <?php if (!empty($event_coin_name)) { ?>
+                            <li>
+                                <i class="fa fa-btc" aria-hidden="true"></i>
+                                <span>Coin</span>
+                                <?= $event_coin_name ?>
+                            </li>
+                        <?php } ?>
+
+                        <?php if (!empty($event_symbol)) { ?>
+                            <li>
+                                <i class="fa fa-btc" aria-hidden="true"></i>
+                                <span>Symbol</span>
+                                <?= $event_symbol ?>
+                            </li>
+                        <?php } ?>
+
+                        <?php if (!empty($event_ico_supply)) { ?>
+                            <li>
+                                <i class="fa fa-money" aria-hidden="true"></i>
+                                <span>ICO Supply</span>
+                                 <?= $event_ico_supply ?>
+                            </li>
+                        <?php } ?>
+
+                        <?php if (!empty($event_max_supply)) { ?>
+                            <li>
+                                <i class="fa fa-money" aria-hidden="true"></i>
+                                <span>Max Supply</span>
+                                <?= $event_max_supply ?>
+                            </li>
+                        <?php } ?>
+
+                        <?php if (!empty($event_start_bonus)) { ?>
+                            <li>
+                                <i class="fa fa-money" aria-hidden="true"></i>
+                                <span>Start bonus</span>
+                                <?= $event_start_bonus ?>
+                            </li>
+                        <?php } ?>
+
+                            <?php if (!empty($event_hardcap)) { ?>
+                            <li>
+                                <i class="fa fa-money" aria-hidden="true"></i>
+                                <span>Hardcap</span>
+                                <?= $event_hardcap ?>
+                            </li>
+                        <?php } ?>
+
+                        <?php if (!empty($event_help_email)) { ?>
+                            <li>
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                <span>Help Email</span>
+                                <a href="mailto:<?= $event_help_email ?>"> <?= $event_help_email ?></a>
+                            </li>
+                        <?php } ?>
+
+
+
+
+
+
                         <?php if (!empty($official_web_site) or !empty($social_media_facebook) or !empty($social_media_twitter) or !empty($social_media_googleplus) or !empty($social_media_instagram) or !empty($social_media_youtube) or !empty($social_media_flickr) or !empty($social_media_soundcloud) or !empty($social_media_vimeo) or !empty($social_media_linkedin)) { ?>
                             <li>
                                 <i class="fa fa-share-alt" aria-hidden="true"></i>
-                                <span><?php echo esc_html__('Web Sites', 'eventchamp'); ?></span>
+                                <span><?php echo esc_html__('Social media', 'eventchamp'); ?></span>
 
                                 <div>
                                     <?php
@@ -716,8 +803,18 @@ if (!empty ($rating_data)) {
                                         echo '<li><a href="' . esc_url($social_media_twitter) . '" class="twitter" title="' . esc_html__('Twitter', 'eventchamp') . '" target="_blank"><i class="fa fa-twitter"></i></a></li>';
                                     }
 
-                                    if (!empty($social_media_googleplus)) {
-                                        echo '<li><a href="' . esc_url($social_media_googleplus) . '" class="googleplus" title="' . esc_html__('Google+', 'eventchamp') . '" target="_blank"><i class="fa fa-google-plus"></i></a></li>';
+                                    // telegram medium slack github
+                                    if (!empty($social_media_telegram)) {
+                                        echo '<li><a href="' . esc_url($social_media_telegram) . '" class="" title="' . esc_html__('Telegram', 'eventchamp') . '" target="_blank"><i class="fa fa-paper-plane"></i></a></li>';
+                                    }
+                                    if (!empty($social_media_medium)) {
+                                        echo '<li><a href="' . esc_url($social_media_medium) . '" class="" title="' . esc_html__('Medium', 'eventchamp') . '" target="_blank"><i class="fa fa-medium"></i></a></li>';
+                                    }
+                                    if (!empty($social_media_slack)) {
+                                        echo '<li><a href="' . esc_url($social_media_slack) . '" class="" title="' . esc_html__('Slack', 'eventchamp') . '" target="_blank"><i class="fa fa-slack"></i></a></li>';
+                                    }
+                                    if (!empty($social_media_github)) {
+                                        echo '<li><a href="' . esc_url($social_media_github) . '" class="" title="' . esc_html__('Github', 'eventchamp') . '" target="_blank"><i class="fa fa-github"></i></a></li>';
                                     }
 
                                     if (!empty($social_media_instagram)) {
@@ -728,20 +825,11 @@ if (!empty ($rating_data)) {
                                         echo '<li><a href="' . esc_url($social_media_youtube) . '" class="youtube" title="' . esc_html__('YouTube', 'eventchamp') . '" target="_blank"><i class="fa fa-youtube"></i></a></li>';
                                     }
 
-                                    if (!empty($social_media_flickr)) {
-                                        echo '<li><a href="' . esc_url($social_media_flickr) . '" class="flickr" title="' . esc_html__('Flickr', 'eventchamp') . '" target="_blank"><i class="fa fa-flickr"></i></a></li>';
-                                    }
-
-                                    if (!empty($social_media_soundcloud)) {
-                                        echo '<li><a href="' . esc_url($social_media_soundcloud) . '" class="soundcloud" title="' . esc_html__('SoundCloud', 'eventchamp') . '" target="_blank"><i class="fa fa-soundcloud"></i></a></li>';
-                                    }
-
-                                    if (!empty($social_media_vimeo)) {
-                                        echo '<li><a href="' . esc_url($social_media_vimeo) . '" class="vimeo" title="' . esc_html__('Vimeo', 'eventchamp') . '" target="_blank"><i class="fa fa-vimeo"></i></a></li>';
-                                    }
-
                                     if (!empty($social_media_linkedin)) {
                                         echo '<li><a href="' . esc_url($social_media_linkedin) . '" class="linkedin" title="' . esc_html__('LinkedIn', 'eventchamp') . '" target="_blank"><i class="fa fa-linkedin"></i></a></li>';
+                                    }
+                                    if (!empty($social_media_bitcointalk)) {
+                                        echo '<li><a href="' . esc_url($social_media_bitcointalk) . '" class="linkedin" title="' . esc_html__('Bitcointalk', 'eventchamp') . '" target="_blank"><i class="fa fa-bitcoin"></i></a></li>';
                                     }
                                     echo "<ul>";
                                     ?>
@@ -749,29 +837,27 @@ if (!empty ($rating_data)) {
                             </li>
                             <li class="extraGap"></li>
                         <?php } ?>
-                        <?php if (!empty($event_remaining_tickets)) { ?>
-                            <li class="button-content">
-                                <a href="#ticket-tab" class="ticketLink"
-                                   title="<?php echo esc_html__('Remaining Ticket', 'eventchamp'); ?>">
-                                    <i class="fa fa-ticket" aria-hidden="true"></i>
-                                    <span class="title"><?php echo esc_html__('Remaining Ticket', 'eventchamp'); ?>
-                                        :</span>
-                                    <span
-                                        class="content"><?php $ticket_product_id = wc_get_product($event_remaining_tickets);
-                                        echo $ticket_product_id->get_stock_quantity(); ?><?php echo esc_html__('Ticket', 'eventchamp'); ?></span>
+
+
+                        <div class="button-content-all col-md-12">
+                            <?php if (!empty($official_web_site)) {
+                                echo '<div class="button-content bottom">
+                                    <a href="' . esc_url($official_web_site) . '" class="officialsite" title="' . esc_html__('VISIT SITE', 'eventchamp') . '" target="_blank">
+                                        <i class="fa fa-link" aria-hidden="true"></i>
+                                        <span class="content">VISIT SITE</span>
+                                    </a>
+                                    </div>';
+                            } ?>
+
+                            <div class="button-content bottom">
+                                <a href="<?= esc_url( $event_whitepaper_url ) ?>" class="ticketLink" title="Remaining Ticket">
+                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                    <span class="content">WHITEPAPER</span>
                                 </a>
-                            </li>
-                        <?php } ?>
-                        <?php if (!empty($event_tickets)) { ?>
-                            <li class="button-content">
-                                <a href="#ticket-tab" class="ticketLink"
-                                   title="<?php echo esc_html__('Buy Ticket & Show Details', 'eventchamp'); ?>">
-                                    <i class="fa fa-credit-card" aria-hidden="true"></i>
-                                    <span
-                                        class="title"><?php echo esc_html__('Buy Ticket & Show Details', 'eventchamp'); ?></span>
-                                </a>
-                            </li>
-                        <?php } ?>
+                            </div>
+                        </div>
+
+
                         <?php if (!empty($event_contact_form)) { ?>
                             <li class="button-content">
                                 <a href="#ticket-tab" class="contactLink"

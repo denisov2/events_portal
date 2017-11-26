@@ -39,7 +39,7 @@ if (!empty ($_POST)) {
     //saving enent to database
     $fields_data = [
         ['key' => 'ico_name', 'require' => true,],
-        ['key' => 'ico_url', 'require' => true],
+        ['key' => 'ico_url', 'require' => true,  'meta' => 'event_official_web_site'],
         ['key' => 'logo', 'require' => false],
         ['key' => 'description', 'require' => true],
         ['key' => 'introduction', 'require' => true],
@@ -47,15 +47,15 @@ if (!empty ($_POST)) {
         ['key' => 'end_date', 'require' => true],
         ['key' => 'category', 'require' => true, 'taxonomy' => 'eventcat',],
         ['key' => 'platform', 'require' => true, 'taxonomy' => 'event_tags',],
-        ['key' => 'coin_name', 'require' => true],
-        ['key' => 'symbol', 'require' => true],
+        ['key' => 'coin_name', 'require' => true, 'meta' => 'event_coin_name'],
+        ['key' => 'symbol', 'require' => true, 'meta' => 'event_symbol'],
 
 
-        ['key' => 'ico_supply', 'require' => false],
-        ['key' => 'max_supply', 'require' => false],
-        ['key' => 'start_bonus', 'require' => false],
-        ['key' => 'hardcap', 'require' => false],
-        ['key' => 'whitepaper_url', 'require' => false],
+        ['key' => 'ico_supply', 'require' => false, 'meta' => 'event_ico_supply'],
+        ['key' => 'max_supply', 'require' => false, 'meta' => 'event_max_supply'],
+        ['key' => 'start_bonus', 'require' => false, 'meta' => 'event_start_bonus'],
+        ['key' => 'hardcap', 'require' => false, 'meta' => 'event_hardcap'],
+        ['key' => 'whitepaper_url', 'require' => false, 'meta' => 'event_whitepaper_url'],
 
         ['key' => 'twitter', 'require' => false, 'meta' => 'event_social_media_twitter'],
         ['key' => 'telegram', 'require' => false, 'meta' => 'event_social_media_telegram'],
@@ -67,8 +67,8 @@ if (!empty ($_POST)) {
         ['key' => 'youtube', 'require' => false, 'meta' => 'event_social_media_youtube'],
         ['key' => 'bitcointalk', 'require' => false, 'meta' => 'event_social_media_bitcointalk'],
 
-        ['key' => 'video_link', 'require' => false],
-        ['key' => 'help_email', 'require' => true,],
+        ['key' => 'video_link', 'require' => false, 'meta' => 'event_video_link'],
+        ['key' => 'help_email', 'require' => true, 'meta' => 'event_help_email'],
 
         ['key' => 'full_name', 'require' => false],
         ['key' => 'contact_email', 'require' => false],
