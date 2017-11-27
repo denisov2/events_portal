@@ -113,7 +113,7 @@ add_filter( 'comment_form_fields', 'eventchamp_move_comment_field_to_bottom' );
 		function eventchamp_events() {
 			$labels = array(
 				'name' => _x( 'Events', 'Events General Name', 'eventchamp' ),
-				'singular_name' => _x( 'Event', 'Events Singular Name', 'eventchamp' ),
+				'singular_name' => _x( 'ICO', 'Events Singular Name', 'eventchamp' ),
 				'menu_name' => esc_html__( 'Events', 'eventchamp' ),
 				'parent_item_colon' => esc_html__( 'Parent Event:', 'eventchamp' ),
 				'all_items' => esc_html__( 'All Events', 'eventchamp' ),
