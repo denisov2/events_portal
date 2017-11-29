@@ -183,6 +183,14 @@ function eventchamp_speakers( $post_id = "", $column = "4" ) {
                     $output .= get_the_post_thumbnail( get_the_ID(), 'eventchamp-speaker' );
                     $output .= '</span>';
                     $output .= '</div>';
+                } else {
+
+                    $output .= '<div class="image">';
+                    $output .= '<span title="' . get_the_title() . '">';
+                    $output .= '<img width="614" height="637" src="/wp-content/themes/eventchamp-child/No_image_available.svg" class="attachment-eventchamp-speaker size-eventchamp-speaker wp-post-image" alt=""';
+                    $output .= '</span>';
+                    $output .= '</div>';
+
                 }
 
                 $speakers_title = get_the_title();

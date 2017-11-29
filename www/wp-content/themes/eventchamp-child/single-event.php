@@ -221,6 +221,10 @@ if (!empty ($rating_data)) {
 
 
                             <div class="event-info-general  col-lg-9 col-md-9 col-sm-12 col-xs-12 ">
+
+                                <?php if (!empty($average_rating) && $average_rating != '?') { ?>
+
+
                                 <div class="event-info-general  col-lg-10 col-md-10 col-sm-10 col-xs-10 ">
                                     <h1>
                                         <?= get_the_title() ?></h1>
@@ -228,7 +232,16 @@ if (!empty ($rating_data)) {
                                 <div class="event-average-rating col-lg-2 col-md-2 col-sm-2 col-xs-2  ">
                                     <div class="rating-circle"><?= $average_rating ?></div>
                                 </div>
-                                <?php
+                                <?php  } else { ?>
+
+                                    <div class="event-info-general ">
+                                        <h1>
+                                            <?= get_the_title() ?></h1>
+                                    </div>
+
+
+                                    <?php
+                                }
                                 $event_cats = wp_get_post_terms(get_the_ID(), 'eventcat');
                                 if (!empty($event_cats)) {
                                     foreach ($event_cats as $event_cat) {
@@ -321,29 +334,31 @@ if (!empty ($rating_data)) {
                             </div>
                         </div>
 
-                        <div class="event-ratings-info  col-md-12  ">
-                            <div class="event-average-rating col-lg-2 col-md-2 col-sm-2 col-xs-12  ">
-                                <h5>Average Rating </h5>
+                        <?php if (!empty($average_rating) && $average_rating != '?') { ?>
 
-                                <div class="rating-circle"><?= $average_rating ?></div>
-                            </div>
-                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12  ">
-                                <?php
-                                $i = 1;
-                                foreach ($ratings_titles as $key => $criteria) {
+                            <div class="event-ratings-info  col-md-12  ">
+                                <div class="event-average-rating col-lg-2 col-md-2 col-sm-2 col-xs-12  ">
+                                    <h5>Average Rating </h5>
 
-                                    if (isset ($rating_data[$key]) && $rating_data[$key]) {
-                                        $rating = isset ($rating_data[$key]) ? $rating_data[$key] : 'Not set';
-                                        $border_left_width = $rating * 30;
-                                        if ($i % 3 == 2) $class = "rating-type-2";
-                                        elseif ($i % 3 == 0) $class = "rating-type-3";
-                                        else $class = "rating-type-1";
+                                    <div class="rating-circle"><?= $average_rating ?></div>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12  ">
+                                    <?php
+                                    $i = 1;
+                                    foreach ($ratings_titles as $key => $criteria) {
 
-                                        $counter_width = 300 * $rating / 10;
+                                        if (isset ($rating_data[$key]) && $rating_data[$key]) {
+                                            $rating = isset ($rating_data[$key]) ? $rating_data[$key] : 'Not set';
+                                            $border_left_width = $rating * 30;
+                                            if ($i % 3 == 2) $class = "rating-type-2";
+                                            elseif ($i % 3 == 0) $class = "rating-type-3";
+                                            else $class = "rating-type-1";
 
-                                        ?>
-                                        <div class="rating-item">
-                                            <div class="rating-label"><?= $criteria ?></div>
+                                            $counter_width = 300 * $rating / 10;
+
+                                            ?>
+                                            <div class="rating-item">
+                                                <div class="rating-label"><?= $criteria ?></div>
 
                                             <span class="counter-rating-back <?= $class ?>">
                             					<span class="counter-rating-bar <?= $class ?>"
@@ -351,17 +366,20 @@ if (!empty ($rating_data)) {
 
                                                 </span>
 				                                </span>
-                                            <span class="counter-rating-count"> <?= $rating ?> from 10</span>
+                                                <span class="counter-rating-count"> <?= $rating ?> from 10</span>
 
-                                        </div>
-                                        <?php
-                                        $i++;
+                                            </div>
+                                            <?php
+                                            $i++;
+                                        }
                                     }
-                                }
-                                ?>
+                                    ?>
 
+                                </div>
                             </div>
-                        </div>
+
+                            <?php
+                         } ?>
                         <div class="clear"></div>
                         <?php
                         $content_control = get_the_content();
