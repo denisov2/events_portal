@@ -14,11 +14,11 @@ $args_adv = [
 
 $wp_query_adv = new WP_Query($args_adv);
 
-$html = '<div ">
+$html = '<div>
 							<div class="header-logo"><div class="logo"><a href="http://icotop.pro/" class="site-logo"><img alt="Logo" src="http://icotop.pro/wp-content/uploads/2017/03/1logo.png"></a></div></div>							<div class="header-menu">
 								<div class="header-top-bar">
 																	</div>
-
+								
 							</div>
 						</div>';
 $html .= "<div>";

@@ -256,7 +256,7 @@ if (!empty ($rating_data)) {
 
                                 <?php $locations = wp_get_post_terms(get_the_ID(), 'location');
                                 if (!empty($locations)) { ?>
-                                    <div class="event-locations">
+                                    <div class="event-locations-lefts">
                                         <div
                                             class="event-details-widget event-locations-left col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <ul>
@@ -281,7 +281,7 @@ if (!empty ($rating_data)) {
                                 <?php $event_tags = wp_get_post_terms(get_the_ID(), 'event_tags');
 
                                 if (!empty($event_tags)) { ?>
-                                    <div class="event-locations">
+                                    <div class="event-locations-rigths">
                                         <div
                                             class="event-details-widget event-locations-left col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <ul>
@@ -337,12 +337,13 @@ if (!empty ($rating_data)) {
                         <?php if (!empty($average_rating) && $average_rating != '?') { ?>
 
                             <div class="event-ratings-info  col-md-12  ">
-                                <div class="event-average-rating col-lg-2 col-md-2 col-sm-2 col-xs-12  ">
-                                    <h5>Average Rating </h5>
-
+                                <div class="event-average-rating col-lg-3 col-md-3 col-sm-3 col-xs-12  ">
+                                    <div class="rating-circle-vert">
+									<h5>Average Rating </h5>
                                     <div class="rating-circle"><?= $average_rating ?></div>
+									</div>
                                 </div>
-                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12  ">
+                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12  ">
                                     <?php
                                     $i = 1;
                                     foreach ($ratings_titles as $key => $criteria) {
@@ -384,7 +385,8 @@ if (!empty ($rating_data)) {
                         <?php
                         $content_control = get_the_content();
                         if (!empty($content_control)) {
-                            echo '<div class="post-content-body">';
+                            echo '<div class="post-content-body col-lg-12 col-md-12 col-sm-12 col-xs-12">'; 
+							echo '<div class="post-content-body-title"> About '. get_the_title().':</div>';
                             the_content();
                             echo '</div>';
                         }
@@ -403,7 +405,7 @@ if (!empty ($rating_data)) {
                         </div>
                     </div>
                     <?php if (!empty($event_schedule) or !empty($event_speakers) or !empty($event_tickets) or !empty($event_detailed_address) or !empty($event_google_street_link) or !empty($event_faq) or !empty($event_extra_tab1_content) or !empty($event_media_tab_images) or $event_related_events == "on") { ?>
-                        <div class="event-detail-tabs">
+                        <div class="event-detail-tabs col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <ul class="nav nav-tabs" role="tablist">
                                 <?php if (!empty($event_schedule)) { ?>
                                     <li role="presentation">

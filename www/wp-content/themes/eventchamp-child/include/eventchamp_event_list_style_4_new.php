@@ -385,8 +385,8 @@ function eventchamp_event_list_style_4_new($post_id = "", $image = "", $category
         $output .= '</div></div></div></div></div>';
 
         $output .= '<div class="col-xs-12 col-md-3">';
-        $output .= '<div class="ev_rating"><p><div class="rating-circle">' . $average_rating . '</div></p>';
-        $output .= '<p>';
+        $output .= '<div class="ev_rating"><p><div class="rating-circle">' . $average_rating . '</div></p></div>';
+        $output .= '<div class="ev_location"><p>';
         if (!empty($location)) {
             $output .= '<div class="location">';
             $output .= '<span>' . esc_attr($location->name) . '</span>';

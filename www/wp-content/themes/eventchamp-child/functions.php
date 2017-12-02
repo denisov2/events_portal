@@ -25,6 +25,7 @@ require_once get_theme_file_path('/include/eventchamp_categorized_events_output.
 require_once get_theme_file_path('/include/eventchamp_home_events_output.php');
 require_once get_theme_file_path('/include/eventchamp_search_events_output.php');
 require_once get_theme_file_path('/include/eventchamp_event_list_style_4_new.php');
+require_once get_theme_file_path('/include/eventchamp_ratings_meta_box.php');
 
 add_shortcode("eventchamp_categorized_events_new", "eventchamp_categorized_events_output_new");
 add_shortcode("eventchamp_home_events_output", "eventchamp_home_events_output");

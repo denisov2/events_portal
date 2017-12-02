@@ -148,13 +148,13 @@ function eventchamp_event_search_output( $atts, $content = null ) {
                 $output .= '</select>';
                 $output .= '</div>';
             }
-            if( $atts["status"] == "true" ) {
+             if( $atts["status"] == "true" ) {
                 $output .= '<div class="column">';
                 $output .= '<select name="status" class="cs-select">';
                 $output .= '<option value="">' . esc_html__( 'Status', 'eventchamp' ) . '</option>';
-                $output .= '<option value="upcoming">' . esc_html__( 'Upcoming', 'eventchamp' ) . '</option>';
-                $output .= '<option value="incoming">' . esc_html__( 'Incoming', 'eventchamp' ) . '</option>';
-                $output .= '<option value="expired">' . esc_html__( 'Expired', 'eventchamp' ) . '</option>';
+                $output .= '<option value="upcoming">' . esc_html__( 'Upcoming ICO', 'eventchamp' ) . '</option>';
+                $output .= '<option value="incoming">' . esc_html__( 'Active ICO', 'eventchamp' ) . '</option>';
+                $output .= '<option value="expired">' . esc_html__( 'Past ICO', 'eventchamp' ) . '</option>';
                 $output .= '</select>';
                 $output .= '</div>';
             }
@@ -485,30 +485,59 @@ function eventchamp_events_search_results_output( $atts, $content = null ) {
 
     if( isset( $_GET['sort'] ) ) {
         if( $_GET['sort'] == "startdate" ) {
-            $order = "ASC";
-            $orderby = "meta_value";
+
             $meta_key = "event_start_date";
+
+            $orderby  = array(
+                'event_adv_case' => 'ASC',
+                'event_start_date' =>  'ASC'
+            );
+
         } elseif( $_GET['sort'] == "enddate" ) {
-            $order = "DESC";
+          //  $order = "DESC";
             $orderby = "meta_value";
-            $meta_key = "event_start_date";
+            $meta_key = "event_end_date";
+
+            $orderby  = array(
+                'event_adv_case' => 'ASC',
+                'event_end_case' =>  'ASC'
+            );
+
         } elseif( $_GET['sort'] == "creationdate" ) {
-            $order = "DESC";
-            $orderby = "date";
-            $meta_key = "";
+
+            $meta_key = "event_start_date";
+            $orderby  = array(
+                'event_adv_case' => 'ASC',
+                'event_start_date' =>  'ASC'
+            );
+
         } elseif( $_GET['sort'] == "nameza" ) {
             $order = "DESC";
             $orderby = "title";
-            $meta_key = "";
+   //         $meta_key = "";
+            $orderby  = array(
+                'event_adv_case' => 'ASC',
+                'title' =>  'DESC'
+            );
+
+
         } else {
             $order = "ASC";
-            $orderby = "title";
-            $meta_key = "";
+            $orderby  = array(
+                'event_adv_case' => 'ASC',
+                'title' =>  'ASC'
+            );
+          //  $meta_key = "";
         }
     } else {
         $order = "ASC";
-        $orderby = "title";
+        //$orderby = "title";
+        $orderby  = array(
+            'event_adv_case' => 'ASC',
+            'title' =>  'ASC'
+        );
         $meta_key = "";
+
     }
 
     if( isset( $_GET['location'] ) ) {
@@ -564,6 +593,17 @@ function eventchamp_events_search_results_output( $atts, $content = null ) {
                         'compare' => $location_comp,
                         'value' => $location,
                     ),
+                    array(
+                        'relation' => 'OR',
+                        array(
+                            'key' => 'event_adv',
+                            'compare' => 'NOT EXISTS',
+                        ),
+                        'event_adv_case' => array(
+                            'key' => 'event_adv',
+                            'compare' => ' EXISTS',
+                        ),
+                    ),
                 ),
             );
         } else {
@@ -594,6 +634,17 @@ function eventchamp_events_search_results_output( $atts, $content = null ) {
                         'key' => 'event_location',
                         'compare' => $location_comp,
                         'value' => $location,
+                    ),
+                    array(
+                        'relation' => 'OR',
+                        array(
+                            'key' => 'event_adv',
+                            'compare' => 'NOT EXISTS',
+                        ),
+                        'event_adv_case' => array(
+                            'key' => 'event_adv',
+                            'compare' => ' EXISTS',
+                        ),
                     ),
                 ),
             );
@@ -635,6 +686,17 @@ function eventchamp_events_search_results_output( $atts, $content = null ) {
                         'compare' => $location_comp,
                         'value' => $location,
                     ),
+                    array(
+                        'relation' => 'OR',
+                        array(
+                            'key' => 'event_adv',
+                            'compare' => 'NOT EXISTS',
+                        ),
+                        'event_adv_case' => array(
+                            'key' => 'event_adv',
+                            'compare' => ' EXISTS',
+                        ),
+                    ),
                 ),
             );
         } else {
@@ -665,6 +727,17 @@ function eventchamp_events_search_results_output( $atts, $content = null ) {
                         'key' => 'event_location',
                         'compare' => $location_comp,
                         'value' => $location,
+                    ),
+                   array(
+                        'relation' => 'OR',
+                        array(
+                            'key' => 'event_adv',
+                            'compare' => 'NOT EXISTS',
+                        ),
+                       'event_adv_case' => array(
+                            'key' => 'event_adv',
+                            'compare' => ' EXISTS',
+                        ),
                     ),
                 ),
             );
@@ -702,6 +775,11 @@ function eventchamp_events_search_results_output( $atts, $content = null ) {
     //*****************************************
     // содержимое вкладки со ВСЕМИ событиями
     $output .= '<div class="categorized-events">';
+	if(empty($category) && (empty($location) || $location == "none" )&& empty($status) && (empty($startdate) || $startdate == "-")) {
+        $output .= '<h1><b style="color: #b11bb1;">All</b>  events with  any  status with  any  start date from  all  countries sorted by  date<h1>';
+    } else {
+        $output .= '<h1>All ICO with  <b style="color: #b11bb1;">'.$status.'</b>  status with <b style="color: #b11bb1;">'.$category.'</b> category  with  <b style="color: #b11bb1;">'.$startdate.'</b>  start date from  <b style="color: #b11bb1;">'.get_cat_name( $location).'</b>  countries.</h1>';
+    }
     $output .= '<div class="tab-content">';
 
     $output .= '<div role="tabpanel" class="tab-pane" id="events_all">';
