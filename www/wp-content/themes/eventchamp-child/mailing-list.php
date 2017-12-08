@@ -3,6 +3,9 @@
 Template Name: mailing-list
 */
 
+require 'vendor/autoload.php';
+
+
 
 $args_adv = [
     'post_status' => 'publish',
@@ -46,24 +49,18 @@ while ($wp_query_adv->have_posts()) {
 
     $title = get_the_title();
 
-    if ($interval_days_past->days > 0 && $interval_days_past->days <=7) {
+    if ($interval_days_past->days > 0 && $interval_days_past->days <= 7) {
 
 
-
-            $html .= "<h3>$title</h3>";
-            $html .= "<p>";
-            $html .= get_the_excerpt();
-            $html .= "</p>";
-            $html .= "<p>";
-            $html .=  "Start: $event_start_date. End: $event_start_date <br>";
-            $html .=  "Details: <a target='_blank' href='". get_permalink() ."'>". get_permalink() ."</a>";
-            $html .= "</p>";
+        $html .= "<h3>$title</h3>";
+        $html .= "<p>";
+        $html .= get_the_excerpt();
+        $html .= "</p>";
+        $html .= "<p>";
+        $html .= "Start: $event_start_date. End: $event_start_date <br>";
+        $html .= "Details: <a target='_blank' href='" . get_permalink() . "'>" . get_permalink() . "</a>";
+        $html .= "</p>";
     }
-
-
-
-
-
 
 
 }
@@ -72,3 +69,20 @@ while ($wp_query_adv->have_posts()) {
 $html .= "</div>";
 
 echo $html;
+
+
+use Sendpulse\RestApi\ApiClient;
+use Sendpulse\RestApi\Storage\FileStorage;
+
+$SPApiClient = new ApiClient("498f717597ce5882305c33a08e013359", "7948a287174e3cc0decd629e1ab405d1", new FileStorage());
+
+$senderName = "ICOTOP";
+$senderEmail = "info@icotop.pro";
+
+$subject = "ICO TOP weekly review 01.12.2017";
+$body = $html;
+$bookId = "1373564";
+$name = "ICO TOP weekly review 01.12.2017";
+
+
+var_dump( $SPApiClient->createCampaign(  $senderName, $senderEmail, $subject, $body, $bookId, $name ) );

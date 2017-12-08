@@ -1239,7 +1239,88 @@ li.Add_your_ICO {
     width: calc(40% - 0px);
 }
 
+.header-style-1 .header-main-area .header-logo {
+    float: left;
+    margin-top: 0;
+    padding: 15px 0px;
+}
+.header-style-1.remove-gap-removed {
+    margin-bottom: 20px;
+    top: 0;
+    background: #FFFFFF;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    width: 100%;
+    border-bottom: 0px;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+}
+.header.header-style-1.remove-gap {
+    margin-bottom: 20px;
+    top: 0;
+    background: #FFFFFF;
+   
+    padding-top: 0px;
+    width: 100%;
+    border-bottom: 0px;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+}
+.header.header-style-1.remove-gap .header-main-area .header-menu {
+    float: right;
+    margin-top: 20px;
+}
+.header.header-style-1.remove-gap.fixed-header-class .header-main-area .header-menu {
+    float: right;
+    margin-top: 0;
+}
+.header-style-1.remove-gap-removed .header-main-area .header-menu {
+    float: right;
+    margin-top: 0;
+  
+}
+.header-style-1.remove-gap-removed .logo img {
+    height: 36px;
+    width: auto;
+}
+.header-style-1.remove-gap-removed ul#menu-menu-new {
+    padding-top: 14px;
+}
+.header.header-style-1.fixed-header-class ul#menu-menu-new {
+    padding: 0;
+}
+
+.sort_home_text span {
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+    color: #6600ff;
+}
+.sort_home_text h1 {
+    text-align: left;
+    float: left;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+}
+.dsawe {
+    font-size: 26px;
+    float: left;
+    line-height: 45px;
+}
 @media only screen and (max-width : 480px) {
+.dsawe {
+    font-size: 20px;
+    float: left;
+    line-height: 45px;
+}
+.categorized-events {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.vc_row.wpb_row.vc_row-fluid.container.containerNoPadding.home .vc_column-inner {
+    padding: 15px !important;
+    width: 100%;
+}
 .event-info .left-label {
     width: 100%;
     text-align: center;

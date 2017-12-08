@@ -219,14 +219,14 @@ function eventchamp_categorized_events_output_new($atts, $content = null)
 
         if (!empty($wp_query_adv) || !empty($wp_query_no_adv)) {
 
-           /* $output .= '
+            $output .= '
                     <div class="well well-sm ">
                         <div class="btn-group">
                             <a href="#" id="list" class="list-all btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
                             </span></a> <a href="#" id="grid" class="grid-all btn btn-default btn-sm"><span
                                 class="glyphicon glyphicon-th"></span></a>
                         </div>
-				</div>	';*/
+				</div>	';
 
 
 

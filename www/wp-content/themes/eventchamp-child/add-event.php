@@ -438,21 +438,28 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
 
                                                 <p><b>Project Category*</b></p>
 
-                                                <p><span class="wp-my-cf7-form-control-wrap menu-145"><select
+                                                <p><span class="wp-my-cf7-form-control-wrap menu-145">
+                                                        <select
                                                             name="category"
                                                             class="wp-my-cf7-form-control wp-my-cf7-select wp-my-cf7-validates-as-required"
                                                             aria-required="true" aria-invalid="false">
-                                                            <option value="">---</option>
+                                                            <option value="" <?= empty($data['category']) || $data['category']== ''   ? ' selected="selected" ' : '' ?>>---</option>
                                                             <?php
+
+
                                                             $taxonomy_args = array(
                                                                 'taxonomy' => 'eventcat',
                                                                 'hide_empty' => false,
+                                                                'orderby' => 'slug',
+                                                                'order' => 'ASC'
                                                             );
                                                             $eventcat_terms = get_terms($taxonomy_args);
+
+                                                            var_dump($eventcat_terms );
                                                             foreach ($eventcat_terms as $eventcat_term) {
-                                                                $selected = !empty ($data['category']) && in_array($eventcat_term->term_id, $data['category']) ? " selected=selected " : "";
+                                                                $selected = !empty ($data['category']) && $eventcat_term->term_id ==  $data['category'] ? " selected=selected " : "";
                                                                 ?>
-                                                                <option selected="<?= $selected ?>"
+                                                                <option <?= $selected ?>
                                                                         value="<?= $eventcat_term->term_id ?>">
                                                                     <?= $eventcat_term->name ?>
                                                                 </option>
