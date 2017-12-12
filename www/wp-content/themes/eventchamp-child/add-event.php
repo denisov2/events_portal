@@ -455,7 +455,6 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                             );
                                                             $eventcat_terms = get_terms($taxonomy_args);
 
-                                                            var_dump($eventcat_terms );
                                                             foreach ($eventcat_terms as $eventcat_term) {
                                                                 $selected = !empty ($data['category']) && $eventcat_term->term_id ==  $data['category'] ? " selected=selected " : "";
                                                                 ?>
@@ -563,7 +562,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                                                                              placeholder="Whitepaper URL*"></span>
                                                 </p>
 
-                                                <p><b>Support email:</b></p>
+                                                <p><b>Email for help (will be public):</b></p>
 
                                                 <p><span class="wp-my-cf7-form-control-wrap text-969"><input
                                                             type="email"
@@ -573,7 +572,7 @@ if ($full_with_container == "off" or !$full_with_container == "on") {
                                                             class="wp-my-cf7-form-control wp-my-cf7-text wp-my-cf7-validates-as-required"
                                                             aria-required="true"
                                                             aria-invalid="false"
-                                                            placeholder="j. Email for help and relevant info*"></span>
+                                                            placeholder="Email for help and relevant info*"></span>
                                                 </p>
 
                                                 <p><b>Links:</b></p>

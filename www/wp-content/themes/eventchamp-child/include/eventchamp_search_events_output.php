@@ -813,7 +813,7 @@ function eventchamp_events_search_results_output($atts, $content = null)
         $output .= '<span>' . $startdate . '</span>';
     }
     $output .= ' start date from';
-
+    
     if (!empty($location) && $location!='none') {
         $output .= '<span> ' . get_cat_name($location) . '</span>';
     } else  {

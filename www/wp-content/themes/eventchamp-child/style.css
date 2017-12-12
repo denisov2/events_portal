@@ -1220,7 +1220,7 @@ li.Add_your_ICO {
     top: 5px;
     left: 15px;
     color: white;
-    z-index: 5;
+    z-index: 2;
 }
 .event_adv {
     width: 0;
@@ -1229,7 +1229,7 @@ li.Add_your_ICO {
     border-right: 40px solid transparent;
     position: absolute;
     content: 'asdad';
-    z-index: 4;
+    z-index: 1;
 }
 .event-list-styles.event-list-style-4.events-list-group-item .counter-count {
     position: absolute;
