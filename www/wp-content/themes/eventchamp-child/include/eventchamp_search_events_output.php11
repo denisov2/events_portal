@@ -110,13 +110,7 @@ function eventchamp_event_search_output($atts, $content = null)
                 $output .= '<div class="column">';
                 $output .= '<select name="category" class="cs-select">';
                 $output .= '<option value="">' . esc_html__('Category', 'eventchamp') . '</option>';
-                $eventcat_terms = get_terms([
-                    'taxonomy' => 'eventcat',
-                    'hide_empty' => false,
-                    'orderby' => 'slug',
-                    'order' => 'ASC'
-                ]);
-
+                $eventcat_terms = get_terms(array('taxonomy' => 'eventcat', 'hide_empty' => false));
                 if (!empty($eventcat_terms) && !is_wp_error($eventcat_terms)) {
                     foreach ($eventcat_terms as $eventcat_term) {
                         $category == strtolower($eventcat_term->slug) ? $selected = ' selected="selected" ' : $selected = "";
@@ -796,13 +790,13 @@ function eventchamp_events_search_results_output($atts, $content = null)
 
         switch ($status) {
             case 'upcoming' :
-                $output .= '<span>Upcoming</span> status';
+                $output .= '<span>Upcoming ICO</span>';
                 break;
             case 'expired' :
-                $output .= '<span>Past</span> status';
+                $output .= '<span>Past ICO</span>';
                 break;
             case 'incoming' :
-                $output .= '<span>Active</span> status';
+                $output .= '<span>Active ICO</span>';
                 break;
             default :
                 $output .= '<span>' . esc_html__($status) . '</span>';
@@ -818,24 +812,14 @@ function eventchamp_events_search_results_output($atts, $content = null)
     } else {
         $output .= '<span>' . $startdate . '</span>';
     }
-    $output .= ' start date ';
+    $output .= ' start date from';
     
-    $output .= ' with ';
-    if (empty($enddate) || $enddate == "-") {
-        $output .= '<span> any </span>';
-    } else {
-        $output .= '<span>' . $enddate . '</span>';
-    }
-    $output .= ' end date from';
-
     if (!empty($location) && $location!='none') {
         $output .= '<span> ' . get_cat_name($location) . '</span>';
-        $output .= ' country';
     } else  {
         $output .= '<span> all </span>';
-        $output .= ' countries';
     }
-    $output .= ' </h1></div>';
+    $output .= ' countries sorted by <span>date</span></h1></div>';
 
     $output .= '<div class="well well-sm ">
                         <div class="btn-group">

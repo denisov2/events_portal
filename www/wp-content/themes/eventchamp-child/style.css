@@ -1361,3 +1361,13 @@ li.Add_your_ICO {
     z-index: 2;
 }
 }
+
+
+.theiaStickySidebar .all_labels span.counter-count {
+    position: absolute;
+    color: white;
+    width: 100%;
+    width: -webkit-calc(100% - 20px);
+    width: calc(100% - 20px);
+    text-align: center;
+}

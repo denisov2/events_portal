@@ -201,7 +201,7 @@ if (!empty ($rating_data)) {
                                             echo '<div class="left-label"><span class="counter-back">
                             					<span class="counter-bar" style="width: ' . $counter_width . '%;"></span>
 				                                </span>
-				                        <span class="counter-count">' . $interval_days_past->days . ' out of ' . $interval_days_all->days . '</span>';
+				                        <span class="counter-count">' . $interval_days_past->days . ' out of ' . $interval_days_all->days . ' days</span>';
                                         } else {
                                             echo "<div class='left-label' style='border-left: none'>";
                                             echo eventchamp_event_status(get_the_ID());

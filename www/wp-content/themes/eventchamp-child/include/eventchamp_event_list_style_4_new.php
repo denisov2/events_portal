@@ -150,7 +150,7 @@ function eventchamp_event_list_style_4_new($post_id = "", $image = "", $category
             $output .= '<div class="left-label"><span class="counter-back">
 					<span class="counter-bar" style="width: ' . $counter_width . '%;"></span>
 				</span>
-				<span class="counter-count">' . $interval_days_past->days . ' out of ' . $interval_days_all->days . '</span>';
+				<span class="counter-count">' . $interval_days_past->days . ' out of ' . $interval_days_all->days . ' days</span>';
 
             /*
             $border_left_width = intval($interval_days_past->days / $interval_days_all->days * 180, null);
